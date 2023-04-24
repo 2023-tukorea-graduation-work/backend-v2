@@ -39,6 +39,18 @@ spring:
       max-request-size: 10MB
       location: src/main/resources/files
 
+  mvc:
+    pathmatch:
+      matching-strategy: ant_path_matcher
+
+springdoc:
+  api-docs:
+    enabled: true  # Swagger API 문서 생성 활성화 여부
+    path: /api-docs  # API 문서 경로
+  swagger-ui:
+    enabled: true  # Swagger UI 활성화 여부
+    path: /swagger-ui.html  # Swagger UI 경로
+
 # Hibernate
 logging:
   level:
@@ -48,23 +60,6 @@ logging:
       hibernate:
         SQL: DEBUG
         BasicBinder: TRACE
-
-
-#springdoc:
-#  version: 1.0
-#  packages-to-scan: tuk.mentor
-#  swagger-ui:
-#    path: /api-docs
-#    tags-sorter: alpha
-#    operations-sorter: alpha
-#  api-docs:
-#    path: /api-docs/json
-#    groups:
-#      enabled: true
-#  cache:
-#    disabled: true
-#  default-produces-media-type: application/json;charset=UTF-8
-#  default-consumes-media-type: application/json;charset=UTF-8
 
 cloud:
   aws:

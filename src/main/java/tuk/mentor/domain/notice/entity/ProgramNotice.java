@@ -22,5 +22,6 @@ public class ProgramNotice {
     @ManyToOne(fetch = FetchType.LAZY)
     @JoinColumn(name = "program_id")
     private Program program;
+    private String title;
     private String content;
 }
