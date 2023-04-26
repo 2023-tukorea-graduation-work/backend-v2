@@ -8,6 +8,7 @@ import tuk.mentor.domain.mentee.dto.request.MenteeRegisterRequest;
 import tuk.mentor.domain.mentee.dto.response.MenteeRegisterResponse;
 import tuk.mentor.domain.mentee.service.MenteeService;
 
+import javax.servlet.http.HttpServletRequest;
 import java.io.IOException;
 
 
@@ -20,8 +21,9 @@ public class MenteeController {
 
     @PostMapping
     public ResponseEntity<MenteeRegisterResponse> registerMentee(@ModelAttribute MenteeRegisterRequest menteeRegisterRequest,
-                                                                 @RequestPart(value = "file", required = false) MultipartFile image) throws IOException {
-        MenteeRegisterResponse response = menteeService.registerMentee(menteeRegisterRequest, image);
+                                                                 @RequestPart(value = "file", required = false) MultipartFile image,
+                                                                 HttpServletRequest servletRequest) throws IOException {
+        MenteeRegisterResponse response = menteeService.registerMentee(menteeRegisterRequest, image, servletRequest);
         return ResponseEntity.ok().body(response);
     }
 }

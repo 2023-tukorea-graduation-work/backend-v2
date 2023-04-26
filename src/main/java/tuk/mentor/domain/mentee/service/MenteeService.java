@@ -14,6 +14,7 @@ import tuk.mentor.global.s3.manager.S3Manager;
 
 import javax.persistence.EntityManager;
 import javax.persistence.PersistenceContext;
+import javax.servlet.http.HttpServletRequest;
 import java.io.IOException;
 import java.util.Optional;
 
@@ -30,7 +31,7 @@ public class MenteeService {
     *  멘토 등록
     * */
     @Transactional
-    public MenteeRegisterResponse registerMentee(MenteeRegisterRequest request, MultipartFile image) throws IOException {
+    public MenteeRegisterResponse registerMentee(MenteeRegisterRequest request, MultipartFile image, HttpServletRequest servletRequest) throws IOException {
 
         // [1] Mentor 기본 정보 저장
         Mentee mentee = menteeMapper.toEntityFromRegisterRequest(request);
@@ -39,7 +40,7 @@ public class MenteeService {
         mentee.setPassword(passwordEncoder.encode(request.getPassword()));
 
         // [1-2] GCP Storage profile image url
-        String url = s3Manager.upload(image, s3Manager.getDirName());
+        String url = s3Manager.upload(image, s3Manager.getDirName(servletRequest));
         mentee.setImgUrl(url);
 
         // [1-2] 멘티 정보 저장

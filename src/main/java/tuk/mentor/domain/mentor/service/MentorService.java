@@ -12,6 +12,7 @@ import tuk.mentor.domain.mentor.mapper.MentorMapper;
 import tuk.mentor.domain.mentor.repository.MentorRepository;
 import tuk.mentor.global.s3.manager.S3Manager;
 
+import javax.servlet.http.HttpServletRequest;
 import java.io.IOException;
 import java.util.Optional;
 
@@ -26,7 +27,7 @@ public class MentorService {
     *  멘토 등록
     * */
     @Transactional
-    public MentorRegisterResponse registerMentor(MentorRegisterRequest request, MultipartFile image) throws IOException {
+    public MentorRegisterResponse registerMentor(MentorRegisterRequest request, MultipartFile image, HttpServletRequest servletRequest) throws IOException {
         // [1] Mentor 기본 정보 저장
         Mentor mentor = mentorMapper.toEntityFromRegisterRequest(request);
 
@@ -34,7 +35,7 @@ public class MentorService {
         mentor.setPassword(passwordEncoder.encode(request.getPassword()));
 
         // [1-2] GCP Storage profile image url
-        String url = s3Manager.upload(image, s3Manager.getDirName());
+        String url = s3Manager.upload(image, s3Manager.getDirName(servletRequest));
         mentor.setImgUrl(url);
 
         // [1-2] 멘토 정보 저장
