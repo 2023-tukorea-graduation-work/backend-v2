@@ -22,5 +22,6 @@ public class ProgramMaterial {
     @ManyToOne(fetch = FetchType.LAZY)
     @JoinColumn(name = "program_id")
     private Program program;
+    private String fileName;
     private String filePath;
 }

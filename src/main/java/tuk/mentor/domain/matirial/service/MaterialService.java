@@ -28,6 +28,7 @@ public class MaterialService {
 
         materialRepository.save(ProgramMaterial.builder()
                 .program(programRepository.findById(programId).orElseThrow(EntityNotFoundException::new))
+                .fileName(file.getOriginalFilename())
                 .filePath(filePath)
                 .build());
     }
