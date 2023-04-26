@@ -5,13 +5,11 @@ import org.springframework.stereotype.Service;
 import org.springframework.web.multipart.MultipartFile;
 import tuk.mentor.domain.matirial.entity.ProgramMaterial;
 import tuk.mentor.domain.matirial.repository.MaterialRepository;
-import tuk.mentor.domain.notice.dto.request.NoticeRegisterRequest;
 import tuk.mentor.domain.program.repository.ProgramRepository;
 import tuk.mentor.global.s3.manager.S3Manager;
 
 import javax.persistence.EntityNotFoundException;
 import javax.servlet.http.HttpServletRequest;
-import java.io.File;
 import java.io.IOException;
 
 @Service
@@ -37,7 +35,8 @@ public class MaterialService {
     /*
     * 자료 다운로드
     * */
-//    public File downloadMaterial(Long materialId) {
-//
-//    }
+    public String getFilePath(Long materialId) {
+        ProgramMaterial material = materialRepository.findById(materialId).orElseThrow(EntityNotFoundException::new);
+        return material.getFilePath();
+    }
 }
