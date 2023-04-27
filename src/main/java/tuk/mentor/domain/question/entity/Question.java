@@ -8,6 +8,7 @@ import tuk.mentor.domain.mentee.entity.Mentee;
 import tuk.mentor.domain.program.entity.Program;
 
 import javax.persistence.*;
+import java.time.LocalDateTime;
 
 @Data
 @Entity
@@ -24,6 +25,12 @@ public class Question {
     @ManyToOne(fetch = FetchType.LAZY)
     @JoinColumn(name = "program_id", nullable = false)
     private Program program;
+    @Column(nullable = false)
     private String question;
+    @Column(nullable = true)
     private String answer;
+    @Column(nullable = true)
+    private LocalDateTime answerCreatedAt;
+    @Column(nullable = true)
+    private LocalDateTime answerUpdatedAt;
 }
