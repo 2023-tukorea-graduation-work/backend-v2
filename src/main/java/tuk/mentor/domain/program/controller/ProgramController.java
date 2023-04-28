@@ -1,5 +1,6 @@
 package tuk.mentor.domain.program.controller;
 
+import com.itextpdf.text.DocumentException;
 import lombok.RequiredArgsConstructor;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
@@ -10,6 +11,7 @@ import tuk.mentor.domain.program.dto.response.ProgramListResponse;
 import tuk.mentor.domain.program.service.ProgramService;
 
 import javax.servlet.http.HttpServletRequest;
+import java.io.IOException;
 import java.util.List;
 
 @RestController
@@ -43,12 +45,9 @@ public class ProgramController {
         return ResponseEntity.ok().build();
     }
 
-//    @GetMapping("/pdf")
-//    public ResponseEntity<CustomResponse> createPdf() throws DocumentException, IOException {
-//        PDFCreator creator = new PDFCreator();
-//        creator.createPdf();
-//        CustomResponse response = new CustomResponse();
-//        return new ResponseEntity<CustomResponse>(response, HttpStatus.OK);
-//    }
-
+    @GetMapping("/download")
+    public ResponseEntity<Void> downloadPdf() throws DocumentException, IOException {
+        programService.downloadPdf();
+        return ResponseEntity.ok().build();
+    }
 }
