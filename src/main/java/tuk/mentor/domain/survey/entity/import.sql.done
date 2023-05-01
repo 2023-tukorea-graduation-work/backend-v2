@@ -1,0 +1,61 @@
+use mentor;
+
+-- survey
+INSERT into SURVEY (content, survey_type)
+values ('1. 주제에 알맞은 교육매체를 적절히 활용하였다.', '강의평가');
+
+INSERT into SURVEY (content, survey_type)
+values ('2. 학습내용이 학습 계획서 대로 진행되었다.', '강의평가');
+
+INSERT into SURVEY (content, survey_type)
+values ('3. 수업진행은 체계적이었다.', '강의평가');
+
+INSERT into SURVEY (content, survey_type)
+values ('4. 학습내용은 도(교과학습, 자격증 취득, 시험준비 등)이 되는 정보를 담고 있다.', '강의평가');
+
+INSERT into SURVEY (content, survey_type)
+values ('5. 학습 방식과 학습 환경은 적절하였다.', '강의평가');
+
+INSERT into SURVEY (content, survey_type)
+values ('6. 나는 이 멘토링을 통해 많은 지식을 얻었다.', '강의평가');
+
+INSERT into SURVEY (content, survey_type)
+values ('7. 나는 이 멘토링이 전체적으로 우수하다고 평가한다.', '강의평가');
+
+INSERT into SURVEY (content, survey_type)
+values ('1. 멘토님께서 학습내용을 성실하게 가르쳐 주신다.', '멘토평가');
+
+INSERT into SURVEY (content, survey_type)
+values ('2. 멘토님께서 나에게 친절히 설명해주신다.', '멘토평가');
+
+INSERT into SURVEY (content, survey_type)
+values ('3. 강의 피드백(질문답변, 출석문의 등)은 신속 정확하였다.', '멘토평가');
+
+INSERT into SURVEY (content, survey_type)
+values ('4. 나는 이 멘토링을 다른 사람에게 추천하고 싶다.', '멘토평가');
+
+INSERT into SURVEY (content, survey_type)
+values ('5. 나는 다음에도 이 멘토님의 멘토링 수업을 듣고 싶다.', '멘토평가');
+
+INSERT into SURVEY (content, survey_type)
+values ('1. 이 시스템은 진행하는데 많은 도움을 주었다.', '시스템평가');
+
+INSERT into SURVEY (content, survey_type)
+values ('2. 이 시스템은 멘토링을 관리하기에 편리하였다.', '시스템평가');
+
+INSERT into SURVEY (content, survey_type)
+values ('3. 이 시스템의 기능을 잘 활용하였다.', '시스템평가');
+
+INSERT into SURVEY (content, survey_type)
+values ('4. 이 시스템을 다음 멘토링을 진행할 때에도 사용하고 싶다.', '시스템평가');
+
+-- survey answer
+INSERT into SURVEY_ANSWER (content)
+values ('그렇다');
+
+INSERT into SURVEY_ANSWER (content)
+values ('보통이다');
+
+INSERT into SURVEY_ANSWER (content)
+values ('그렇지않다');
+
