@@ -16,7 +16,7 @@ import javax.servlet.http.HttpServletRequest;
 @RequiredArgsConstructor
 public class SurveyController {
     private final SurveyService surveyService;
-    @PostMapping
+    @PostMapping("/program")
     public ResponseEntity<Void> registerSurvey(@RequestBody SurveyRegisterRequest surveyRegisterRequest,
                                                HttpServletRequest servletRequest) {
         surveyService.registerSurvey(surveyRegisterRequest, servletRequest);

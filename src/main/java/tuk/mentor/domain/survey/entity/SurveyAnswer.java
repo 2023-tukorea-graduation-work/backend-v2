@@ -21,5 +21,4 @@ public class SurveyAnswer {
     private Long id;
     private String content;
     private SurveyType surveyType;
-    private Integer rank;
 }
