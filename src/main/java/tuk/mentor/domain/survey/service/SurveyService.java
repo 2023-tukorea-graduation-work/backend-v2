@@ -7,11 +7,14 @@ import tuk.mentor.domain.mentee.entity.Mentee;
 import tuk.mentor.domain.mentee.repository.MenteeRepository;
 import tuk.mentor.domain.program.repository.ProgramRepository;
 import tuk.mentor.domain.survey.dto.request.SurveyRegisterRequest;
+import tuk.mentor.domain.survey.dto.response.SurveyDefaultResponse;
 import tuk.mentor.domain.survey.entity.ProgramReview;
 import tuk.mentor.domain.survey.entity.ProgramSurveyAnswer;
 import tuk.mentor.domain.survey.entity.Survey;
+import tuk.mentor.domain.survey.entity.SurveyAnswer;
 import tuk.mentor.domain.survey.repository.ProgramReviewRepository;
 import tuk.mentor.domain.survey.repository.ProgramSurveyAnswerRepository;
+import tuk.mentor.domain.survey.repository.SurveyAnswerRepository;
 import tuk.mentor.domain.survey.repository.SurveyRepository;
 import tuk.mentor.global.login.LoginInfo;
 
@@ -24,6 +27,7 @@ import java.util.List;
 public class SurveyService {
 
     private final SurveyRepository surveyRepository;
+    private final SurveyAnswerRepository surveyAnswerRepository;
     private final ProgramSurveyAnswerRepository programSurveyAnswerRepository;
     private final ProgramReviewRepository programReviewRepository;
     private final ProgramRepository programRepository;
@@ -59,6 +63,20 @@ public class SurveyService {
                 .comment(request.getComment())
                 .review(request.getReview())
                 .build());
+    }
+
+    /*
+    * 설문조사 폼 조회
+    * */
+    public SurveyDefaultResponse getSurveyForm() {
+        // [1] 설문조사 항목 조회
+        List<Survey> questions = surveyRepository.findAll();
+        List<SurveyAnswer> answers = surveyAnswerRepository.findAll();
+
+        return SurveyDefaultResponse.builder()
+                .answers(answers)
+                .questions(questions)
+                .build();
     }
 }
 
