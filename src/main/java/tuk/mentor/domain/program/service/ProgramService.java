@@ -27,6 +27,7 @@ import java.util.List;
 import java.util.Set;
 import java.util.stream.Collectors;
 
+
 @Service
 @RequiredArgsConstructor
 public class ProgramService {
@@ -117,7 +118,34 @@ public class ProgramService {
     * */
     @Transactional
     public void downloadPdf() {
+// Create a PDF using iText7
+        ByteArrayOutputStream outputStream = new ByteArrayOutputStream();
+        PdfWriter writer = new PdfWriter(outputStream);
+        PdfDocument pdfDoc = new PdfDocument(writer);
+        Document document = new Document(pdfDoc);
+        document.add(new Paragraph("Hello World!"));
+        document.close();
+        byte[] pdfBytes = outputStream.toByteArray();
 
+        // Upload the PDF to S3
+        InputStream inputStream = new ByteArrayInputStream(pdfBytes);
+        ObjectMetadata metadata = new ObjectMetadata();
+        metadata.setContentLength(pdfBytes.length);
+        metadata.setContentType("application/pdf");
+        String uniqueId = UUID.randomUUID().toString();
+        String s3key = String.format("%s/%s/%s", bucketName, uniqueId, pdfKey);
+        PutObjectRequest request = new PutObjectRequest(bucketName, s3key, inputStream, metadata);
+        try {
+            s3client.putObject(request);
+            System.out.println("PDF uploaded to S3 successfully.");
+            System.out.println("PDF URL: https://" + bucketName + ".s3.amazonaws.com/" + s3key);
+        } catch (AmazonServiceException e) {
+            // The call was transmitted successfully, but Amazon S3 couldn't process it, so it returned an error response.
+            e.printStackTrace();
+        } catch (SdkClientException e) {
+            // Amazon S3 couldn't be contacted for a response, or the client couldn't parse the response from Amazon S3.
+            e.printStackTrace();
+        }
     }
 }
 

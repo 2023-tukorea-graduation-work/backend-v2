@@ -27,6 +27,7 @@ public class S3Manager {
 
     private final String profileDirName = "profile-images";
     private final String materialDirName = "material-files";
+    private final String programDirName = "program-pdf-files";
     private final AmazonS3 amazonS3Client;
 
     @Value("${cloud.aws.s3.bucket}")
@@ -41,6 +42,9 @@ public class S3Manager {
         }
         else if(uri.contains("material")) {
             return materialDirName;
+        }
+        else if(uri.contains("program")) {
+            return programDirName;
         }
         else {
             return "/";
