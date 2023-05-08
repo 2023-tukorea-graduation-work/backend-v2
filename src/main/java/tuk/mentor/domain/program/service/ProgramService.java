@@ -1,5 +1,18 @@
 package tuk.mentor.domain.program.service;
 
+
+import com.itextpdf.io.font.PdfEncodings;
+import com.itextpdf.io.font.constants.StandardFonts;
+import com.itextpdf.kernel.colors.ColorConstants;
+import com.itextpdf.kernel.font.PdfFont;
+import com.itextpdf.kernel.font.PdfFontFactory;
+import com.itextpdf.kernel.pdf.PdfDocument;
+import com.itextpdf.kernel.pdf.PdfWriter;
+import com.itextpdf.layout.Document;
+import com.itextpdf.layout.element.Cell;
+import com.itextpdf.layout.element.Paragraph;
+import com.itextpdf.layout.element.Table;
+import com.itextpdf.layout.property.HorizontalAlignment;
 import lombok.RequiredArgsConstructor;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
@@ -23,8 +36,8 @@ import tuk.mentor.global.util.DateUtil;
 import javax.persistence.EntityNotFoundException;
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpSession;
+import java.io.IOException;
 import java.util.List;
-import java.util.Set;
 import java.util.stream.Collectors;
 
 
@@ -74,12 +87,12 @@ public class ProgramService {
         );
 
         // [1-2] Program Entity map
-        Set<ProgramWeek> programWeeks = request.getProgramWeeks().stream().map(programWeek -> ProgramWeek.builder()
+        List<ProgramWeek> programWeeks = request.getProgramWeeks().stream().map(programWeek -> ProgramWeek.builder()
                 .program(program)
                 .content(programWeek.getContent())
                 .programWeekStartDate(dateUtil.convertStringToLocalDate(programWeek.getProgramWeekStartDate()))
                 .programWeekFinishDate(dateUtil.convertStringToLocalDate(programWeek.getProgramWeekFinishDate()))
-                .build()).collect(Collectors.toSet());
+                .build()).collect(Collectors.toList());
 
         // [1-3] Program & ProgramWeeks 기본 정보 등록
         programWeekRepository.saveAll(programWeeks);
@@ -117,34 +130,93 @@ public class ProgramService {
     * pdf download
     * */
     @Transactional
-    public void downloadPdf() {
-// Create a PDF using iText7
-        ByteArrayOutputStream outputStream = new ByteArrayOutputStream();
-        PdfWriter writer = new PdfWriter(outputStream);
-        PdfDocument pdfDoc = new PdfDocument(writer);
-        Document document = new Document(pdfDoc);
-        document.add(new Paragraph("Hello World!"));
-        document.close();
-        byte[] pdfBytes = outputStream.toByteArray();
+    public void downloadPdf(Long programId) {
+        String filepath = "/Users/jeongminchang/Desktop/repo/2023-tukorea-graduation-mento/pdf";
+        String fontpath = "/Users/jeongminchang/Desktop/repo/2023-tukorea-graduation-mento/font1.ttf";
 
-        // Upload the PDF to S3
-        InputStream inputStream = new ByteArrayInputStream(pdfBytes);
-        ObjectMetadata metadata = new ObjectMetadata();
-        metadata.setContentLength(pdfBytes.length);
-        metadata.setContentType("application/pdf");
-        String uniqueId = UUID.randomUUID().toString();
-        String s3key = String.format("%s/%s/%s", bucketName, uniqueId, pdfKey);
-        PutObjectRequest request = new PutObjectRequest(bucketName, s3key, inputStream, metadata);
         try {
-            s3client.putObject(request);
-            System.out.println("PDF uploaded to S3 successfully.");
-            System.out.println("PDF URL: https://" + bucketName + ".s3.amazonaws.com/" + s3key);
-        } catch (AmazonServiceException e) {
-            // The call was transmitted successfully, but Amazon S3 couldn't process it, so it returned an error response.
-            e.printStackTrace();
-        } catch (SdkClientException e) {
-            // Amazon S3 couldn't be contacted for a response, or the client couldn't parse the response from Amazon S3.
-            e.printStackTrace();
+            // [1] Creating a Pdf Writer object
+            PdfWriter writer = new PdfWriter(filepath);
+
+            // [2] Creating a PdfDocument object
+            PdfDocument pdfDocument = new PdfDocument(writer);
+
+            // [3] Adding an empth page
+            pdfDocument.addNewPage();
+
+            // [4] Creating a Document object
+            Document document = new Document(pdfDocument);
+
+            // [4-1] Program의 주차별 만큼 page를 분할 할지 아니면 한 페이지에 다 담을지는 추후에 결정
+            // 분할 코드
+//            AreaBreak area = new AreaBreak();
+//            document.add(area);
+
+            PdfFont font = PdfFontFactory.createFont(fontpath, PdfEncodings.IDENTITY_H, true);
+
+            // [5] header component 구성
+            // [프로그램 주제, 활동기간, 멘토명, 멘토학교 및 학과, 프로그램 분류(카테고리) 정보 기입]
+            Program program = programRepository.findById(programId).orElseThrow(EntityNotFoundException::new);
+
+            Paragraph header = new Paragraph("01. " + program.getSubject())
+                    .setFont(PdfFontFactory.createFont(StandardFonts.HELVETICA))
+                    .setFontSize(14)
+                    .setFontColor(ColorConstants.RED)
+                    .setHorizontalAlignment(HorizontalAlignment.CENTER);
+            document.add(header);
+
+            Paragraph detail = new Paragraph(program.getDetail())
+                    .setFont(font);
+            document.add(detail);
+
+            String mentorInfo = "멘토명: " + program.getMentor().getName() + "\n"
+                        + "출신학교: "+ program.getMentor().getCollege() + "\n"
+                        + "전공: " + program.getMentor().getMajor() + "\n"
+                        + "활동기간: " + program.getProgramStartDate() + "~" + program.getProgramFinishDate();
+
+            Paragraph mentor = new Paragraph(mentorInfo)
+                    .setFont(font);
+            document.add(mentor);
+
+            // [6] body component 구성
+            Paragraph body = new Paragraph("02. 학습 계획 및 활동")
+                    .setFont(font)
+                    .setFontSize(14)
+                    .setFontColor(ColorConstants.RED)
+                    .setHorizontalAlignment(HorizontalAlignment.CENTER);
+            document.add(body);
+
+            // [6-1] Adding Table
+            float [] pointColumnWidths = {100F, 800F};
+            Table table = new Table(pointColumnWidths);
+
+            // Adding cells to the table
+            // cell 순서 [Plan, Details, Notes,
+            Cell cell1 = new Cell(4, 1); // 2행 1열로 통합
+            cell1.add(new Paragraph("첫 번째 행 첫 번째 열 (통합)").setFont(font));
+            table.addCell(cell1);
+
+            // 첫 번째 행 두 번째 열
+            Cell cell2 = new Cell();
+            cell2.add(new Paragraph("첫 번째 행 두 번째 열").setFont(font));
+            table.addCell(cell2);
+
+            // 두 번째 행 첫 번째 열 (통합)
+            Cell cell3 = new Cell();
+            cell3.add(new Paragraph("두 번째 행 첫 번째 열 (통합)").setFont(font));
+            table.addCell(cell3);
+
+            // 두 번째 행 두 번째 열
+            Cell cell4 = new Cell();
+            cell4.add(new Paragraph("두 번째 행 두 번째 열").setFont(font));
+            table.addCell(cell4);
+
+            document.add(table);
+
+            document.close();
+
+        } catch (IOException e) {
+            throw new RuntimeException(e);
         }
     }
 }

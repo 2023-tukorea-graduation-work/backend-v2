@@ -7,7 +7,7 @@ import tuk.mentor.domain.schedule.entity.MenteeSchedule;
 
 import java.util.List;
 
-@Mapper(componentModel = MappingConstants.ComponentModel.SPRING)
+@Mapper(componentModel = "spring")
 public interface MenteeScheduleMapper {
     List<ScheduleListResponse> toScheduleListDto(List<MenteeSchedule> menteeSchedules);
 }

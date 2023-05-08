@@ -7,7 +7,7 @@ import tuk.mentor.domain.notice.entity.ProgramNotice;
 
 import java.util.List;
 
-@Mapper(componentModel = MappingConstants.ComponentModel.SPRING)
+@Mapper(componentModel = "spring")
 public interface NoticeMapper {
     List<NoticeListResponse> toListResponse(List<ProgramNotice> notices);
 }

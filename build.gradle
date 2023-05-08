@@ -89,6 +89,11 @@ dependencies {
 	implementation 'io.jsonwebtoken:jjwt-jackson:0.11.5'
 	implementation 'com.fasterxml.jackson.datatype:jackson-datatype-hibernate5:2.12.5'
 
+	// swagger
+	implementation 'org.springdoc:springdoc-openapi-ui:1.4.1'
+
+	// itext
+	implementation 'com.itextpdf:itext7-core:7.1.16'
 
 	testImplementation 'org.springframework.boot:spring-boot-starter-test'
 	testImplementation 'org.springframework.restdocs:spring-restdocs-mockmvc'
@@ -149,8 +154,8 @@ configurations {
 
 compileJava {
 	options.compilerArgs += [
+			'-Amapstruct.verbose=true',
 			'-Amapstruct.suppressGeneratorTimestamp=true',
-			'-Amapstruct.suppressGeneratorVersionInfoComment=true',
-			'-Amapstruct.verbose=true'
+			'-Amapstruct.suppressGeneratorVersionInfoComment=true'
 	]
 }

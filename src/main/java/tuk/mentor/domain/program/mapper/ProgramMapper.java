@@ -7,7 +7,7 @@ import tuk.mentor.domain.program.entity.ProgramWeek;
 
 import java.util.List;
 
-@Mapper(componentModel = MappingConstants.ComponentModel.SPRING)
+@Mapper(componentModel = "spring")
 public interface ProgramMapper {
     List<ProgramWeekDetailResponse> toProgramWeekDetailDto(List<ProgramWeek> programWeek);
 }

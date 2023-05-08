@@ -8,8 +8,7 @@ import tuk.mentor.domain.mentor.entity.Mentor;
 
 import javax.persistence.*;
 import java.time.LocalDate;
-import java.util.HashSet;
-import java.util.Set;
+import java.util.List;
 
 @Data
 @Entity
@@ -33,6 +32,5 @@ public class Program {
     private String programPlace;
 
     @OneToMany(mappedBy = "program", cascade = CascadeType.ALL, orphanRemoval = true)
-    private Set<ProgramWeek> programWeeks = new HashSet<>();
-
+    private List<ProgramWeek> programWeeks;
 }
