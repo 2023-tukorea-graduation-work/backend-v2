@@ -11,6 +11,8 @@ import tuk.mentor.domain.exam.entity.Exam;
 import tuk.mentor.domain.exam.entity.ExamItem;
 import tuk.mentor.domain.exam.entity.ExamQuestion;
 import tuk.mentor.domain.exam.entity.ExamQuestionType;
+import tuk.mentor.domain.exam.repository.ExamItemRepository;
+import tuk.mentor.domain.exam.repository.ExamQuestionRepository;
 import tuk.mentor.domain.exam.repository.ExamRepository;
 import tuk.mentor.domain.mentor.entity.Mentor;
 import tuk.mentor.domain.mentor.repository.MentorRepository;
@@ -20,6 +22,7 @@ import tuk.mentor.global.util.DateUtil;
 
 import javax.persistence.EntityNotFoundException;
 import javax.servlet.http.HttpServletRequest;
+import java.util.ArrayList;
 import java.util.List;
 
 
@@ -29,6 +32,8 @@ public class ExamService {
     private final MentorRepository mentorRepository;
     private final ProgramRepository programRepository;
     private final ExamRepository examRepository;
+    private final ExamQuestionRepository examQuestionRepository;
+    private final ExamItemRepository examItemRepository;
     private final DateUtil dateUtil;
 
     @Transactional
@@ -48,6 +53,8 @@ public class ExamService {
                 .examRegisterType(request.getExamRegisterType())
                 .build();
 
+        examRepository.save(exam);
+
         // [3] Exam Question build
         List<ExamQuestion> questions = request.getQuestions().stream().map(
                 question -> ExamQuestion.builder()
@@ -57,25 +64,33 @@ public class ExamService {
                     .exam(exam)
                     .build())
                 .toList();
-        // [3-1] Exam Qustion 중 Correct Answer Mapping
+
+        // [3-1] Exam Qeustion 중 Correct Answer Mapping
         int questionIdx = 0;
         for(ExamQuestionRegisterRequest examQuestion : request.getQuestions()) {
             if(ExamQuestionType.ESSAY_QUESTION.equals(examQuestion.getExamQuestionType())) {
                 questions.get(questionIdx++).setCorrectAnswer(examQuestion.getEssayAnswer());
             }
             else {
+                List<ExamItem> items = new ArrayList<ExamItem>();
                 for(ExamItemRegisterRequest item : examQuestion.getItems()) {
                     if(item.getIsCorrect()) {
-                        questions.get(questionIdx++).setCorrectAnswer(String.valueOf(item.getOptionNum()));
+                        questions.get(questionIdx).setCorrectAnswer(String.valueOf(item.getChoiceNum()));
                     }
+                    items.add(ExamItem.builder()
+                            .choice(item.getChoice())
+                            .choiceNum(item.getChoiceNum())
+                            .examQuestion(questions.get(questionIdx))
+                            .build());
                 }
+                questionIdx++;
+                // [3-2] Exam Question Item Save
+                examItemRepository.saveAll(items);
             }
         }
 
-        int itemIdx = 0;
-        // [4] Exam Item build
-        List<ExamItem> items = request.getQuestions().
-
+        // [4] Exam Question Save
+        examQuestionRepository.saveAll(questions);
     }
 }
 

@@ -19,6 +19,6 @@ public class ExamItem {
     @ManyToOne(fetch = FetchType.LAZY)
     @JoinColumn(name = "exam_question_id")
     private ExamQuestion examQuestion;
-    private Integer optionNum;
-    private String option;
+    private Integer choiceNum;
+    private String choice;
 }

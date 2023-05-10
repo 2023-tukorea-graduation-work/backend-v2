@@ -8,7 +8,7 @@ import lombok.Setter;
 @Setter
 @RequiredArgsConstructor
 public class ExamItemRegisterRequest {
-    private Integer optionNum;
-    private String option;
+    private Integer choiceNum;
+    private String choice;
     private Boolean isCorrect;
 }
