@@ -1,0 +1,82 @@
+package tuk.mentor.domain.exam.service;
+
+
+import lombok.RequiredArgsConstructor;
+import org.springframework.stereotype.Service;
+import org.springframework.transaction.annotation.Transactional;
+import tuk.mentor.domain.exam.dto.request.ExamItemRegisterRequest;
+import tuk.mentor.domain.exam.dto.request.ExamQuestionRegisterRequest;
+import tuk.mentor.domain.exam.dto.request.ExamRegisterRequest;
+import tuk.mentor.domain.exam.entity.Exam;
+import tuk.mentor.domain.exam.entity.ExamItem;
+import tuk.mentor.domain.exam.entity.ExamQuestion;
+import tuk.mentor.domain.exam.entity.ExamQuestionType;
+import tuk.mentor.domain.exam.repository.ExamRepository;
+import tuk.mentor.domain.mentor.entity.Mentor;
+import tuk.mentor.domain.mentor.repository.MentorRepository;
+import tuk.mentor.domain.program.repository.ProgramRepository;
+import tuk.mentor.global.login.LoginInfo;
+import tuk.mentor.global.util.DateUtil;
+
+import javax.persistence.EntityNotFoundException;
+import javax.servlet.http.HttpServletRequest;
+import java.util.List;
+
+
+@Service
+@RequiredArgsConstructor
+public class ExamService {
+    private final MentorRepository mentorRepository;
+    private final ProgramRepository programRepository;
+    private final ExamRepository examRepository;
+    private final DateUtil dateUtil;
+
+    @Transactional
+    public void registerExam(Long programId, ExamRegisterRequest request,
+                             HttpServletRequest httpServletRequest) {
+        // [1] 멘토 정보 조회
+        LoginInfo loginInfo = (LoginInfo)httpServletRequest.getSession().getAttribute("loginInfo");
+        Mentor mentor = mentorRepository.findById(loginInfo.getUserID()).orElseThrow(EntityNotFoundException::new);
+
+        // [2] Exam build
+        Exam exam = Exam.builder()
+                .examStartTime(dateUtil.convertStringToLocalDateTime(request.getExamStartTime()))
+                .examFinishTime(dateUtil.convertStringToLocalDateTime(request.getExamFinishTime()))
+                .mentor(mentor)
+                .program(programRepository.findById(programId).orElseThrow(EntityNotFoundException::new))
+                .title(request.getExamTitle())
+                .examRegisterType(request.getExamRegisterType())
+                .build();
+
+        // [3] Exam Question build
+        List<ExamQuestion> questions = request.getQuestions().stream().map(
+                question -> ExamQuestion.builder()
+                    .question(question.getExamQuestion())
+                    .examQuestionType(question.getExamQuestionType())
+                    .score(question.getScore())
+                    .exam(exam)
+                    .build())
+                .toList();
+        // [3-1] Exam Qustion 중 Correct Answer Mapping
+        int questionIdx = 0;
+        for(ExamQuestionRegisterRequest examQuestion : request.getQuestions()) {
+            if(ExamQuestionType.ESSAY_QUESTION.equals(examQuestion.getExamQuestionType())) {
+                questions.get(questionIdx++).setCorrectAnswer(examQuestion.getEssayAnswer());
+            }
+            else {
+                for(ExamItemRegisterRequest item : examQuestion.getItems()) {
+                    if(item.getIsCorrect()) {
+                        questions.get(questionIdx++).setCorrectAnswer(String.valueOf(item.getOptionNum()));
+                    }
+                }
+            }
+        }
+
+        int itemIdx = 0;
+        // [4] Exam Item build
+        List<ExamItem> items = request.getQuestions().
+
+    }
+}
+
+

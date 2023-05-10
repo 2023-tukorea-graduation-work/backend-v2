@@ -25,7 +25,7 @@ public class MaterialController {
     private final MaterialService materialService;
 
     @PostMapping("/{programId}")
-    public ResponseEntity<Void> registerMentor(@PathVariable("programId") Long programId,
+    public ResponseEntity<Void> registerMaterial(@PathVariable("programId") Long programId,
                                                                  @RequestPart(value = "file", required = false) MultipartFile material,
                                                                  HttpServletRequest servletRequest) throws IOException {
         materialService.registerMaterial(programId, material, servletRequest);
