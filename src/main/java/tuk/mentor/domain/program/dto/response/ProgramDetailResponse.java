@@ -29,7 +29,10 @@ public class ProgramDetailResponse {
     private List<ProgramWeekDetailResponse> programWeeks;
 
     @QueryProjection
-    public ProgramDetailResponse(Long mentorId, String mentorName, String college, Integer grade, Major major, Lesson lesson, String introduce, Long programId, String subject, String detail, LocalDate programStartDate, LocalDate programFinishDate, LocalDate recruitStartDate, LocalDate recruitFinishDate, Integer capacity, String programPlace) {
+    public ProgramDetailResponse(Long mentorId, String mentorName, String college, Integer grade,
+                                 Major major, Lesson lesson, String introduce, Long programId, String subject, String detail,
+                                 LocalDate programStartDate, LocalDate programFinishDate, LocalDate recruitStartDate, LocalDate recruitFinishDate,
+                                 Integer capacity, String programPlace) {
         this.mentorId = mentorId;
         this.mentorName = mentorName;
         this.college = college;

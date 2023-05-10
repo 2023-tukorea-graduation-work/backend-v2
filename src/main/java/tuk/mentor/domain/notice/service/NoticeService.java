@@ -36,6 +36,6 @@ public class NoticeService {
     * */
     public List<NoticeListResponse> getNoticeList(Long programId)  {
         List<ProgramNotice> notices = noticeRepository.findAllByProgramId(programId);
-        return noticeMapper.toListResponse(notices);
+        return notices.stream().map(noticeMapper::toListResponse).toList();
     }
 }

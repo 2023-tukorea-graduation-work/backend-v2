@@ -40,7 +40,8 @@ public class MenteeScheduleService implements ScheduleService{
     }
 
     public List<ScheduleListResponse> getScheduleList(LoginInfo loginInfo) {
-        return menteeScheduleMapper.toScheduleListDto(scheduleRepository.getScheduleList(loginInfo.getUserID()));
+        return scheduleRepository.getScheduleList(loginInfo.getUserID())
+                .stream().map(menteeScheduleMapper::toScheduleListDto).toList();
     }
 }
 

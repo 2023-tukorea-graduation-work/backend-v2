@@ -40,7 +40,8 @@ public class MentorScheduleService implements ScheduleService{
     }
 
     public List<ScheduleListResponse> getScheduleList(LoginInfo loginInfo) {
-        return mentorScheduleMapper.toScheduleListDto(scheduleRepository.getScheduleList(loginInfo.getUserID()));
+        return scheduleRepository.getScheduleList(loginInfo.getUserID())
+                .stream().map(mentorScheduleMapper::toScheduleListDto).toList();
     }
 }
 

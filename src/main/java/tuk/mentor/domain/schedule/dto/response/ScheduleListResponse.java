@@ -1,12 +1,12 @@
 package tuk.mentor.domain.schedule.dto.response;
 
+import lombok.Builder;
 import lombok.Getter;
-import lombok.RequiredArgsConstructor;
 import lombok.Setter;
 
 @Getter
 @Setter
-@RequiredArgsConstructor
+@Builder
 public class ScheduleListResponse {
     private String content;
     private String scheduleStartDatetime;

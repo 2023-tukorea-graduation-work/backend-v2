@@ -112,7 +112,7 @@ public class ProgramService {
     public ProgramDetailResponse getProgramDetail(Long programId) {
         ProgramDetailResponse response = programRepository.getProgramDetail(programId);
         List<ProgramWeek> programWeeks = programWeekRepository.getProgramWeekByProgramId(programId);
-        response.setProgramWeeks(programMapper.toProgramWeekDetailDto(programWeeks));
+        response.setProgramWeeks(programWeeks.stream().map(programMapper::toProgramWeekDetailDto).toList());
         return response;
     }
 

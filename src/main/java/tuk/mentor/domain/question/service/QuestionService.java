@@ -5,7 +5,6 @@ import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 import tuk.mentor.domain.mentee.entity.Mentee;
 import tuk.mentor.domain.mentee.repository.MenteeRepository;
-import tuk.mentor.domain.program.mapper.ProgramMapper;
 import tuk.mentor.domain.program.repository.ProgramRepository;
 import tuk.mentor.domain.question.dto.request.QuestionRegisterRequest;
 import tuk.mentor.domain.question.dto.response.QuestionListResponse;
@@ -46,6 +45,6 @@ public class QuestionService {
 
     public List<QuestionListResponse> getQuestionList(Long programId) {
         List<Question> questions = questionRepository.getAllQuestionByProgramId(programId);
-        return questionMapper.toQuestionListDto(questions);
+        return questions.stream().map(questionMapper::toQuestionListDto).toList();
     }
 }
