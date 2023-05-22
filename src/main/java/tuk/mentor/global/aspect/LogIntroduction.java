@@ -1,4 +1,4 @@
-package tuk.mentor.aspect;
+package tuk.mentor.global.aspect;
 
 import lombok.extern.slf4j.Slf4j;
 

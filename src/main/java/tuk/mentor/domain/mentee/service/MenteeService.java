@@ -10,7 +10,7 @@ import tuk.mentor.domain.mentee.dto.response.MenteeRegisterResponse;
 import tuk.mentor.domain.mentee.entity.Mentee;
 import tuk.mentor.domain.mentee.mapper.MenteeMapper;
 import tuk.mentor.domain.mentee.repository.MenteeRepository;
-import tuk.mentor.global.s3.manager.S3Manager;
+import tuk.mentor.global.util.s3.manager.S3Manager;
 
 import javax.persistence.EntityManager;
 import javax.persistence.PersistenceContext;

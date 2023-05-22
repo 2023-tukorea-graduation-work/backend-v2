@@ -1,4 +1,4 @@
-package tuk.mentor.aspect;
+package tuk.mentor.global.aspect;
 
 
 import lombok.extern.slf4j.Slf4j;
@@ -17,7 +17,7 @@ public class ServiceExceptionHandler {
     @Pointcut("execution(* tuk.mentor..*Service*.*(..))")
     public void allService() {}
 
-    @AfterThrowing(value = "execution(* tuk.mentor..*Service*.*(..))", throwing = "ex")
+    @AfterThrowing(value = "allService()", throwing = "ex")
     public ResponseEntity<ErrorResponse> handleException(Exception ex) {
         ex.printStackTrace();
         return ResponseEntity.status(HttpStatus.INTERNAL_SERVER_ERROR)

@@ -1,4 +1,4 @@
-package tuk.mentor.global.s3.manager;
+package tuk.mentor.global.util.s3.manager;
 
 import com.amazonaws.services.s3.AmazonS3;
 import com.amazonaws.services.s3.model.CannedAccessControlList;

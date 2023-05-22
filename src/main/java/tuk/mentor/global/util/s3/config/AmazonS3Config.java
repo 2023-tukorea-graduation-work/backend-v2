@@ -1,4 +1,4 @@
-package tuk.mentor.global.s3.config;
+package tuk.mentor.global.util.s3.config;
 
 
 import com.amazonaws.auth.BasicAWSCredentials;
