@@ -79,10 +79,8 @@ dependencies {
 
 	// QueryDSL
 	implementation "com.querydsl:querydsl-jpa:${queryDslVersion}"
-	annotationProcessor(
-			"javax.persistence:javax.persistence-api",
-			"javax.annotation:javax.annotation-api",
-			"com.querydsl:querydsl-apt:${queryDslVersion}:jpa")
+	annotationProcessor "org.springframework.boot:spring-boot-configuration-processor"
+	annotationProcessor "com.querydsl:querydsl-apt:${queryDslVersion}"
 
 	// swagger
 	implementation 'org.springdoc:springdoc-openapi-ui:1.4.1'
@@ -145,12 +143,4 @@ configurations {
 	compileOnly {
 		extendsFrom annotationProcessor
 	}
-}
-
-compileJava {
-	options.compilerArgs += [
-			'-Amapstruct.verbose=true',
-			'-Amapstruct.suppressGeneratorTimestamp=true',
-			'-Amapstruct.suppressGeneratorVersionInfoComment=true'
-	]
 }

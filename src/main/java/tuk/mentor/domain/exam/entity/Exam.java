@@ -10,6 +10,7 @@ import tuk.mentor.domain.program.entity.Program;
 
 import javax.persistence.*;
 import java.time.LocalDateTime;
+import java.util.List;
 
 @Data
 @Entity
@@ -30,4 +31,6 @@ public class Exam {
     private LocalDateTime examFinishTime;
     private String title;
     private ExamRegisterType examRegisterType;
+    @OneToMany(mappedBy = "exam", cascade = CascadeType.ALL, orphanRemoval = true)
+    private List<ExamQuestion> examQuestions;
 }

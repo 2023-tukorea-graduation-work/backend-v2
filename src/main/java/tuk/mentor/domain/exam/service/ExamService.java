@@ -92,6 +92,26 @@ public class ExamService {
         // [4] Exam Question Save
         examQuestionRepository.saveAll(questions);
     }
+
+    public Exam getExam(Long programId) {
+        // [1] Exam 조회
+        Exam exam = examRepository.findExamByProgramId(programId);
+
+        // [2] Exam Question 조회
+        List<ExamQuestion> examQuestions = examQuestionRepository.findExamQuestionByExamId(exam.getId());
+
+        // [3] Exam Item 조회
+        for(ExamQuestion examQuestion : examQuestions) {
+            if(ExamQuestionType.MULTI_CHOICE_QUESTION.equals(examQuestion.getExamQuestionType())) {
+                examQuestion.setExamItems(
+                        examItemRepository.findExamItemByExamQuestionId(examQuestion.getId())
+                );
+            }
+        }
+
+        exam.setExamQuestions(examQuestions);
+        return exam;
+    }
 }
 
 

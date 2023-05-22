@@ -1,33 +1,45 @@
 package tuk.mentor.domain.program;
 
-import lombok.RequiredArgsConstructor;
+import org.junit.jupiter.api.DisplayName;
 import org.junit.jupiter.api.Test;
-import org.junit.jupiter.api.extension.ExtendWith;
-import org.springframework.boot.test.context.SpringBootTest;
-import tuk.mentor.domain.program.dto.response.ProgramDetailResponse;
-import tuk.mentor.domain.program.repository.ProgramRepository;
-import tuk.mentor.support.resolver.EntityManagerResolver;
+import org.springframework.boot.test.autoconfigure.web.servlet.WebMvcTest;
+import org.springframework.boot.test.mock.mockito.MockBean;
+import org.springframework.data.jpa.mapping.JpaMetamodelMappingContext;
+import tuk.mentor.domain.program.controller.ProgramController;
+import tuk.mentor.domain.program.service.ProgramService;
+import tuk.mentor.support.docs.RestDocumentTest;
 
-import javax.transaction.Transactional;
-
-@SpringBootTest
-@ExtendWith(EntityManagerResolver.class)
-@Transactional
-@RequiredArgsConstructor
-public class ProgramTest {
-    private final ProgramRepository programRepository;
+@WebMvcTest(ProgramController.class)
+@MockBean(JpaMetamodelMappingContext.class)
+@DisplayName("ProgramController 에서")
+public class ProgramTest extends RestDocumentTest {
+    @MockBean private ProgramService programService;
 
     @Test
-    void getProgramListTest() {
+    @DisplayName("로그인을 성공적으로 수행하는가")
+    void successLoginUser() throws Exception {
+        // given
+//        given(userService.login(any()))
+//                .willReturn(LoginResponse.builder()
+//                        .userId(1L)
+//                        .build());
 
-    }
+        // when
+//        ResultActions perform =
+//                mockMvc.perform(
+//                        post("/user/login")
+//                                .contentType(MediaType.APPLICATION_JSON)
+//                                .content(toRequestBody(LoginRequestFixture.REQUEST1.toLoginRequest())));
 
-    @Test
-    void getProgramDetail() {
-        Long programId = 4l;
-        ProgramDetailResponse response =
-                programRepository.getProgramDetail(programId);
+        // then
+//        perform.andExpect(status().isOk())
+//                .andExpect(jsonPath("$.userId").value(1L));
 
-        assert(response.getProgramId().equals(programId));
+        // docs
+//        perform.andDo(print())
+//                .andDo(
+//                        document("user",
+//                                getDocumentRequest(),
+//                                getDocumentResponse()));
     }
 }

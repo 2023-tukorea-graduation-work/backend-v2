@@ -20,7 +20,7 @@ public class AnswerSheet {
     @ManyToOne(fetch = FetchType.LAZY)
     @JoinColumn(name = "mentee_id")
     private Mentee mentee;
-    @ManyToOne(fetch = FetchType.LAZY)
+    @ManyToOne(fetch = FetchType.LAZY, cascade = CascadeType.ALL)
     @JoinColumn(name = "exam_question_id")
     private ExamQuestion examQuestion;
     private String answer;

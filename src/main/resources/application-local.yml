@@ -40,16 +40,8 @@ spring:
       location: src/main/resources/files
 
   mvc:
-    pathmatch:
+    path-match:
       matching-strategy: ant_path_matcher
-
-springdoc:
-  api-docs:
-    enabled: true  # Swagger API 문서 생성 활성화 여부
-    path: /api-docs  # API 문서 경로
-  swagger-ui:
-    enabled: true  # Swagger UI 활성화 여부
-    path: /swagger-ui.html  # Swagger UI 경로
 
 # Hibernate
 logging:
