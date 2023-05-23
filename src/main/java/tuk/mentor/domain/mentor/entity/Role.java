@@ -3,7 +3,8 @@ package tuk.mentor.domain.mentor.entity;
 public enum Role {
 
     MENTOR("멘토"),
-    MENTEE("멘티");
+    MENTEE("멘티"),
+    ADMIN("관리자");
 
     private final String role;
 

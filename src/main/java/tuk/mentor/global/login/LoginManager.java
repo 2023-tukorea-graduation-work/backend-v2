@@ -18,7 +18,7 @@ public class LoginManager {
     private MentorRepository mentorRepository;
     private MenteeRepository menteeRepository;
 
-    public <T> T getLoginEntity(HttpServletRequest httpServletRequest) {
+    public <T> T getLoginInfo(HttpServletRequest httpServletRequest) {
         HttpSession session = httpServletRequest.getSession();
         LoginInfo loginInfo = (LoginInfo) session.getAttribute(SESSION_NAME);
 

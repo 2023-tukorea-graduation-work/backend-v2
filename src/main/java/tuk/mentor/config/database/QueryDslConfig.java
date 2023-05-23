@@ -1,4 +1,4 @@
-package tuk.mentor.config;
+package tuk.mentor.config.database;
 
 
 import com.querydsl.jpa.impl.JPAQueryFactory;

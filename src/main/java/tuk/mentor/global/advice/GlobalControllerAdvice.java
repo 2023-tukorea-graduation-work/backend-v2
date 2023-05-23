@@ -2,6 +2,7 @@ package tuk.mentor.global.advice;
 
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
+import org.springframework.security.access.AccessDeniedException;
 import org.springframework.web.bind.annotation.ExceptionHandler;
 import org.springframework.web.bind.annotation.RestControllerAdvice;
 import tuk.mentor.global.exception.BadCredentialsException;
@@ -24,6 +25,11 @@ public class GlobalControllerAdvice {
                 .body(new ErrorResponse(e.getMessage()));
     }
 
+    @ExceptionHandler(value = {AccessDeniedException.class})
+    public ResponseEntity<ErrorResponse> handleUnauthorizedException(AccessDeniedException e) {
+        return ResponseEntity.status(HttpStatus.UNAUTHORIZED).body(new ErrorResponse(e.getMessage()));
+    }
+
     @ExceptionHandler(ServletException.class)
     public ResponseEntity<ErrorResponse> servlet(ServletException e) {
         return ResponseEntity.status(HttpStatus.FORBIDDEN).body(new ErrorResponse(e.getMessage()));
@@ -31,7 +37,7 @@ public class GlobalControllerAdvice {
 
     @ExceptionHandler(IOException.class)
     public ResponseEntity<ErrorResponse> io(IOException e) {
-        return ResponseEntity.status(HttpStatus.FORBIDDEN).body(new ErrorResponse(e.getMessage()));
+        return ResponseEntity.status(HttpStatus.INTERNAL_SERVER_ERROR).body(new ErrorResponse(e.getMessage()));
     }
 
     @ExceptionHandler(BadCredentialsException.class)

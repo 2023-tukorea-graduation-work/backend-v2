@@ -1,9 +1,13 @@
-package tuk.mentor.global.login;
+package tuk.mentor.global.login.controller;
 
 import lombok.RequiredArgsConstructor;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
 import tuk.mentor.global.exception.BadCredentialsException;
+import tuk.mentor.global.login.LoginInfo;
+import tuk.mentor.global.login.service.LoginService;
+import tuk.mentor.global.login.dto.LoginRequest;
+import tuk.mentor.global.login.dto.LoginResponse;
 
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpSession;

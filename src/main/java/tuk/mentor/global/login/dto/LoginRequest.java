@@ -1,4 +1,4 @@
-package tuk.mentor.global.login;
+package tuk.mentor.global.login.dto;
 
 import lombok.Getter;
 import lombok.RequiredArgsConstructor;

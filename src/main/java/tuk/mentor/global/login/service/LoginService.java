@@ -1,4 +1,4 @@
-package tuk.mentor.global.login;
+package tuk.mentor.global.login.service;
 
 
 import lombok.RequiredArgsConstructor;
@@ -8,6 +8,8 @@ import tuk.mentor.domain.mentee.entity.Mentee;
 import tuk.mentor.domain.mentee.service.MenteeService;
 import tuk.mentor.domain.mentor.entity.Mentor;
 import tuk.mentor.domain.mentor.service.MentorService;
+import tuk.mentor.global.login.dto.LoginRequest;
+import tuk.mentor.global.login.dto.LoginResponse;
 
 import java.util.Optional;
 

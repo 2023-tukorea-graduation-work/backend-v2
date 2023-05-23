@@ -24,14 +24,14 @@ public class Attendance {
     Program program;
     @Enumerated(EnumType.STRING)
     AttendanceType attendanceType;
-    Integer order;
+    Integer serial;
 
     @Builder
-    public Attendance(Long id, Mentee mentee, Program program, AttendanceType attendanceType, Integer order) {
+    public Attendance(Long id, Mentee mentee, Program program, AttendanceType attendanceType, Integer serial) {
         this.id = id;
         this.mentee = mentee;
         this.program = program;
         this.attendanceType = attendanceType;
-        this.order = order;
+        this.serial = serial;
     }
 }

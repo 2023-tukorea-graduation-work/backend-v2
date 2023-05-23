@@ -1,14 +1,18 @@
 server:
-  servlet:
-    context-path: /api/v1
+#  servlet:
+#    context-path: /api/v1
   port: 8080
 
 spring:
   datasource:
-    driver-class-name: com.mysql.cj.jdbc.Driver
-    url: ${datasource-url}
-    username: ${datasource-username}
-    password: ${datasource-password}
+    hikari:
+      driver-class-name: com.mysql.cj.jdbc.Driver
+  #    url: ${datasource-url}
+  #    username: ${datasource-username}
+  #    password: ${datasource-password}
+      jdbc-url: jdbc:mysql://localhost:3306/mentor?useSSL=false&allowPublicKeyRetrieval=true&serverTimezone=Asia/Seoul&characterEncoding=UTF-8
+      username: root
+      password: '0000'
 
   jpa:
     hibernate:

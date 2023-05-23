@@ -4,6 +4,7 @@ import lombok.AllArgsConstructor;
 import lombok.Builder;
 import lombok.Data;
 import lombok.NoArgsConstructor;
+import tuk.mentor.domain.attend.entity.Attendance;
 import tuk.mentor.domain.mentor.entity.Mentor;
 
 import javax.persistence.*;
@@ -30,7 +31,6 @@ public class Program {
     private LocalDate recruitFinishDate;
     private Integer capacity;
     private String programPlace;
-
     @OneToMany(mappedBy = "program", cascade = CascadeType.ALL, orphanRemoval = true)
     private List<ProgramWeek> programWeeks;
 }

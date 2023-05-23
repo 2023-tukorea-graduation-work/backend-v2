@@ -6,10 +6,11 @@ import lombok.Builder;
 import lombok.Data;
 import lombok.NoArgsConstructor;
 import org.hibernate.validator.constraints.URL;
+import tuk.mentor.domain.attend.entity.Attendance;
 import tuk.mentor.domain.mentor.entity.Role;
 
 import javax.persistence.*;
-import javax.validation.constraints.Email;
+import java.util.List;
 
 @Data
 @Entity
