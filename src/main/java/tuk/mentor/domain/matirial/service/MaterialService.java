@@ -6,7 +6,7 @@ import org.springframework.web.multipart.MultipartFile;
 import tuk.mentor.domain.matirial.entity.ProgramMaterial;
 import tuk.mentor.domain.matirial.repository.MaterialRepository;
 import tuk.mentor.domain.program.repository.ProgramRepository;
-import tuk.mentor.global.util.s3.manager.S3Manager;
+import tuk.mentor.util.s3.manager.S3Manager;
 
 import javax.persistence.EntityNotFoundException;
 import javax.servlet.http.HttpServletRequest;

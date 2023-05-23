@@ -11,7 +11,7 @@ import tuk.mentor.domain.question.dto.response.QuestionListResponse;
 import tuk.mentor.domain.question.entity.Question;
 import tuk.mentor.domain.question.mapper.QuestionMapper;
 import tuk.mentor.domain.question.repository.QuestionRepository;
-import tuk.mentor.global.login.LoginInfo;
+import tuk.mentor.login.LoginInfo;
 
 import javax.persistence.EntityNotFoundException;
 import javax.servlet.http.HttpServletRequest;

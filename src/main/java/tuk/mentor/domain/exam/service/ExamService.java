@@ -17,8 +17,8 @@ import tuk.mentor.domain.exam.repository.ExamRepository;
 import tuk.mentor.domain.mentor.entity.Mentor;
 import tuk.mentor.domain.mentor.repository.MentorRepository;
 import tuk.mentor.domain.program.repository.ProgramRepository;
-import tuk.mentor.global.login.LoginInfo;
-import tuk.mentor.global.util.DateUtil;
+import tuk.mentor.login.LoginInfo;
+import tuk.mentor.util.DateUtil;
 
 import javax.persistence.EntityNotFoundException;
 import javax.servlet.http.HttpServletRequest;

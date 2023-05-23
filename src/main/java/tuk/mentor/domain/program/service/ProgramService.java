@@ -30,8 +30,8 @@ import tuk.mentor.domain.program.mapper.ProgramMapper;
 import tuk.mentor.domain.program.repository.ProgramParticipationRepository;
 import tuk.mentor.domain.program.repository.ProgramRepository;
 import tuk.mentor.domain.program.repository.ProgramWeekRepository;
-import tuk.mentor.global.login.LoginInfo;
-import tuk.mentor.global.util.DateUtil;
+import tuk.mentor.login.LoginInfo;
+import tuk.mentor.util.DateUtil;
 
 import javax.persistence.EntityNotFoundException;
 import javax.servlet.http.HttpServletRequest;

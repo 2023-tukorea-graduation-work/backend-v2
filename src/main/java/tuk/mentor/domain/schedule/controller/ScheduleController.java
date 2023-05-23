@@ -8,7 +8,7 @@ import tuk.mentor.domain.schedule.dto.response.ScheduleListResponse;
 import tuk.mentor.domain.schedule.service.MenteeScheduleService;
 import tuk.mentor.domain.schedule.service.MentorScheduleService;
 import tuk.mentor.domain.schedule.service.ScheduleService;
-import tuk.mentor.global.login.LoginInfo;
+import tuk.mentor.login.LoginInfo;
 
 import javax.servlet.http.HttpServletRequest;
 import java.util.List;

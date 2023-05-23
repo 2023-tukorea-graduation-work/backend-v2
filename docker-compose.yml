@@ -14,6 +14,15 @@ services:
     volumes:
       - ./backup:/var/lib/mysql
 
+  redis:
+    image: redis
+    container_name: mentor-redis
+    ports:
+      - 6379:6379
+    volumes:
+      - ./backup_redis:/var/lib/redis
+    restart: always
+
 #  spring_boot:
 #    image: ${SPRING_BOOT_IMAGE}
 #    container_name: spring_boot

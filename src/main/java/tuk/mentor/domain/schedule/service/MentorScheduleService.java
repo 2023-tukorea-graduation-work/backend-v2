@@ -10,8 +10,8 @@ import tuk.mentor.domain.schedule.dto.response.ScheduleListResponse;
 import tuk.mentor.domain.schedule.entity.MentorSchedule;
 import tuk.mentor.domain.schedule.mapper.MentorScheduleMapper;
 import tuk.mentor.domain.schedule.repository.MentorScheduleRepository;
-import tuk.mentor.global.login.LoginInfo;
-import tuk.mentor.global.util.DateUtil;
+import tuk.mentor.login.LoginInfo;
+import tuk.mentor.util.DateUtil;
 
 import javax.persistence.EntityNotFoundException;
 import java.util.List;

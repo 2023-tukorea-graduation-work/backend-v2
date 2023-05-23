@@ -3,7 +3,7 @@ package tuk.mentor.domain.schedule.service;
 import org.springframework.stereotype.Service;
 import tuk.mentor.domain.schedule.dto.request.ScheduleRegisterRequest;
 import tuk.mentor.domain.schedule.dto.response.ScheduleListResponse;
-import tuk.mentor.global.login.LoginInfo;
+import tuk.mentor.login.LoginInfo;
 
 import java.util.List;
 

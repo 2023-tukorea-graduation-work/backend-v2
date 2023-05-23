@@ -16,7 +16,7 @@ import tuk.mentor.domain.survey.repository.ProgramReviewRepository;
 import tuk.mentor.domain.survey.repository.ProgramSurveyAnswerRepository;
 import tuk.mentor.domain.survey.repository.SurveyAnswerRepository;
 import tuk.mentor.domain.survey.repository.SurveyRepository;
-import tuk.mentor.global.login.LoginInfo;
+import tuk.mentor.login.LoginInfo;
 
 import javax.persistence.EntityNotFoundException;
 import javax.servlet.http.HttpServletRequest;

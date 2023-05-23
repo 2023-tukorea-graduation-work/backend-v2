@@ -10,7 +10,7 @@ import tuk.mentor.domain.mentor.dto.response.MentorRegisterResponse;
 import tuk.mentor.domain.mentor.entity.Mentor;
 import tuk.mentor.domain.mentor.mapper.MentorMapper;
 import tuk.mentor.domain.mentor.repository.MentorRepository;
-import tuk.mentor.global.util.s3.manager.S3Manager;
+import tuk.mentor.util.s3.manager.S3Manager;
 
 import javax.servlet.http.HttpServletRequest;
 import java.io.IOException;
