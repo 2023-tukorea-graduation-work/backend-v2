@@ -16,14 +16,14 @@ import java.util.Optional;
 public class UserService {
     MentorService mentorService;
     MenteeService menteeService;
-    public Optional<User> getUserByEmail(String email, Role role) {
-        switch (role) {
-            case MENTOR -> {
+    public Optional<User> getUserByEmail(String email, String authority) {
+        switch (authority) {
+            case "ROLE_MENTOR" -> {
                 return Optional.ofNullable((User) mentorService.findByEmail(email).
                         orElseThrow(RuntimeException::new));
 
             }
-            case MENTEE -> {
+            case "ROLE_MENTEE" -> {
                 return Optional.ofNullable((User) menteeService.findByEmail(email).
                         orElseThrow(RuntimeException::new));
 

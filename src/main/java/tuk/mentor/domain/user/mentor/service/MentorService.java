@@ -33,7 +33,6 @@ public class MentorService {
 
         // [1-1] 비밀번호 암호화
         mentor.setPassword(passwordEncoder.encode(request.getPassword()));
-
         // [1-2] GCP Storage profile image url
         String url = s3Manager.upload(image, s3Manager.getDirName(servletRequest));
         mentor.setImgUrl(url);

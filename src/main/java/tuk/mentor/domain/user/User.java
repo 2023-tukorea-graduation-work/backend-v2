@@ -1,12 +1,16 @@
 package tuk.mentor.domain.user;
 
-import lombok.Getter;
+import lombok.*;
 
 import java.util.ArrayList;
 import java.util.List;
 
 @Getter
-public abstract class User {
+@Setter
+@Builder
+@NoArgsConstructor
+@AllArgsConstructor
+public class User {
     private Long userId;
     private String email;
     private String password;

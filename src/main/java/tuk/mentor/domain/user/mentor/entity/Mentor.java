@@ -1,8 +1,7 @@
 package tuk.mentor.domain.user.mentor.entity;
 
 
-import lombok.Builder;
-import lombok.Getter;
+import lombok.*;
 import org.hibernate.validator.constraints.URL;
 import tuk.mentor.domain.user.Role;
 import tuk.mentor.domain.user.User;
@@ -10,12 +9,18 @@ import tuk.mentor.domain.user.User;
 import javax.persistence.*;
 
 @Getter
+@Setter
 @Entity
 @Builder
+@NoArgsConstructor
+@AllArgsConstructor
 public class Mentor extends User {
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     private Long id;
+    @Transient
+    @Enumerated(EnumType.STRING)
+    private final Role role = Role.MENTOR;
     private String name;
     private Integer age;
     private String college;
@@ -27,12 +32,4 @@ public class Mentor extends User {
     private String introduce;
     @URL
     private String imgUrl;
-
-    public Mentor() {
-        super(Role.MENTOR);
-    }
-    @Override
-    public Role getRole() {
-        return super.getRole();
-    }
 }

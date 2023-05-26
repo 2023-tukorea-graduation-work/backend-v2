@@ -6,6 +6,7 @@ import lombok.AccessLevel;
 import lombok.RequiredArgsConstructor;
 import lombok.experimental.FieldDefaults;
 import org.springframework.security.authentication.UsernamePasswordAuthenticationToken;
+import org.springframework.security.core.GrantedAuthority;
 import org.springframework.security.core.context.SecurityContextHolder;
 import org.springframework.util.StringUtils;
 import org.springframework.web.filter.OncePerRequestFilter;
@@ -13,12 +14,14 @@ import tuk.mentor.auth.JwtTokenizer;
 import tuk.mentor.auth.service.RedisService;
 import tuk.mentor.auth.userdetails.CustomUserDetails;
 import tuk.mentor.auth.utils.CustomAuthorityUtils;
+import tuk.mentor.domain.user.User;
 
 import javax.servlet.FilterChain;
 import javax.servlet.ServletException;
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
 import java.io.IOException;
+import java.util.List;
 import java.util.Map;
 
 @RequiredArgsConstructor
@@ -68,6 +71,14 @@ public class JwtVerificationFilter extends OncePerRequestFilter {
     /*시큐리티 세션에 접근해서 Authentication 객체 저장*/
     private void setAuthenticationToContext(Map<String, Object> claims) {
 
+        List<String> roles = (List<String>) claims.get("roles");
+        List<GrantedAuthority> authorities = customAuthorityUtils.createAuthorities(roles);
+
+        User user = User.builder()
+                .userId(Long.parseLong(String.valueOf(claims.get("userId"))))
+                .email((String) claims.get("email"))
+                .roles(roles)
+                .build();
 
         CustomUserDetails userDetails = new CustomUserDetails(customAuthorityUtils, user);
 

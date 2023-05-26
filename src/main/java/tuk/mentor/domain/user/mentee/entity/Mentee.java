@@ -1,8 +1,7 @@
 package tuk.mentor.domain.user.mentee.entity;
 
 
-import lombok.Builder;
-import lombok.Getter;
+import lombok.*;
 import org.hibernate.validator.constraints.URL;
 import tuk.mentor.domain.user.Role;
 import tuk.mentor.domain.user.User;
@@ -10,10 +9,12 @@ import tuk.mentor.domain.user.User;
 import javax.persistence.*;
 
 @Getter
+@Setter
 @Entity
 @Builder
+@NoArgsConstructor
+@AllArgsConstructor
 public class Mentee extends User {
-
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     private Long id;
@@ -27,12 +28,4 @@ public class Mentee extends User {
     private String introduce;
     @URL
     private String imgUrl;
-
-    public Mentee() {
-        super(Role.MENTEE);
-    }
-    @Override
-    public Role getRole() {
-        return super.getRole();
-    }
 }

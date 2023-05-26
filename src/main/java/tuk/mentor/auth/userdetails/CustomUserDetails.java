@@ -20,7 +20,7 @@ public class CustomUserDetails implements UserDetails {
     String password;
     List<String> roles;
 
-    public CustomUserDetails(CustomAuthorityUtils customAuthorityUtils, User user) {
+    public CustomUserDetails(CustomAuthorityUtils authorityUtils, User user) {
         this.authorityUtils = authorityUtils;
         this.userId = user.getUserId();
         this.email = user.getEmail();

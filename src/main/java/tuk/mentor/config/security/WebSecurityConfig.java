@@ -62,6 +62,7 @@ public class WebSecurityConfig {
         http.authorizeHttpRequests()
                 // load balancing target group health check
                 .antMatchers(HttpMethod.POST, "/auth/logout","auth/reissue").authenticated()
+                .antMatchers("/mentor/**").hasRole("ROLE_MENTOR")
                 /*
                 * todo: 1. 로그인 없이도 접근 가능한 요청 조회 목록 생각하기
                 *       2. 역할 별 접근 권한 설정은 어떻게 하는가?
