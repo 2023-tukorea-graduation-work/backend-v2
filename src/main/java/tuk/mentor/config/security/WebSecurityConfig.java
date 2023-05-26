@@ -18,6 +18,15 @@ import org.springframework.web.cors.CorsConfiguration;
 import org.springframework.web.cors.CorsConfigurationSource;
 import org.springframework.web.cors.UrlBasedCorsConfigurationSource;
 import tuk.mentor.auth.JwtTokenizer;
+import tuk.mentor.auth.filter.JwtAuthenticationFilter;
+import tuk.mentor.auth.filter.JwtLogoutFilter;
+import tuk.mentor.auth.filter.JwtReissueFilter;
+import tuk.mentor.auth.filter.JwtVerificationFilter;
+import tuk.mentor.auth.handler.UserAccessDeniedHandler;
+import tuk.mentor.auth.handler.UserAuthenticationEntryPoint;
+import tuk.mentor.auth.handler.UserAuthenticationFailureHandler;
+import tuk.mentor.auth.handler.UserAuthenticationSuccessHandler;
+import tuk.mentor.auth.service.RedisService;
 import tuk.mentor.auth.userdetails.CustomUserDetailsService;
 import tuk.mentor.auth.utils.CustomAuthorityUtils;
 

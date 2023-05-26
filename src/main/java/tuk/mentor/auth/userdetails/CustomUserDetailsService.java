@@ -18,7 +18,6 @@ import java.util.Optional;
 @RequiredArgsConstructor
 @FieldDefaults(level = AccessLevel.PRIVATE, makeFinal = true)
 public class CustomUserDetailsService implements UserDetailsService {
-
     CustomAuthorityUtils customAuthorityUtils;
     UserService userService;
 

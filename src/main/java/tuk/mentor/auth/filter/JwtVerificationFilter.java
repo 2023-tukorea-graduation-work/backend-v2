@@ -10,6 +10,7 @@ import org.springframework.security.core.context.SecurityContextHolder;
 import org.springframework.util.StringUtils;
 import org.springframework.web.filter.OncePerRequestFilter;
 import tuk.mentor.auth.JwtTokenizer;
+import tuk.mentor.auth.service.RedisService;
 import tuk.mentor.auth.userdetails.CustomUserDetails;
 import tuk.mentor.auth.utils.CustomAuthorityUtils;
 
