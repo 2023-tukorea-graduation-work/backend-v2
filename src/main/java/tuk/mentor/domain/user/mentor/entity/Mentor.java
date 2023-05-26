@@ -1,7 +1,8 @@
 package tuk.mentor.domain.user.mentor.entity;
 
 
-import lombok.*;
+import lombok.Builder;
+import lombok.Getter;
 import org.hibernate.validator.constraints.URL;
 import tuk.mentor.domain.user.Role;
 import tuk.mentor.domain.user.User;

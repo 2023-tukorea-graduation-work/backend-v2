@@ -1,10 +1,13 @@
 package tuk.mentor.domain.attend.entity;
 
 
-import lombok.*;
+import lombok.AccessLevel;
+import lombok.Builder;
+import lombok.Getter;
+import lombok.NoArgsConstructor;
 import lombok.experimental.FieldDefaults;
-import tuk.mentor.domain.user.mentee.entity.Mentee;
 import tuk.mentor.domain.program.entity.Program;
+import tuk.mentor.domain.user.mentee.entity.Mentee;
 
 import javax.persistence.*;
 

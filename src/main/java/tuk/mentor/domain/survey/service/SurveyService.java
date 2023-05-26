@@ -3,8 +3,6 @@ package tuk.mentor.domain.survey.service;
 import lombok.RequiredArgsConstructor;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
-import tuk.mentor.domain.user.mentee.entity.Mentee;
-import tuk.mentor.domain.user.mentee.repository.MenteeRepository;
 import tuk.mentor.domain.program.repository.ProgramRepository;
 import tuk.mentor.domain.survey.dto.request.SurveyRegisterRequest;
 import tuk.mentor.domain.survey.dto.response.SurveyDefaultResponse;
@@ -16,6 +14,8 @@ import tuk.mentor.domain.survey.repository.ProgramReviewRepository;
 import tuk.mentor.domain.survey.repository.ProgramSurveyAnswerRepository;
 import tuk.mentor.domain.survey.repository.SurveyAnswerRepository;
 import tuk.mentor.domain.survey.repository.SurveyRepository;
+import tuk.mentor.domain.user.mentee.entity.Mentee;
+import tuk.mentor.domain.user.mentee.repository.MenteeRepository;
 import tuk.mentor.login.LoginInfo;
 
 import javax.persistence.EntityNotFoundException;

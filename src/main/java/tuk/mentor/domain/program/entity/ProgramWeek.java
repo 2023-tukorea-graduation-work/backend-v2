@@ -1,7 +1,9 @@
 package tuk.mentor.domain.program.entity;
 
-import lombok.*;
-import tuk.mentor.domain.program.entity.Program;
+import lombok.AllArgsConstructor;
+import lombok.Builder;
+import lombok.Data;
+import lombok.NoArgsConstructor;
 
 import javax.persistence.*;
 import java.time.LocalDate;

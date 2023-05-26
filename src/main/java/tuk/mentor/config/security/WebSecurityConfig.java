@@ -18,8 +18,8 @@ import org.springframework.web.cors.CorsConfiguration;
 import org.springframework.web.cors.CorsConfigurationSource;
 import org.springframework.web.cors.UrlBasedCorsConfigurationSource;
 import tuk.mentor.auth.JwtTokenizer;
-import tuk.mentor.auth.utils.CustomAuthorityUtils;
 import tuk.mentor.auth.userdetails.CustomUserDetailsService;
+import tuk.mentor.auth.utils.CustomAuthorityUtils;
 
 import java.util.Arrays;
 

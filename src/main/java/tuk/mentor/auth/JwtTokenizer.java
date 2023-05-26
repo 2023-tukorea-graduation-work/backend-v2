@@ -1,53 +1,70 @@
 package tuk.mentor.auth;
 
+import io.jsonwebtoken.Claims;
+import io.jsonwebtoken.Jws;
 import io.jsonwebtoken.Jwts;
 import io.jsonwebtoken.io.Decoders;
 import io.jsonwebtoken.io.Encoders;
 import io.jsonwebtoken.security.Keys;
+import lombok.Getter;
+import org.springframework.beans.factory.annotation.Value;
+import org.springframework.context.annotation.PropertySource;
+import org.springframework.stereotype.Component;
 
+import javax.crypto.SecretKey;
 import java.nio.charset.StandardCharsets;
 import java.security.Key;
 import java.util.Calendar;
 import java.util.Date;
 import java.util.Map;
 
-/*
-* JwtTokenizer
-* -> JWT 생성 및 검증 역할 수행
-* */
+@Getter
+@Component
+@PropertySource("classpath:env.yml")
 public class JwtTokenizer {
+    public static final String TOKEN_PREFIX = "Bearer ";
+    public static final String ACCESS_TOKEN_HEADER = "Authorization";
+    public static final String REFRESH_TOKEN_HEADER = "Refresh";
 
-    // [1] Secret Key 를 암호화
-    public String encodeBase64SecretKey(String secretKey) {
+    @Value("${JWT_SECRET_KEY}")
+    private String secretKey;
+
+    @Value("${JWT_ACCESS_TOKEN_EXPIRATION_MINUTES}")
+    private int accessTokenExpirationMinutes;
+
+    @Value("${JWT_REFRESH_TOKEN_EXPIRATION_MINUTES}")
+    private int refreshTokenExpirationMinutes;
+
+    /* secret key의 byte array를 base64 인코딩, Key가 항상 바이너리이기 때문에
+    jwt에서 plain text를 키로 사용하는 것은 권장하지 않음*/
+    public String encodeSecretKeyWithBase64(String secretKey) {
         return Encoders.BASE64.encode(secretKey.getBytes(StandardCharsets.UTF_8));
     }
 
-    // [2] 인증된 사용자에게 최초로 JWT 를 발급
+    /*access token 생성*/
     public String generateAccessToken(Map<String, Object> claims,
                                       String subject,
                                       Date expiration,
-                                      String base64EncodedSecretKey) {
-        Key key = getKeyFromBase64EncodedKey(base64EncodedSecretKey);
+                                      String base64EncodedKey) {
+
+        Key key = getKeyFromBase64EncodedKey(base64EncodedKey);
 
         return Jwts.builder()
-                .setClaims(claims)
-                .setSubject(subject)
-                .setIssuedAt(Calendar.getInstance().getTime())
-                .setExpiration(expiration)
-                .signWith(key)
-                .compact();
+                .setClaims(claims) // payload(키/값 쌍 형태)
+                .setSubject(subject) // payload sub 값
+                .setIssuedAt(Calendar.getInstance().getTime()) // 발행 시간(Date 타입)
+                .setExpiration(expiration) // 만료 시간
+                .signWith(key) // 서명에 사용한 키
+                .compact(); // 빌드
     }
 
-    // [3] AccessToken 이 만료되었을 경우, 재발급을 담당하는 RefreshToken 을 생성
+    /*refresh token 생성*/
     public String generateRefreshToken(String subject,
                                        Date expiration,
                                        String base64EncodedSecretKey) {
+
         Key key = getKeyFromBase64EncodedKey(base64EncodedSecretKey);
 
-        /*
-        * claims 가 없는 이유
-        * -> 사용자와 관련된 정보는 AccessToken 이 가지고 있기 때문에 굳이 이중으로 담을 필요 없음.
-        * */
         return Jwts.builder()
                 .setSubject(subject)
                 .setIssuedAt(Calendar.getInstance().getTime())
@@ -56,20 +73,33 @@ public class JwtTokenizer {
                 .compact();
     }
 
-    // [4] JWT 의 서명에 사용할 Secret Key 를 생성
-    private Key getKeyFromBase64EncodedKey(String base64EncodedSecretKey) {
-        byte[] keyBytes = Decoders.BASE64.decode(base64EncodedSecretKey);
-        return Keys.hmacShaKeyFor(keyBytes);
-    }
-
-    // [5] WT에 포함되어 있는 Signature 를 검증해 JWT 의 위/변조 여부를 확인
-    public void verifySignature(String jws,
-                                String base64EncodedSecretKey) {
+    /*jwt 검증 후 claims 반환*/
+    public Jws<Claims> getClaims(String jws, String base64EncodedSecretKey) {
         Key key = getKeyFromBase64EncodedKey(base64EncodedSecretKey);
 
-        Jwts.parserBuilder()
+        return Jwts.parserBuilder()
                 .setSigningKey(key)
-                .build()
-                .parseClaimsJws(jws);
+                .build().parseClaimsJws(jws);
+    }
+
+    /*토큰 만료 시간 생성*/
+    public Date getTokenExpiration(int expirationMinutes) {
+        Calendar calendar = Calendar.getInstance();
+        calendar.add(Calendar.MINUTE, expirationMinutes);
+        Date expiration = calendar.getTime();
+
+        return expiration;
+    }
+
+    /*JWT 서명에 사용할 key 생성*/
+    private Key getKeyFromBase64EncodedKey(String base64EncodedSecretKey) {
+        byte[] decodedSecretKey = Decoders.BASE64.decode(base64EncodedSecretKey);
+        SecretKey key = Keys.hmacShaKeyFor(decodedSecretKey);
+        return key;
+    }
+
+    // jwt 유효성 검증
+    public boolean validateToken(String jwt) {
+        return this.getClaims(jwt, encodeSecretKeyWithBase64(secretKey)) != null;
     }
 }

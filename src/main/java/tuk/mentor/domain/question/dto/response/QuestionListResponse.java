@@ -2,7 +2,6 @@ package tuk.mentor.domain.question.dto.response;
 
 import lombok.Builder;
 import lombok.Getter;
-import lombok.RequiredArgsConstructor;
 import lombok.Setter;
 
 import java.time.LocalDateTime;

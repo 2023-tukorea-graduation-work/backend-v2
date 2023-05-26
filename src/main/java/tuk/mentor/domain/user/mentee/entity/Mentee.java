@@ -1,10 +1,11 @@
 package tuk.mentor.domain.user.mentee.entity;
 
 
-import lombok.*;
+import lombok.Builder;
+import lombok.Getter;
 import org.hibernate.validator.constraints.URL;
-import tuk.mentor.domain.user.User;
 import tuk.mentor.domain.user.Role;
+import tuk.mentor.domain.user.User;
 
 import javax.persistence.*;
 

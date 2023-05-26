@@ -4,12 +4,12 @@ import lombok.RequiredArgsConstructor;
 import org.springframework.beans.factory.annotation.Qualifier;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
-import tuk.mentor.domain.user.mentor.repository.MentorRepository;
 import tuk.mentor.domain.schedule.dto.request.ScheduleRegisterRequest;
 import tuk.mentor.domain.schedule.dto.response.ScheduleListResponse;
 import tuk.mentor.domain.schedule.entity.MentorSchedule;
 import tuk.mentor.domain.schedule.mapper.MentorScheduleMapper;
 import tuk.mentor.domain.schedule.repository.MentorScheduleRepository;
+import tuk.mentor.domain.user.mentor.repository.MentorRepository;
 import tuk.mentor.login.LoginInfo;
 import tuk.mentor.util.DateUtil;
 

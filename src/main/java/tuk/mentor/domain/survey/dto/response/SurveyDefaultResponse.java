@@ -1,6 +1,9 @@
 package tuk.mentor.domain.survey.dto.response;
 
-import lombok.*;
+import lombok.AllArgsConstructor;
+import lombok.Builder;
+import lombok.Getter;
+import lombok.NoArgsConstructor;
 import tuk.mentor.domain.survey.entity.Survey;
 import tuk.mentor.domain.survey.entity.SurveyAnswer;
 
