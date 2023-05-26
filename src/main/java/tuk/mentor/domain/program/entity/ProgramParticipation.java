@@ -4,7 +4,7 @@ import lombok.AllArgsConstructor;
 import lombok.Builder;
 import lombok.Data;
 import lombok.NoArgsConstructor;
-import tuk.mentor.domain.mentee.entity.Mentee;
+import tuk.mentor.domain.user.mentee.entity.Mentee;
 
 import javax.persistence.*;
 

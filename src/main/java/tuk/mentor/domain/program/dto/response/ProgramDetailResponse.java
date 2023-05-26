@@ -2,8 +2,8 @@ package tuk.mentor.domain.program.dto.response;
 
 import com.querydsl.core.annotations.QueryProjection;
 import lombok.Data;
-import tuk.mentor.domain.mentor.entity.Lesson;
-import tuk.mentor.domain.mentor.entity.Major;
+import tuk.mentor.domain.user.mentor.entity.Lesson;
+import tuk.mentor.domain.user.mentor.entity.Major;
 
 import java.time.LocalDate;
 import java.util.List;

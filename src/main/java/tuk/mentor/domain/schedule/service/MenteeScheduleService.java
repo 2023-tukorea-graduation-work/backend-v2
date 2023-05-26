@@ -4,7 +4,7 @@ import lombok.RequiredArgsConstructor;
 import org.springframework.beans.factory.annotation.Qualifier;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
-import tuk.mentor.domain.mentee.repository.MenteeRepository;
+import tuk.mentor.domain.user.mentee.repository.MenteeRepository;
 import tuk.mentor.domain.schedule.dto.request.ScheduleRegisterRequest;
 import tuk.mentor.domain.schedule.dto.response.ScheduleListResponse;
 import tuk.mentor.domain.schedule.entity.MenteeSchedule;

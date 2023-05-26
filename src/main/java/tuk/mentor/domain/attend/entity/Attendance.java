@@ -3,7 +3,7 @@ package tuk.mentor.domain.attend.entity;
 
 import lombok.*;
 import lombok.experimental.FieldDefaults;
-import tuk.mentor.domain.mentee.entity.Mentee;
+import tuk.mentor.domain.user.mentee.entity.Mentee;
 import tuk.mentor.domain.program.entity.Program;
 
 import javax.persistence.*;

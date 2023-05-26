@@ -4,7 +4,7 @@ import lombok.AllArgsConstructor;
 import lombok.Builder;
 import lombok.Data;
 import lombok.NoArgsConstructor;
-import tuk.mentor.domain.mentor.entity.Mentor;
+import tuk.mentor.domain.user.mentor.entity.Mentor;
 
 import javax.persistence.*;
 import java.time.LocalDateTime;
