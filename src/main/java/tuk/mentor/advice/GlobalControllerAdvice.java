@@ -1,54 +1,52 @@
 package tuk.mentor.advice;
 
+import lombok.extern.slf4j.Slf4j;
 import org.springframework.http.HttpStatus;
-import org.springframework.http.ResponseEntity;
-import org.springframework.security.access.AccessDeniedException;
+import org.springframework.http.converter.HttpMessageNotReadableException;
+import org.springframework.web.HttpRequestMethodNotSupportedException;
+import org.springframework.web.bind.MethodArgumentNotValidException;
+import org.springframework.web.bind.MissingServletRequestParameterException;
 import org.springframework.web.bind.annotation.ExceptionHandler;
+import org.springframework.web.bind.annotation.ResponseStatus;
 import org.springframework.web.bind.annotation.RestControllerAdvice;
-import tuk.mentor.exception.BadCredentialsException;
-import tuk.mentor.util.s3.FileStorageException;
+import tuk.mentor.util.ErrorResponse;
 
-import javax.persistence.EntityNotFoundException;
-import javax.servlet.ServletException;
-import java.io.IOException;
+import javax.validation.ConstraintViolationException;
 
+@Slf4j
 @RestControllerAdvice
 public class GlobalControllerAdvice {
-    @ExceptionHandler(EntityNotFoundException.class)
-    public ResponseEntity<ErrorResponse> entityNotFound(EntityNotFoundException e) {
-        return ResponseEntity.status(HttpStatus.NOT_FOUND).body(new ErrorResponse(e.getMessage()));
+    @ExceptionHandler
+    @ResponseStatus(HttpStatus.BAD_REQUEST)
+    public ErrorResponse handleMethodArgumentNotValidException(MethodArgumentNotValidException e) {
+        log.error("handleMethodArgumentNotValidException={}", e.getMessage());
+        return ErrorResponse.of(e.getBindingResult());
     }
 
-    @ExceptionHandler(FileStorageException.class)
-    public ResponseEntity<ErrorResponse> fileStorage(FileStorageException e) {
-        return ResponseEntity.status(HttpStatus.BAD_REQUEST)
-                .body(new ErrorResponse(e.getMessage()));
+    @ExceptionHandler
+    @ResponseStatus(HttpStatus.BAD_REQUEST)
+    public ErrorResponse handleConstraintViolationException(ConstraintViolationException e) {
+        log.error("handleConstraintViolationException={}", e.getMessage());
+        return ErrorResponse.of(e.getConstraintViolations());
     }
 
-    @ExceptionHandler(value = {AccessDeniedException.class})
-    public ResponseEntity<ErrorResponse> handleUnauthorizedException(AccessDeniedException e) {
-        return ResponseEntity.status(HttpStatus.UNAUTHORIZED).body(new ErrorResponse(e.getMessage()));
+    @ExceptionHandler
+    @ResponseStatus(HttpStatus.METHOD_NOT_ALLOWED)
+    public ErrorResponse handleHttpRequestMethodNotSupportedException(HttpRequestMethodNotSupportedException e) {
+        log.error("handleHttpRequestMethodNotSupportedException={}", e.getMessage());
+        return ErrorResponse.of(HttpStatus.METHOD_NOT_ALLOWED);
     }
 
-    @ExceptionHandler(ServletException.class)
-    public ResponseEntity<ErrorResponse> servlet(ServletException e) {
-        return ResponseEntity.status(HttpStatus.FORBIDDEN).body(new ErrorResponse(e.getMessage()));
+    @ExceptionHandler
+    @ResponseStatus(HttpStatus.BAD_REQUEST)
+    public ErrorResponse handleHttpMessageNotReadableException(HttpMessageNotReadableException e) {
+        return ErrorResponse.of(HttpStatus.BAD_REQUEST, "Required request body is missing");
     }
 
-    @ExceptionHandler(IOException.class)
-    public ResponseEntity<ErrorResponse> io(IOException e) {
-        return ResponseEntity.status(HttpStatus.INTERNAL_SERVER_ERROR).body(new ErrorResponse(e.getMessage()));
-    }
-
-    @ExceptionHandler(RuntimeException.class)
-    public ResponseEntity<ErrorResponse> runtime(RuntimeException e) {
-        return ResponseEntity.status(HttpStatus.BAD_REQUEST)
-                .body(new ErrorResponse(e.getMessage()));
-    }
-
-    @ExceptionHandler(Exception.class)
-    public ResponseEntity<ErrorResponse> exception(Exception e) {
-        return ResponseEntity.status(HttpStatus.INTERNAL_SERVER_ERROR)
-                .body(new ErrorResponse(e.getMessage()));
+    @ExceptionHandler
+    @ResponseStatus(HttpStatus.BAD_REQUEST)
+    public ErrorResponse handleMissingServletRequestParameterException(MissingServletRequestParameterException e) {
+        log.error("handleMissingServletRequestParameterException={}", e.getMessage());
+        return ErrorResponse.of(HttpStatus.BAD_REQUEST, e.getMessage());
     }
 }
