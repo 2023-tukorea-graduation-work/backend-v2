@@ -16,10 +16,8 @@ import tuk.mentor.domain.survey.repository.SurveyAnswerRepository;
 import tuk.mentor.domain.survey.repository.SurveyRepository;
 import tuk.mentor.domain.user.mentee.entity.Mentee;
 import tuk.mentor.domain.user.mentee.repository.MenteeRepository;
-import tuk.mentor.login.LoginInfo;
 
 import javax.persistence.EntityNotFoundException;
-import javax.servlet.http.HttpServletRequest;
 import java.util.List;
 
 @Service
@@ -37,12 +35,11 @@ public class SurveyService {
      * 설문 등록
      * */
     @Transactional
-    public void registerSurvey(SurveyRegisterRequest request, HttpServletRequest servletRequest) {
+    public void registerSurvey(SurveyRegisterRequest request) {
         // [1] 설문지 질문 및 답변 목록 조회
         List<Survey> questions = surveyRepository.findAll();
 
-        LoginInfo loginInfo = (LoginInfo) servletRequest.getSession().getAttribute("loginInfo");
-        Mentee mentee = menteeRepository.findById(loginInfo.getUserID()).orElseThrow(EntityNotFoundException::new);
+        Mentee mentee = menteeRepository.findById(request.getUserId()).orElseThrow(EntityNotFoundException::new);
 
         // 답변의 개수가 설문지의 질문의 개수와 동일한지 검사가 필요함.
 //        if(questions.size() != request.getAnswers().size()) {

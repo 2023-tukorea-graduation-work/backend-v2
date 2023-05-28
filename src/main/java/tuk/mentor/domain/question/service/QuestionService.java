@@ -11,11 +11,8 @@ import tuk.mentor.domain.question.mapper.QuestionMapper;
 import tuk.mentor.domain.question.repository.QuestionRepository;
 import tuk.mentor.domain.user.mentee.entity.Mentee;
 import tuk.mentor.domain.user.mentee.repository.MenteeRepository;
-import tuk.mentor.login.LoginInfo;
 
 import javax.persistence.EntityNotFoundException;
-import javax.servlet.http.HttpServletRequest;
-import javax.servlet.http.HttpSession;
 import java.util.List;
 
 @Service
@@ -30,11 +27,9 @@ public class QuestionService {
     *  질문 등록
     * */
     @Transactional
-    public void registerQuestion(QuestionRegisterRequest request, HttpServletRequest httpServletRequest) {
+    public void registerQuestion(QuestionRegisterRequest request) {
         // [1] Qustion 기본 정보 저장
-        HttpSession session = httpServletRequest.getSession();
-        LoginInfo loginInfo = (LoginInfo) session.getAttribute("loginInfo");
-        Mentee mentee = menteeRepository.findById(loginInfo.getUserID()).orElseThrow(EntityNotFoundException::new);
+        Mentee mentee = menteeRepository.findById(request.getUserId()).orElseThrow(EntityNotFoundException::new);
 
         questionRepository.save(Question.builder()
                 .mentee(mentee)

@@ -7,8 +7,6 @@ import tuk.mentor.domain.exam.dto.request.ExamRegisterRequest;
 import tuk.mentor.domain.exam.entity.Exam;
 import tuk.mentor.domain.exam.service.ExamService;
 
-import javax.servlet.http.HttpServletRequest;
-
 @RestController
 @RequestMapping("/exam")
 @RequiredArgsConstructor
@@ -16,9 +14,8 @@ public class ExamController {
     private final ExamService examService;
     @PostMapping("/{programId}")
     public ResponseEntity<Void> registerExam(@PathVariable("programId") Long programId,
-                                                                 @RequestBody ExamRegisterRequest examRegisterRequest,
-                                                                 HttpServletRequest servletRequest) {
-        examService.registerExam(programId, examRegisterRequest, servletRequest);
+                                                                 @RequestBody ExamRegisterRequest examRegisterRequest) {
+        examService.registerExam(programId, examRegisterRequest);
         return ResponseEntity.ok().build();
     }
 

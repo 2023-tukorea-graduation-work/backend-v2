@@ -11,6 +11,7 @@ import java.util.List;
 @Setter
 @RequiredArgsConstructor
 public class ExamRegisterRequest {
+    private Long userId;
     private String examStartTime;
     private String examFinishTime;
     private String examTitle;

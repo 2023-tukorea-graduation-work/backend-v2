@@ -7,8 +7,6 @@ import tuk.mentor.domain.survey.dto.request.SurveyRegisterRequest;
 import tuk.mentor.domain.survey.dto.response.SurveyDefaultResponse;
 import tuk.mentor.domain.survey.service.SurveyService;
 
-import javax.servlet.http.HttpServletRequest;
-
 @RestController
 @RequestMapping("/survey")
 @RequiredArgsConstructor
@@ -16,9 +14,8 @@ public class SurveyController {
     private final SurveyService surveyService;
 
     @PostMapping("/program")
-    public ResponseEntity<Void> registerSurvey(@RequestBody SurveyRegisterRequest surveyRegisterRequest,
-                                               HttpServletRequest servletRequest) {
-        surveyService.registerSurvey(surveyRegisterRequest, servletRequest);
+    public ResponseEntity<Void> registerSurvey(@RequestBody SurveyRegisterRequest surveyRegisterRequest) {
+        surveyService.registerSurvey(surveyRegisterRequest);
         return ResponseEntity.ok().build();
     }
 

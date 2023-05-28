@@ -30,12 +30,9 @@ import tuk.mentor.domain.program.repository.ProgramWeekRepository;
 import tuk.mentor.domain.user.mentee.repository.MenteeRepository;
 import tuk.mentor.domain.user.mentor.entity.Mentor;
 import tuk.mentor.domain.user.mentor.repository.MentorRepository;
-import tuk.mentor.login.LoginInfo;
 import tuk.mentor.util.DateUtil;
 
 import javax.persistence.EntityNotFoundException;
-import javax.servlet.http.HttpServletRequest;
-import javax.servlet.http.HttpSession;
 import java.io.IOException;
 import java.util.List;
 import java.util.stream.Collectors;
@@ -57,12 +54,9 @@ public class ProgramService {
      * 프로그램 등록
      * */
     @Transactional
-    public void registerProgram(ProgramRegisterRequest request, HttpServletRequest httpServletRequest) {
+    public void registerProgram(ProgramRegisterRequest request) {
         // [1] 프로그램 기본 정보 등록
-        // [1-1] 세션에 등록된 로그인 정보 조회 및 멘토 조회
-        HttpSession session = httpServletRequest.getSession();
-        LoginInfo loginInfo = (LoginInfo) session.getAttribute("loginInfo");
-        Mentor mentor = mentorRepository.findById(loginInfo.getUserID()).orElseThrow(RuntimeException::new);
+        Mentor mentor = mentorRepository.findById(request.getUserId()).orElseThrow(RuntimeException::new);
 
         /*
          * 문제1. programMapper.toEntity(request, mentor, programWeeks)를 하면 program.id 가 null이 아님.

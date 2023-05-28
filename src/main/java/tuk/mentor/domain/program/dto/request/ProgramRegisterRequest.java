@@ -8,6 +8,7 @@ import java.util.List;
 @Data
 @RequiredArgsConstructor
 public class ProgramRegisterRequest {
+    private Long userId;
     private String subject;
     private String detail;
     private String programStartDate;

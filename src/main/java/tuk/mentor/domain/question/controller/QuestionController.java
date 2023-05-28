@@ -7,7 +7,6 @@ import tuk.mentor.domain.question.dto.request.QuestionRegisterRequest;
 import tuk.mentor.domain.question.dto.response.QuestionListResponse;
 import tuk.mentor.domain.question.service.QuestionService;
 
-import javax.servlet.http.HttpServletRequest;
 import java.util.List;
 
 @RestController
@@ -17,9 +16,8 @@ public class QuestionController {
 
     private final QuestionService questionService;
     @PostMapping
-    public ResponseEntity<Void> registerQuestion(@RequestBody QuestionRegisterRequest request,
-                                               HttpServletRequest servletRequest) {
-        questionService.registerQuestion(request, servletRequest);
+    public ResponseEntity<Void> registerQuestion(@RequestBody QuestionRegisterRequest request) {
+        questionService.registerQuestion(request);
         return ResponseEntity.ok().build();
     }
     @GetMapping("/{programId}")

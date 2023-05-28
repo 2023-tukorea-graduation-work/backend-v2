@@ -10,7 +10,6 @@ import tuk.mentor.domain.program.dto.response.ProgramDetailResponse;
 import tuk.mentor.domain.program.dto.response.ProgramListResponse;
 import tuk.mentor.domain.program.service.ProgramService;
 
-import javax.servlet.http.HttpServletRequest;
 import java.util.List;
 
 @RestController
@@ -20,9 +19,8 @@ public class ProgramController {
     private final ProgramService programService;
 
     @PostMapping
-    public ResponseEntity<Void> registerProgram(@RequestBody ProgramRegisterRequest programRegisterRequest,
-                                                HttpServletRequest httpServletRequest) {
-        programService.registerProgram(programRegisterRequest, httpServletRequest);
+    public ResponseEntity<Void> registerProgram(@RequestBody ProgramRegisterRequest programRegisterRequest) {
+        programService.registerProgram(programRegisterRequest);
         return ResponseEntity.ok().build();
     }
 

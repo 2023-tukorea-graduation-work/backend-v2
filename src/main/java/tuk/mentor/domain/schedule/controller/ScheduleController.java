@@ -7,53 +7,37 @@ import tuk.mentor.domain.schedule.dto.request.ScheduleRegisterRequest;
 import tuk.mentor.domain.schedule.dto.response.ScheduleListResponse;
 import tuk.mentor.domain.schedule.service.MenteeScheduleService;
 import tuk.mentor.domain.schedule.service.MentorScheduleService;
-import tuk.mentor.domain.schedule.service.ScheduleService;
-import tuk.mentor.login.LoginInfo;
 
-import javax.servlet.http.HttpServletRequest;
 import java.util.List;
 
 @RestController
 @RequestMapping("/schedule")
 @RequiredArgsConstructor
 public class ScheduleController {
-    private final ScheduleService mentorScheduleService;
-    private final ScheduleService menteeScheduleService;
+    private final MentorScheduleService mentorScheduleService;
+    private final MenteeScheduleService menteeScheduleService;
 
-    @PostMapping
-    public ResponseEntity<Void> registerSchedule(@RequestBody ScheduleRegisterRequest scheduleRegisterRequest,
-                                                 HttpServletRequest httpServletRequest) {
-
-        LoginInfo loginInfo = (LoginInfo)httpServletRequest.getSession().getAttribute("loginInfo");
-
-        switch (loginInfo.getRole()) {
-            case MENTOR -> {
-                ((MentorScheduleService) mentorScheduleService).registerSchedule(scheduleRegisterRequest, loginInfo);
-            }
-            case MENTEE -> {
-                ((MenteeScheduleService) menteeScheduleService).registerSchedule(scheduleRegisterRequest, loginInfo);
-            }
-            default -> throw new RuntimeException("Unknown role: " + loginInfo.getRole());
-        }
+    @PostMapping("/mentor")
+    public ResponseEntity<Void> registerMentorSchedule(@RequestBody ScheduleRegisterRequest scheduleRegisterRequest) {
+        mentorScheduleService.registerSchedule(scheduleRegisterRequest);
         return ResponseEntity.ok().build();
     }
 
-    @GetMapping
-    public ResponseEntity<List<ScheduleListResponse>> getScheduleList(HttpServletRequest httpServletRequest) {
+    @PostMapping("/mentee")
+    public ResponseEntity<Void> registerMenteeSchedule(@RequestBody ScheduleRegisterRequest scheduleRegisterRequest) {
+        menteeScheduleService.registerSchedule(scheduleRegisterRequest);
+        return ResponseEntity.ok().build();
+    }
 
-        LoginInfo loginInfo = (LoginInfo)httpServletRequest.getSession().getAttribute("loginInfo");
+    @GetMapping("/mentor/{userId}")
+    public ResponseEntity<List<ScheduleListResponse>> getMentorScheduleList(@PathVariable("userId") Long userId) {
+        List<ScheduleListResponse> response = mentorScheduleService.getScheduleList(userId);
+        return ResponseEntity.ok().body(response);
+    }
 
-        List<ScheduleListResponse> response;
-
-        switch (loginInfo.getRole()) {
-            case MENTOR -> {
-                response = ((MentorScheduleService) mentorScheduleService).getScheduleList(loginInfo);
-            }
-            case MENTEE -> {
-                response = ((MenteeScheduleService) menteeScheduleService).getScheduleList(loginInfo);
-            }
-            default -> throw new RuntimeException("Unknown role: " + loginInfo.getRole());
-        }
+    @GetMapping("/mentee/{userId}")
+    public ResponseEntity<List<ScheduleListResponse>> getMenteeScheduleList(@PathVariable("userId") Long userId) {
+        List<ScheduleListResponse> response = mentorScheduleService.getScheduleList(userId);
         return ResponseEntity.ok().body(response);
     }
 }

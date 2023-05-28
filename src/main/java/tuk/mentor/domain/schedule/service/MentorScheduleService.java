@@ -10,7 +10,6 @@ import tuk.mentor.domain.schedule.entity.MentorSchedule;
 import tuk.mentor.domain.schedule.mapper.MentorScheduleMapper;
 import tuk.mentor.domain.schedule.repository.MentorScheduleRepository;
 import tuk.mentor.domain.user.mentor.repository.MentorRepository;
-import tuk.mentor.login.LoginInfo;
 import tuk.mentor.util.DateUtil;
 
 import javax.persistence.EntityNotFoundException;
@@ -19,7 +18,7 @@ import java.util.List;
 @Service
 @Qualifier("mentorScheduleService")
 @RequiredArgsConstructor
-public class MentorScheduleService implements ScheduleService{
+public class MentorScheduleService{
 
     private final MentorScheduleRepository scheduleRepository;
     private final MentorRepository mentorRepository;
@@ -30,17 +29,17 @@ public class MentorScheduleService implements ScheduleService{
      * 일정 등록
      * */
     @Transactional
-    public void registerSchedule(ScheduleRegisterRequest request, LoginInfo loginInfo) {
+    public void registerSchedule(ScheduleRegisterRequest request) {
         scheduleRepository.save(MentorSchedule.builder()
-                .mentor(mentorRepository.findById(loginInfo.getUserID()).orElseThrow(EntityNotFoundException::new))
+                .mentor(mentorRepository.findById(request.getUserId()).orElseThrow(EntityNotFoundException::new))
                 .content(request.getContent())
                 .scheduleStartDatetime(dateUtil.convertStringToLocalDateTime(request.getScheduleStartDatetime()))
                 .scheduleFinishDatetime(dateUtil.convertStringToLocalDateTime(request.getScheduleFinishDatetime()))
                 .build());
     }
 
-    public List<ScheduleListResponse> getScheduleList(LoginInfo loginInfo) {
-        return scheduleRepository.getScheduleList(loginInfo.getUserID())
+    public List<ScheduleListResponse> getScheduleList(Long userId) {
+        return scheduleRepository.getScheduleList(userId)
                 .stream().map(mentorScheduleMapper::toScheduleListDto).toList();
     }
 }

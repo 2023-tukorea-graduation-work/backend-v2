@@ -17,11 +17,9 @@ import tuk.mentor.domain.exam.repository.ExamRepository;
 import tuk.mentor.domain.program.repository.ProgramRepository;
 import tuk.mentor.domain.user.mentor.entity.Mentor;
 import tuk.mentor.domain.user.mentor.repository.MentorRepository;
-import tuk.mentor.login.LoginInfo;
 import tuk.mentor.util.DateUtil;
 
 import javax.persistence.EntityNotFoundException;
-import javax.servlet.http.HttpServletRequest;
 import java.util.ArrayList;
 import java.util.List;
 
@@ -37,11 +35,9 @@ public class ExamService {
     private final DateUtil dateUtil;
 
     @Transactional
-    public void registerExam(Long programId, ExamRegisterRequest request,
-                             HttpServletRequest httpServletRequest) {
+    public void registerExam(Long programId, ExamRegisterRequest request) {
         // [1] 멘토 정보 조회
-        LoginInfo loginInfo = (LoginInfo)httpServletRequest.getSession().getAttribute("loginInfo");
-        Mentor mentor = mentorRepository.findById(loginInfo.getUserID()).orElseThrow(EntityNotFoundException::new);
+        Mentor mentor = mentorRepository.findById(request.getUserId()).orElseThrow(EntityNotFoundException::new);
 
         // [2] Exam build
         Exam exam = Exam.builder()

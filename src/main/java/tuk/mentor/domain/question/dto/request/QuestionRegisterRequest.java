@@ -8,6 +8,7 @@ import lombok.Setter;
 @Setter
 @RequiredArgsConstructor
 public class QuestionRegisterRequest {
+    private Long userId;
     private Long programId;
     private String question;
 }

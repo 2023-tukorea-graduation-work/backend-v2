@@ -8,6 +8,7 @@ import java.util.List;
 @Data
 @RequiredArgsConstructor
 public class SurveyRegisterRequest {
+    private Long userId;
     private Long programId;
     private List<Long> answers;
     private String comment;
