@@ -8,6 +8,7 @@ gradle.properties
 backup/
 backup_redis/
 classpath:env.yml
+application-local.yml
 
 ### STS ###
 .apt_generated

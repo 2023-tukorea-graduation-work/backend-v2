@@ -59,23 +59,4 @@ public class RedisService {
         // delete 메서드는 삭제되면 true를 반환함.
         redisTemplate.delete(refreshToken);
     }
-
-    /*인증 코드 redis에 저장*/
-    public void setVerificationCode(String email, String code) {
-        ValueOperations<String, String> valueOperations = redisTemplate.opsForValue();
-        //코드를 key로 하고 email을 value로 가지는 데이터 3분 기한 저장
-        valueOperations.set(code, email, Duration.ofMinutes(3));
-    }
-
-    /*인증 코드에 맞는 email 가져오기*/
-    public String getEmailForCode(String code) {
-        ValueOperations<String, String> valueOperations = redisTemplate.opsForValue();
-        return valueOperations.get(code);
-    }
-
-    /*이미 있는 코드인지 확인*/
-    public boolean isExistsCode(String code) {
-        ValueOperations<String, String> valueOperations = redisTemplate.opsForValue();
-        return valueOperations.get(code) != null;
-    }
 }

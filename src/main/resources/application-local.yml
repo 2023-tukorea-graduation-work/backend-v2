@@ -12,7 +12,7 @@ spring:
   #    password: ${datasource-password}
       jdbc-url: jdbc:mysql://localhost:3306/mentor?useSSL=false&allowPublicKeyRetrieval=true&serverTimezone=Asia/Seoul&characterEncoding=UTF-8
       username: root
-      password: '0000'
+      password: '0216'
 
   redis:
     host: localhost
