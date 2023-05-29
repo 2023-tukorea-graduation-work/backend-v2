@@ -23,9 +23,7 @@ import java.util.Optional;
 public class MenteeService {
     private final MenteeRepository menteeRepository;
     private final MenteeMapper menteeMapper;
-    @PersistenceContext
-    private final EntityManager entityManager;
-    private final PasswordEncoder passwordEncoder;
+//    private final PasswordEncoder passwordEncoder;
     private final S3Manager s3Manager;
     /*
     *  멘토 등록
@@ -37,7 +35,7 @@ public class MenteeService {
         Mentee mentee = menteeMapper.toEntityFromRegisterRequest(request);
 
         // [1-1] 비밀번호 암호화
-        mentee.setPassword(passwordEncoder.encode(request.getPassword()));
+//        mentee.setPassword(passwordEncoder.encode(request.getPassword()));
 
         // [1-2] GCP Storage profile image url
         String url = s3Manager.upload(image, s3Manager.getDirName(servletRequest));

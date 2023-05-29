@@ -21,7 +21,7 @@ import java.util.Optional;
 public class MentorService {
     private final MentorRepository mentorRepository;
     private final MentorMapper mentorMapper;
-    private final PasswordEncoder passwordEncoder;
+//    private final PasswordEncoder passwordEncoder;
     private final S3Manager s3Manager;
     /*
     *  멘토 등록
@@ -32,12 +32,13 @@ public class MentorService {
         Mentor mentor = mentorMapper.toEntityFromRegisterRequest(request);
 
         // [1-1] 비밀번호 암호화
-        mentor.setPassword(passwordEncoder.encode(request.getPassword()));
+//        mentor.setPassword(passwordEncoder.encode(request.getPassword()));
+
         // [1-2] GCP Storage profile image url
         String url = s3Manager.upload(image, s3Manager.getDirName(servletRequest));
         mentor.setImgUrl(url);
 
-        // [1-2] 멘토 정보 저장
+        // [1-3] 멘토 정보 저장
         /*
          mentor entity의 Email 필드에 @Email 어노테이션을 붙이면 오류가 save() 안됨.
          Mentor [id=1, role=MENTOR, emaildbwpqls@naver.com, name=...]
