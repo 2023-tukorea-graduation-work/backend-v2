@@ -44,6 +44,10 @@ public class MentorService {
         mentor.setPassword(encodePassword);
         mentor.setRoles(customAuthorityUtils.createMentorRole());
 
+        /*
+        * todo User 객체의 userId 정보를 등록해야함.
+        * */
+
         // [1-3] 멘토 정보 저장
         /*
          mentor entity의 Email 필드에 @Email 어노테이션을 붙이면 오류가 save() 안됨.
