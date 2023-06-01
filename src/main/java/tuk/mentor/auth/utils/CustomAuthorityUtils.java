@@ -9,13 +9,29 @@ import java.util.stream.Collectors;
 
 @Component
 public class CustomAuthorityUtils {
-    private final List<String> USER_ROLE = List.of("ROLE_MENTOR", "ROLE_MENTEE", "ROLE_ADMIN");
+    private final List<String> ROLE_MENTOR = List.of("ROLE_MENTOR");
+    private final List<String> ROLE_MENTEE = List.of("ROLE_MENTEE");
+    private final List<String> ROLE_ADMIN = List.of("ROLE_ADMIN");
 
     /*
-     * 회원 role 생성
+     * 멘토 role 생성
      */
-    public List<String> createRole() {
-        return this.USER_ROLE;
+    public List<String> createMentorRole() {
+        return this.ROLE_MENTOR;
+    }
+
+    /*
+     * 멘티 role 생성
+     */
+    public List<String> createMenteeRole() {
+        return this.ROLE_MENTEE;
+    }
+
+    /*
+     * 관리자 role 생성
+     */
+    public List<String> createAdminRole() {
+        return this.ROLE_ADMIN;
     }
 
     /* 회원 권한 생성*/

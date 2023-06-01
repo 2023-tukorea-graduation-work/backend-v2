@@ -15,6 +15,7 @@ import java.util.List;
 @NoArgsConstructor
 @AllArgsConstructor
 public class User {
+    @Transient
     private Long userId;
     private String email;
     private String password;

@@ -1,10 +1,13 @@
 package tuk.mentor.domain.user.mentor.service;
 
+import lombok.AccessLevel;
 import lombok.RequiredArgsConstructor;
+import lombok.experimental.FieldDefaults;
 import org.springframework.security.crypto.password.PasswordEncoder;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 import org.springframework.web.multipart.MultipartFile;
+import tuk.mentor.auth.utils.CustomAuthorityUtils;
 import tuk.mentor.domain.user.mentor.dto.request.MentorRegisterRequest;
 import tuk.mentor.domain.user.mentor.dto.response.MentorRegisterResponse;
 import tuk.mentor.domain.user.mentor.entity.Mentor;
@@ -18,25 +21,28 @@ import java.util.Optional;
 
 @Service
 @RequiredArgsConstructor
+@FieldDefaults(level = AccessLevel.PRIVATE, makeFinal = true)
 public class MentorService {
-    private final MentorRepository mentorRepository;
-    private final MentorMapper mentorMapper;
-//    private final PasswordEncoder passwordEncoder;
-    private final S3Manager s3Manager;
+    CustomAuthorityUtils customAuthorityUtils;
+    PasswordEncoder passwordEncoder;
+    MentorRepository mentorRepository;
+    MentorMapper mentorMapper;
+    S3Manager s3Manager;
     /*
-    *  멘토 등록
-    * */
+     *  멘토 등록
+     * */
     @Transactional
     public MentorRegisterResponse registerMentor(MentorRegisterRequest request, MultipartFile image, HttpServletRequest servletRequest) throws IOException {
         // [1] Mentor 기본 정보 저장
+        // [1-1] GCP Storage profile image url
+        String imgUrl = s3Manager.upload(image, s3Manager.getDirName(servletRequest));
+        String encodePassword = passwordEncoder.encode(request.getPassword());
+
+        // [1-2] 멘토 정보 매핑
         Mentor mentor = mentorMapper.toEntityFromRegisterRequest(request);
-
-        // [1-1] 비밀번호 암호화
-//        mentor.setPassword(passwordEncoder.encode(request.getPassword()));
-
-        // [1-2] GCP Storage profile image url
-        String url = s3Manager.upload(image, s3Manager.getDirName(servletRequest));
-        mentor.setImgUrl(url);
+        mentor.setImgUrl(imgUrl);
+        mentor.setPassword(encodePassword);
+        mentor.setRoles(customAuthorityUtils.createMentorRole());
 
         // [1-3] 멘토 정보 저장
         /*
@@ -52,7 +58,7 @@ public class MentorService {
                 .build();
     }
 
-    public Optional<Mentor> findByEmail(String email) {
+    public Mentor findByEmail(String email) {
         return mentorRepository.findByEmail(email);
     }
 }

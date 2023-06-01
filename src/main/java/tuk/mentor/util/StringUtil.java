@@ -6,7 +6,7 @@ import java.lang.reflect.Field;
 
 @Component
 public class StringUtil {
-    public String toString(Object obj) {
+    public static String toString(Object obj) {
         Class<?> clazz = obj.getClass();
         Field[] fields = clazz.getDeclaredFields();
 

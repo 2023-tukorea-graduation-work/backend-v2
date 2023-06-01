@@ -10,6 +10,8 @@ import java.util.Optional;
 
 @Repository
 public interface MentorRepository extends JpaRepository<Mentor, Long> ,MentorQueryRepository{
-    @Query("SELECT m from Mentor m where m.email = :email")
-    Optional<Mentor> findByEmail(@Param("email") String email);
+    /*@Query("SELECT m from Mentor m where m.email = :email")
+    Mentor findByEmail(@Param("email") String email);*/
+
+    Mentor findByEmail(String email);
 }

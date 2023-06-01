@@ -4,6 +4,8 @@ package tuk.mentor.domain.user.mentor.entity;
 import lombok.*;
 import lombok.experimental.SuperBuilder;
 import org.hibernate.validator.constraints.URL;
+import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.security.crypto.password.PasswordEncoder;
 import tuk.mentor.domain.user.Role;
 import tuk.mentor.domain.user.User;
 
