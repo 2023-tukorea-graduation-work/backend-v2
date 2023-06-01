@@ -7,7 +7,7 @@ build/
 gradle.properties
 backup/
 backup_redis/
-classpath:env.yml
+env.yml
 application-local.yml
 
 ### STS ###
