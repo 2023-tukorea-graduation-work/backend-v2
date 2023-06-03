@@ -19,9 +19,6 @@ public class Mentee extends User {
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     private Long id;
-    @Transient
-    @Enumerated(EnumType.STRING)
-    private final Role role = Role.MENTEE;
     private String name;
     private Integer age;
     private String school;

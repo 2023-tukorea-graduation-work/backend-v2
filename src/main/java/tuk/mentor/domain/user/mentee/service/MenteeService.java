@@ -9,18 +9,13 @@ import org.springframework.transaction.annotation.Transactional;
 import org.springframework.web.multipart.MultipartFile;
 import tuk.mentor.auth.utils.CustomAuthorityUtils;
 import tuk.mentor.domain.user.mentee.dto.request.MenteeRegisterRequest;
-import tuk.mentor.domain.user.mentee.dto.response.MenteeRegisterResponse;
 import tuk.mentor.domain.user.mentee.entity.Mentee;
 import tuk.mentor.domain.user.mentee.mapper.MenteeMapper;
 import tuk.mentor.domain.user.mentee.repository.MenteeRepository;
-import tuk.mentor.domain.user.mentor.entity.Mentor;
 import tuk.mentor.util.s3.manager.S3Manager;
 
-import javax.persistence.EntityManager;
-import javax.persistence.PersistenceContext;
 import javax.servlet.http.HttpServletRequest;
 import java.io.IOException;
-import java.util.Optional;
 
 @Service
 @RequiredArgsConstructor
@@ -36,7 +31,7 @@ public class MenteeService {
     *  멘토 등록
     * */
     @Transactional
-    public MenteeRegisterResponse registerMentee(MenteeRegisterRequest request, MultipartFile image, HttpServletRequest servletRequest) throws IOException {
+    public void registerMentee(MenteeRegisterRequest request, MultipartFile image, HttpServletRequest servletRequest) throws IOException {
         // [1] Mentor 기본 정보 저장
         // [1-1] GCP Storage profile image url
         String imgUrl = s3Manager.upload(image, s3Manager.getDirName(servletRequest));
@@ -49,15 +44,6 @@ public class MenteeService {
         mentee.setRoles(customAuthorityUtils.createMenteeRole());
 
         // [1-2] 멘티 정보 저장
-        mentee = menteeRepository.save(mentee);
-
-        return MenteeRegisterResponse.builder()
-                .id(mentee.getId())
-                .role(mentee.getRole())
-                .build();
-    }
-
-    public Mentee findByEmail(String email) {
-        return menteeRepository.findByEmail(email);
+        menteeRepository.save(mentee);
     }
 }

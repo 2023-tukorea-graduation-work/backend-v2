@@ -3,6 +3,8 @@ package tuk.mentor.domain.user;
 import lombok.*;
 import lombok.experimental.SuperBuilder;
 
+import javax.persistence.ElementCollection;
+import javax.persistence.FetchType;
 import javax.persistence.MappedSuperclass;
 import javax.persistence.Transient;
 import java.util.ArrayList;
@@ -19,6 +21,6 @@ public class User {
     private Long userId;
     private String email;
     private String password;
-    @Transient
+    @ElementCollection(fetch = FetchType.EAGER)
     private List<String> roles = new ArrayList<>();
 }

@@ -9,15 +9,14 @@ import org.springframework.transaction.annotation.Transactional;
 import org.springframework.web.multipart.MultipartFile;
 import tuk.mentor.auth.utils.CustomAuthorityUtils;
 import tuk.mentor.domain.user.mentor.dto.request.MentorRegisterRequest;
-import tuk.mentor.domain.user.mentor.dto.response.MentorRegisterResponse;
 import tuk.mentor.domain.user.mentor.entity.Mentor;
 import tuk.mentor.domain.user.mentor.mapper.MentorMapper;
 import tuk.mentor.domain.user.mentor.repository.MentorRepository;
+import tuk.mentor.util.StringUtil;
 import tuk.mentor.util.s3.manager.S3Manager;
 
 import javax.servlet.http.HttpServletRequest;
 import java.io.IOException;
-import java.util.Optional;
 
 @Service
 @RequiredArgsConstructor
@@ -32,7 +31,7 @@ public class MentorService {
      *  멘토 등록
      * */
     @Transactional
-    public MentorRegisterResponse registerMentor(MentorRegisterRequest request, MultipartFile image, HttpServletRequest servletRequest) throws IOException {
+    public void registerMentor(MentorRegisterRequest request, MultipartFile image, HttpServletRequest servletRequest) throws IOException {
         // [1] Mentor 기본 정보 저장
         // [1-1] GCP Storage profile image url
         String imgUrl = s3Manager.upload(image, s3Manager.getDirName(servletRequest));
@@ -44,6 +43,8 @@ public class MentorService {
         mentor.setPassword(encodePassword);
         mentor.setRoles(customAuthorityUtils.createMentorRole());
 
+        System.out.println(StringUtil.toString(mentor));
+
         /*
         * todo User 객체의 userId 정보를 등록해야함.
         * */
@@ -54,15 +55,6 @@ public class MentorService {
          Mentor [id=1, role=MENTOR, emaildbwpqls@naver.com, name=...]
          여기서 email = ? 으로 출력되지 않는게 이유가 될듯 함.
         * */
-        mentor = mentorRepository.save(mentor);
-
-        return MentorRegisterResponse.builder()
-                .id(mentor.getId())
-                .role(mentor.getRole())
-                .build();
-    }
-
-    public Mentor findByEmail(String email) {
-        return mentorRepository.findByEmail(email);
+        mentorRepository.save(mentor);
     }
 }

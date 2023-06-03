@@ -26,6 +26,7 @@ public class UserAuthenticationSuccessHandler implements AuthenticationSuccessHa
         Map<String, Object> responseBody = new HashMap<>();
         responseBody.put("userId", principal.getUserId());
         responseBody.put("email", principal.getEmail());
+        responseBody.put("roles", principal.getRoles());
 
         ObjectMapper objectMapper = new ObjectMapper();
         response.setStatus(HttpStatus.OK.value());
