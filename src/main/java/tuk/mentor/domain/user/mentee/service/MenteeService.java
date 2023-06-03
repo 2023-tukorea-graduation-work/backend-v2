@@ -34,7 +34,14 @@ public class MenteeService {
     public void registerMentee(MenteeRegisterRequest request, MultipartFile image, HttpServletRequest servletRequest) throws IOException {
         // [1] Mentor 기본 정보 저장
         // [1-1] GCP Storage profile image url
-        String imgUrl = s3Manager.upload(image, s3Manager.getDirName(servletRequest));
+        String imgUrl = "";
+        try {
+            imgUrl = s3Manager.upload(image, s3Manager.getDirName(servletRequest));
+        }
+        catch (Exception e) {
+            System.out.print(e.getMessage());
+            // throw new IOException("Failed to upload image: " + e.getMessage());
+        }
         String encodePassword = passwordEncoder.encode(request.getPassword());
 
         // [1-2] 멘토 정보 매핑

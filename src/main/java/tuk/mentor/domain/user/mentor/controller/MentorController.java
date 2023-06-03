@@ -7,6 +7,7 @@ import org.springframework.web.multipart.MultipartFile;
 import tuk.mentor.domain.user.User;
 import tuk.mentor.domain.user.mentor.dto.request.MentorRegisterRequest;
 import tuk.mentor.domain.user.mentor.service.MentorService;
+import tuk.mentor.util.StringUtil;
 
 import javax.servlet.http.HttpServletRequest;
 import java.io.IOException;
