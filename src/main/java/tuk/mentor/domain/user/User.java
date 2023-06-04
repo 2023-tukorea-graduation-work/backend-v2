@@ -2,6 +2,7 @@ package tuk.mentor.domain.user;
 
 import lombok.*;
 import lombok.experimental.SuperBuilder;
+import tuk.mentor.audit.Auditable;
 
 import javax.persistence.ElementCollection;
 import javax.persistence.FetchType;
@@ -16,7 +17,7 @@ import java.util.List;
 @SuperBuilder
 @NoArgsConstructor
 @AllArgsConstructor
-public class User {
+public class User extends Auditable {
     @Transient
     private Long userId;
     private String email;
