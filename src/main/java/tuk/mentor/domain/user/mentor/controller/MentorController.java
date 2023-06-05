@@ -4,10 +4,8 @@ import lombok.RequiredArgsConstructor;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
 import org.springframework.web.multipart.MultipartFile;
-import tuk.mentor.domain.user.User;
 import tuk.mentor.domain.user.mentor.dto.request.MentorRegisterRequest;
 import tuk.mentor.domain.user.mentor.service.MentorService;
-import tuk.mentor.util.StringUtil;
 
 import javax.servlet.http.HttpServletRequest;
 import java.io.IOException;
@@ -20,6 +18,9 @@ public class MentorController {
 
     private final MentorService mentorService;
 
+    /*
+    * 멘토 등록
+    * */
     @PostMapping
     public ResponseEntity<Void> registerMentor(@ModelAttribute MentorRegisterRequest mentorRegisterRequest,
                                                                  @RequestPart(value = "file", required = false) MultipartFile image,

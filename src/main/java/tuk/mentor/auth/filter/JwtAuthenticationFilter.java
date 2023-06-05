@@ -15,7 +15,6 @@ import tuk.mentor.auth.JwtTokenizer;
 import tuk.mentor.auth.dto.LoginRequest;
 import tuk.mentor.auth.service.RedisService;
 import tuk.mentor.auth.userdetails.CustomUserDetails;
-import tuk.mentor.util.StringUtil;
 
 import javax.servlet.FilterChain;
 import javax.servlet.ServletException;

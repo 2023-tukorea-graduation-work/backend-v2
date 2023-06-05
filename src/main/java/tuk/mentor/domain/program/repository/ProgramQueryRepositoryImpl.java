@@ -10,9 +10,9 @@ import tuk.mentor.domain.program.dto.response.QProgramListResponse;
 
 import java.util.List;
 
-import static tuk.mentor.domain.user.mentor.entity.QMentor.mentor;
 import static tuk.mentor.domain.program.entity.QProgram.program;
 import static tuk.mentor.domain.program.entity.QProgramParticipation.programParticipation;
+import static tuk.mentor.domain.user.mentor.entity.QMentor.mentor;
 
 
 @Repository

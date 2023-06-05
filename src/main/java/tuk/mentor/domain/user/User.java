@@ -1,6 +1,9 @@
 package tuk.mentor.domain.user;
 
-import lombok.*;
+import lombok.AllArgsConstructor;
+import lombok.Getter;
+import lombok.NoArgsConstructor;
+import lombok.Setter;
 import lombok.experimental.SuperBuilder;
 import tuk.mentor.audit.Auditable;
 

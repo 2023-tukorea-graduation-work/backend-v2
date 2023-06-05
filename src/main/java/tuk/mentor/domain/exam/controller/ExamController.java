@@ -12,14 +12,21 @@ import tuk.mentor.domain.exam.service.ExamService;
 @RequiredArgsConstructor
 public class ExamController {
     private final ExamService examService;
-    @PostMapping("/{programId}")
+    
+    /*
+    * 프로그램 별 시험문제 등록
+    * */
+    @PostMapping("/program/{programId}")
     public ResponseEntity<Void> registerExam(@PathVariable("programId") Long programId,
                                                                  @RequestBody ExamRegisterRequest examRegisterRequest) {
         examService.registerExam(programId, examRegisterRequest);
         return ResponseEntity.ok().build();
     }
 
-    @GetMapping("/{programId}")
+    /*
+    * 프로그램 별 시험 문제 조회
+    * */
+    @GetMapping("/program/{programId}")
     public ResponseEntity<Exam> getExam(@PathVariable("programId") Long programId) {
         Exam response = examService.getExam(programId);
         return ResponseEntity.ok().body(response);

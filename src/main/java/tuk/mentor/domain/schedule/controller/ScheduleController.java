@@ -17,24 +17,36 @@ public class ScheduleController {
     private final MentorScheduleService mentorScheduleService;
     private final MenteeScheduleService menteeScheduleService;
 
+    /*
+    * 프로그램 별 멘토 일정 등록
+    * */
     @PostMapping("/mentor")
     public ResponseEntity<Void> registerMentorSchedule(@RequestBody ScheduleRegisterRequest scheduleRegisterRequest) {
         mentorScheduleService.registerSchedule(scheduleRegisterRequest);
         return ResponseEntity.ok().build();
     }
 
+    /*
+    * 프로그램 별 멘티 일정 등록
+    * */
     @PostMapping("/mentee")
     public ResponseEntity<Void> registerMenteeSchedule(@RequestBody ScheduleRegisterRequest scheduleRegisterRequest) {
         menteeScheduleService.registerSchedule(scheduleRegisterRequest);
         return ResponseEntity.ok().build();
     }
 
+    /*
+    * 프로그램 별 멘토 일정 조회
+    * */
     @GetMapping("/mentor/{userId}")
     public ResponseEntity<List<ScheduleListResponse>> getMentorScheduleList(@PathVariable("userId") Long userId) {
         List<ScheduleListResponse> response = mentorScheduleService.getScheduleList(userId);
         return ResponseEntity.ok().body(response);
     }
 
+    /*
+    * 프로그램 별 멘티 일정 조회
+    * */
     @GetMapping("/mentee/{userId}")
     public ResponseEntity<List<ScheduleListResponse>> getMenteeScheduleList(@PathVariable("userId") Long userId) {
         List<ScheduleListResponse> response = mentorScheduleService.getScheduleList(userId);

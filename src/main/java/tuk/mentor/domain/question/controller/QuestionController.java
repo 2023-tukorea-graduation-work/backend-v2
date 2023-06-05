@@ -15,12 +15,20 @@ import java.util.List;
 public class QuestionController {
 
     private final QuestionService questionService;
+    
+    /*
+    * 프로그램 별 Q&A 등록
+    * */
     @PostMapping
     public ResponseEntity<Void> registerQuestion(@RequestBody QuestionRegisterRequest request) {
         questionService.registerQuestion(request);
         return ResponseEntity.ok().build();
     }
-    @GetMapping("/{programId}")
+    
+    /*
+    * 프로그램 별 Q&A 목록 조회
+    * */
+    @GetMapping("/program/{programId}")
     public ResponseEntity<List<QuestionListResponse>> getQuestionList(@PathVariable("programId") Long programId) {
         List<QuestionListResponse> response = questionService.getQuestionList(programId);
         return ResponseEntity.ok().body(response);

@@ -2,7 +2,6 @@ package tuk.mentor.domain.user.mentor.service;
 
 import lombok.AccessLevel;
 import lombok.RequiredArgsConstructor;
-import lombok.SneakyThrows;
 import lombok.experimental.FieldDefaults;
 import org.springframework.security.crypto.password.PasswordEncoder;
 import org.springframework.stereotype.Service;
@@ -13,7 +12,6 @@ import tuk.mentor.domain.user.mentor.dto.request.MentorRegisterRequest;
 import tuk.mentor.domain.user.mentor.entity.Mentor;
 import tuk.mentor.domain.user.mentor.mapper.MentorMapper;
 import tuk.mentor.domain.user.mentor.repository.MentorRepository;
-import tuk.mentor.util.StringUtil;
 import tuk.mentor.util.s3.manager.S3Manager;
 
 import javax.servlet.http.HttpServletRequest;

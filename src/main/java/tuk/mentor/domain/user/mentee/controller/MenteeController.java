@@ -18,6 +18,9 @@ public class MenteeController {
 
     private final MenteeService menteeService;
 
+    /*
+    * 멘티 등록
+    * */
     @PostMapping
     public ResponseEntity<Void> registerMentee(@ModelAttribute MenteeRegisterRequest menteeRegisterRequest,
                                                                  @RequestPart(value = "file", required = false) MultipartFile image,

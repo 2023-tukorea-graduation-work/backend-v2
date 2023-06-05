@@ -24,7 +24,10 @@ public class MaterialController {
 
     private final MaterialService materialService;
 
-    @PostMapping("/{programId}")
+    /*
+    * 프로그램 별 학습 자료 등록
+    * */
+    @PostMapping("/program/{programId}")
     public ResponseEntity<Void> registerMaterial(@PathVariable("programId") Long programId,
                                                                  @RequestPart(value = "file", required = false) MultipartFile material,
                                                                  HttpServletRequest servletRequest) throws IOException {
@@ -32,6 +35,9 @@ public class MaterialController {
         return ResponseEntity.ok().build();
     }
 
+    /*
+    * 학습 자료 다운로드 요청
+    * */
     @GetMapping("/download")
     public ResponseEntity<InputStreamResource> downloadFile(@RequestParam("materialId") Long materialId) throws IOException {
         String fileUrl = materialService.getFilePath(materialId);

@@ -21,7 +21,6 @@ public class ProgramParticipation {
     @ManyToOne(fetch = FetchType.LAZY)
     @JoinColumn(name = "program_id")
     private Program program;
-
     @ManyToOne(fetch = FetchType.LAZY)
     @JoinColumn(name = "mentee_id")
     private Mentee mentee;
