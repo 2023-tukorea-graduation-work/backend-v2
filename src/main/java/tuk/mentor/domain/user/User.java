@@ -20,7 +20,7 @@ import java.util.List;
 @SuperBuilder
 @NoArgsConstructor
 @AllArgsConstructor
-public class User extends Auditable {
+public class User {
     @Transient
     private Long userId;
     private String email;

@@ -4,12 +4,15 @@ import lombok.Getter;
 import lombok.RequiredArgsConstructor;
 import lombok.Setter;
 
+import javax.validation.constraints.Email;
+
 @Getter
 @Setter
 @RequiredArgsConstructor
 public class MenteeRegisterRequest {
-    private String name;
+    @Email
     private String email;
+    private String name;
     private String password;
     private Integer age;
     private String school;
