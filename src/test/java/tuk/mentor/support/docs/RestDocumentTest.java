@@ -7,7 +7,9 @@ import org.junit.jupiter.api.extension.ExtendWith;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.boot.test.autoconfigure.restdocs.AutoConfigureRestDocs;
 import org.springframework.boot.test.autoconfigure.web.servlet.WebMvcTest;
+import org.springframework.boot.test.mock.mockito.MockBean;
 import org.springframework.context.annotation.Import;
+import org.springframework.data.jpa.mapping.JpaMetamodelMappingContext;
 import org.springframework.restdocs.RestDocumentationContextProvider;
 import org.springframework.restdocs.RestDocumentationExtension;
 import org.springframework.test.context.junit.jupiter.SpringExtension;
@@ -15,9 +17,12 @@ import org.springframework.test.web.servlet.MockMvc;
 import org.springframework.test.web.servlet.setup.MockMvcBuilders;
 import org.springframework.web.context.WebApplicationContext;
 import org.springframework.web.filter.CharacterEncodingFilter;
+import tuk.mentor.auth.filter.JwtAuthenticationFilter;
+import tuk.mentor.support.filter.MockSecurityFilter;
 
 import static org.springframework.restdocs.mockmvc.MockMvcRestDocumentation.document;
 import static org.springframework.restdocs.mockmvc.MockMvcRestDocumentation.documentationConfiguration;
+import static org.springframework.security.test.web.servlet.setup.SecurityMockMvcConfigurers.springSecurity;
 import static org.springframework.test.web.servlet.result.MockMvcResultHandlers.print;
 
 /*
@@ -39,14 +44,20 @@ import static org.springframework.test.web.servlet.result.MockMvcResultHandlers.
 @WebMvcTest
 public class RestDocumentTest {
     @Autowired
-    protected ObjectMapper objectMapper;
-
+    private ObjectMapper objectMapper;
     /*
     * MockMvc
     * -> 웹 어플리케이션의 웹 계층을 테스트 하기 위해 실제 HTTP 서버를 구동하지 않아도 되므로 테스트 속도를 향상시키고
     * 의존성을 줄일 수 있다. (테스트 중 외부 리소스에 독립적으로 테스트 수행가능)
     * */
     protected MockMvc mockMvc;
+
+//    protected Principal loginUser =
+//            new UsernamePasswordAuthenticationToken(
+//                    new LoginUser(Member.builder().build(), null, null), null);
+
+    @MockBean private JwtAuthenticationFilter jwtAuthenticationFilter;
+    @MockBean private JpaMetamodelMappingContext jpaMetamodelMappingContext;
 
     protected String toRequestBody(Object value) throws JsonProcessingException {
         return objectMapper.writeValueAsString(value);
@@ -68,6 +79,7 @@ public class RestDocumentTest {
                                         .withScheme("http")
                                         .withHost("localhost")
                                         .withPort(8000))
+                        .apply(springSecurity(new MockSecurityFilter()))
                         .addFilter(new CharacterEncodingFilter("UTF-8", true))
                         .alwaysDo(print())
                         .alwaysDo(document(""))

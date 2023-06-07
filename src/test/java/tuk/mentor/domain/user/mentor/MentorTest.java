@@ -53,14 +53,13 @@ public class MentorTest extends RestDocumentTest {
                 Lesson.OFFLINE,
                 4,
                 "잘부탁드립니다.");
-        String json = objectMapper.writeValueAsString(request);
 
         // when
         ResultActions perform =
                 mockMvc.perform(
                         multipart("/mentor")
                                 .file(imageFile)
-                                .param("mentorRegisterRequest", json));
+                                .param("mentorRegisterRequest", toRequestBody(request)));
         // then
         perform.andExpect(status().isOk());
 
