@@ -39,7 +39,7 @@ import static org.springframework.test.web.servlet.result.MockMvcResultHandlers.
 @WebMvcTest
 public class RestDocumentTest {
     @Autowired
-    private ObjectMapper objectMapper;
+    protected ObjectMapper objectMapper;
 
     /*
     * MockMvc
@@ -70,7 +70,7 @@ public class RestDocumentTest {
                                         .withPort(8000))
                         .addFilter(new CharacterEncodingFilter("UTF-8", true))
                         .alwaysDo(print())
-                        .alwaysDo(document("api/v1/"))
+                        .alwaysDo(document(""))
                         .build();
     }
 }

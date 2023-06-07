@@ -1,7 +1,11 @@
 server:
-#  servlet:
-#    context-path: /api/v1
   port: 8080
+  servlet:
+#    context-path: /api/v1
+    encoding:
+      charset: UTF-8
+      enabled: true
+      force: true
 
 spring:
   datasource:
@@ -11,7 +15,7 @@ spring:
   #    username: ${datasource-username}
       jdbc-url: jdbc:mysql://localhost:3306/mentor?useSSL=false&allowPublicKeyRetrieval=true&serverTimezone=Asia/Seoul&characterEncoding=UTF-8
       username: root
-      password: ${datasource-password}
+      password: '0000'
 
   redis:
     host: localhost

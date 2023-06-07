@@ -1,5 +1,6 @@
 package tuk.mentor.domain.user.mentor.dto.request;
 
+import lombok.Builder;
 import lombok.Getter;
 import lombok.RequiredArgsConstructor;
 import lombok.Setter;
@@ -22,4 +23,17 @@ public class MentorRegisterRequest {
     private Lesson lesson;
     private Integer grade;
     private String introduce;
+
+    @Builder
+    public MentorRegisterRequest(String email, String name, String password, Integer age, String college, Major major, Lesson lesson, Integer grade, String introduce) {
+        this.email = email;
+        this.name = name;
+        this.password = password;
+        this.age = age;
+        this.college = college;
+        this.major = major;
+        this.lesson = lesson;
+        this.grade = grade;
+        this.introduce = introduce;
+    }
 }

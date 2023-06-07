@@ -9,5 +9,4 @@ class MentorApplicationTests {
 	@Test
 	void contextLoads() {
 	}
-
 }

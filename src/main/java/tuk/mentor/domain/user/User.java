@@ -5,7 +5,6 @@ import lombok.Getter;
 import lombok.NoArgsConstructor;
 import lombok.Setter;
 import lombok.experimental.SuperBuilder;
-import tuk.mentor.audit.Auditable;
 
 import javax.persistence.ElementCollection;
 import javax.persistence.FetchType;

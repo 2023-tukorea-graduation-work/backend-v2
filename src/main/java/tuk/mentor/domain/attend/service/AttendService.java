@@ -5,14 +5,8 @@ import lombok.AccessLevel;
 import lombok.RequiredArgsConstructor;
 import lombok.experimental.FieldDefaults;
 import org.springframework.stereotype.Service;
-import tuk.mentor.domain.attend.dto.response.AttendListByProgramResponse;
 import tuk.mentor.domain.attend.repository.AttendRepository;
-import tuk.mentor.domain.program.entity.ProgramParticipation;
 import tuk.mentor.domain.program.repository.ProgramParticipationRepository;
-import tuk.mentor.domain.program.repository.ProgramRepository;
-import tuk.mentor.domain.user.mentee.entity.Mentee;
-
-import java.util.List;
 
 
 @Service

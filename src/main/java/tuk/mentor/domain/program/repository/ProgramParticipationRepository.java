@@ -5,7 +5,6 @@ import org.springframework.data.jpa.repository.Query;
 import org.springframework.data.repository.query.Param;
 import org.springframework.stereotype.Repository;
 import tuk.mentor.domain.program.entity.ProgramParticipation;
-import tuk.mentor.domain.program.entity.ProgramWeek;
 import tuk.mentor.domain.user.mentee.entity.Mentee;
 
 import java.util.List;
