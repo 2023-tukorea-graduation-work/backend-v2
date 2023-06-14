@@ -1,0 +1,68 @@
+server:
+  port: 8080
+  servlet:
+#    context-path: /api/v1
+    encoding:
+      charset: UTF-8
+      enabled: true
+      force: true
+
+spring:
+  datasource:
+    hikari:
+      driver-class-name: com.mysql.cj.jdbc.Driver
+  #    url: ${datasource-url}
+  #    username: ${datasource-username}
+      jdbc-url: jdbc:mysql://localhost:3306/mentor?useSSL=false&allowPublicKeyRetrieval=true&serverTimezone=Asia/Seoul&characterEncoding=UTF-8
+      username: root
+      password: '0000'
+
+  redis:
+    host: localhost
+    port: 6379
+
+  jpa:
+    hibernate:
+      ddl-auto: update
+    properties:
+      hibernate:
+        format_sql: true
+        use_sql_comments: true
+
+  servlet:
+    multipart:
+      max-file-size: 10MB
+      max-request-size: 10MB
+      location: src/main/resources/files
+
+  mvc:
+    path-match:
+      matching-strategy: ant_path_matcher
+
+# Hibernate
+logging:
+  level:
+    com:
+      querydsl: DEBUG
+    org:
+      hibernate:
+        SQL: DEBUG
+        BasicBinder: TRACE
+
+cloud:
+  aws:
+    s3:
+      bucket: stutino-bucket
+    credentials:
+      access-key: ${access-key}
+      secret-key: ${secret-key}
+    region:
+      static: ap-northeast-2
+      auto: false
+    stack:
+      auto: false
+
+app:
+  cors:
+    # comma (',') seperated list of allowed origins for CORS
+    allowed-origins: http://localhost, http://localhost:3000
