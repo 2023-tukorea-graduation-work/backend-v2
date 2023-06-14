@@ -6,7 +6,7 @@ import lombok.experimental.FieldDefaults;
 import org.springframework.security.core.GrantedAuthority;
 import org.springframework.security.core.userdetails.UserDetails;
 import server.stutino.auth.utils.CustomAuthorityUtils;
-import server.stutino.domain.member.Member;
+import server.stutino.domain.member.entity.Member;
 
 import java.util.Collection;
 import java.util.List;

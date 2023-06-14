@@ -9,7 +9,7 @@ import org.springframework.security.core.userdetails.UserDetailsService;
 import org.springframework.security.core.userdetails.UsernameNotFoundException;
 import org.springframework.stereotype.Component;
 import server.stutino.auth.utils.CustomAuthorityUtils;
-import server.stutino.domain.member.Member;
+import server.stutino.domain.member.entity.Member;
 import server.stutino.domain.member.repository.MemberRepository;
 
 @Slf4j

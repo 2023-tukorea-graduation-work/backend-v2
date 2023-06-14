@@ -14,7 +14,7 @@ import server.stutino.auth.JwtTokenizer;
 import server.stutino.auth.service.RedisService;
 import server.stutino.auth.userdetails.CustomUserDetails;
 import server.stutino.auth.utils.CustomAuthorityUtils;
-import server.stutino.domain.member.Member;
+import server.stutino.domain.member.entity.Member;
 
 import javax.servlet.FilterChain;
 import javax.servlet.ServletException;

@@ -16,13 +16,10 @@ import org.springframework.test.context.junit.jupiter.SpringExtension;
 import org.springframework.test.web.servlet.MockMvc;
 import org.springframework.test.web.servlet.setup.MockMvcBuilders;
 import org.springframework.web.context.WebApplicationContext;
-import org.springframework.web.filter.CharacterEncodingFilter;
 import server.stutino.auth.filter.JwtAuthenticationFilter;
-import server.stutino.support.filter.MockSecurityFilter;
 
 import static org.springframework.restdocs.mockmvc.MockMvcRestDocumentation.document;
 import static org.springframework.restdocs.mockmvc.MockMvcRestDocumentation.documentationConfiguration;
-import static org.springframework.security.test.web.servlet.setup.SecurityMockMvcConfigurers.springSecurity;
 import static org.springframework.test.web.servlet.result.MockMvcResultHandlers.print;
 
 /*
@@ -73,9 +70,9 @@ public class RestDocumentTest {
                                         .uris()
                                         .withScheme("http")
                                         .withHost("localhost")
-                                        .withPort(8000))
-                        .apply(springSecurity(new MockSecurityFilter()))
-                        .addFilter(new CharacterEncodingFilter("UTF-8", true))
+                                        .withPort(8080))
+//                        .apply(springSecurity(new MockSecurityFilter()))
+//                        .addFilter(new CharacterEncodingFilter("UTF-8", true))
                         .alwaysDo(print())
                         .alwaysDo(document(""))
                         .build();

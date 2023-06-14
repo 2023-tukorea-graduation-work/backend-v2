@@ -66,8 +66,9 @@ public class WebSecurityConfig {
                 * todo: 1. 로그인 없이도 접근 가능한 요청 조회 목록 생각하기
                 *       2. 역할 별 접근 권한 설정은 어떻게 하는가?
                 * */
+                .anyRequest().permitAll();
+//                .anyRequest().authenticated();
 
-                .anyRequest().authenticated();
 
         return http.build();
     }
