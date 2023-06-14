@@ -56,8 +56,8 @@ cloud:
     s3:
       bucket:  stutino-bucket
     credentials:
-      access-key:
-      secret-key:
+      access-key: AKIA3F6XNQ75NF7264VQ
+      secret-key: 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
     region:
       static: ap-northeast-2
       auto: false

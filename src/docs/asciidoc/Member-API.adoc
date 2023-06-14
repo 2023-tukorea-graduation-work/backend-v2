@@ -1,0 +1,6 @@
+[[Member-API]]
+== Member API
+
+[[Member-멘토-등록]]
+=== Member 멘토 등록
+operation::register-mentor[snippets='http-request,http-response']

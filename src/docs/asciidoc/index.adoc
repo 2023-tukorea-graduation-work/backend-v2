@@ -8,3 +8,4 @@ backtony.github.io(부제)
 :sectlinks:
 
 
+include::Member-API.adoc[]

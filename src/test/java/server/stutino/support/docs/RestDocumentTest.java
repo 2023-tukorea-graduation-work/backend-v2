@@ -18,7 +18,6 @@ import org.springframework.test.web.servlet.setup.MockMvcBuilders;
 import org.springframework.web.context.WebApplicationContext;
 import server.stutino.auth.filter.JwtAuthenticationFilter;
 
-import static org.springframework.restdocs.mockmvc.MockMvcRestDocumentation.document;
 import static org.springframework.restdocs.mockmvc.MockMvcRestDocumentation.documentationConfiguration;
 import static org.springframework.test.web.servlet.result.MockMvcResultHandlers.print;
 
@@ -74,7 +73,6 @@ public class RestDocumentTest {
 //                        .apply(springSecurity(new MockSecurityFilter()))
 //                        .addFilter(new CharacterEncodingFilter("UTF-8", true))
                         .alwaysDo(print())
-                        .alwaysDo(document(""))
                         .build();
     }
 }

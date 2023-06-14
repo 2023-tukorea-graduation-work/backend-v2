@@ -50,11 +50,11 @@ class MemberControllerTest extends RestDocumentTest {
                                 .file(file)
                                 .param("mentorRegisterRequest", toRequestBody(request)));
         // then
-        perform.andExpect(status().isNoContent());
+        perform.andExpect(status().isOk());
 
         // docs
         perform.andDo(print())
-                .andDo(document("register mentor",
+                .andDo(document("register-mentor",
                         getDocumentRequest(),
                         getDocumentResponse()));
     }
