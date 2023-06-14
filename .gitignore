@@ -5,8 +5,6 @@ build/
 !**/src/main/**/build/
 !**/src/test/**/build/
 *.env
-application-test.yml
-env.yml
 
 ### STS ###
 .apt_generated
@@ -28,6 +26,8 @@ bin/
 out/
 !**/src/main/**/out/
 !**/src/test/**/out/
+application-test.yml
+env.yml
 
 ### NetBeans ###
 /nbproject/private/
