@@ -75,7 +75,7 @@ public class JwtReissueFilter extends OncePerRequestFilter {
     /*access 토큰 생성*/
     private String delegateAccessToken(CustomUserDetails userDetails, String base64EncodedSecretKey) {
         Map<String, Object> claims = new HashMap<>();
-        claims.put("userId", userDetails.getMemberId());
+        claims.put("memberId", userDetails.getMemberId());
         claims.put("email", userDetails.getEmail());
         claims.put("roles", userDetails.getRoles());
 

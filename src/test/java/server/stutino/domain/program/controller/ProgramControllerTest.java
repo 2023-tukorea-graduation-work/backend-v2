@@ -1,4 +1,4 @@
-package server.stutino.domain.member.controller;
+package server.stutino.domain.program.controller;
 
 import org.junit.jupiter.api.DisplayName;
 import org.junit.jupiter.api.Test;
@@ -10,7 +10,7 @@ import org.springframework.test.web.servlet.ResultActions;
 import server.stutino.domain.member.dto.request.MentorRegisterRequest;
 import server.stutino.domain.member.entity.Lesson;
 import server.stutino.domain.member.entity.Major;
-import server.stutino.domain.member.service.MemberService;
+import server.stutino.domain.program.service.ProgramService;
 import server.stutino.support.docs.RestDocumentTest;
 
 import static org.springframework.restdocs.mockmvc.MockMvcRestDocumentation.document;
@@ -20,41 +20,24 @@ import static org.springframework.test.web.servlet.result.MockMvcResultMatchers.
 import static server.stutino.support.docs.ApiDocumentUtils.getDocumentRequest;
 import static server.stutino.support.docs.ApiDocumentUtils.getDocumentResponse;
 
-@WebMvcTest(MemberController.class)
-@DisplayName("MemberController 에서")
-class MemberControllerTest extends RestDocumentTest {
-    @MockBean private MemberService memberService;
+@WebMvcTest(ProgramController.class)
+@DisplayName("ProgramController 에서")
+class ProgramControllerTest extends RestDocumentTest {
+    @MockBean private ProgramService programService;
     @Test
-    @DisplayName("멘토를 성공적으로 등록하는가?")
-    void successRegisterMentor() throws Exception {
+    @DisplayName("프로햣그램을 성공적으로 등록하는가?")
+    void successRegisterProgram() throws Exception {
         // given
-        MentorRegisterRequest request
-                = new MentorRegisterRequest(
-                "test@naver.com",
-                "홍길동",
-                "0000",
-                20,
-                "한국공학대학교",
-                Major.IT_MANAGEMENT,
-                Lesson.OFFLINE,
-                4,
-                "잘부탁드립니다.");
 
-        MockMultipartFile file = new MockMultipartFile("file", "test.txt",
-                MediaType.MULTIPART_FORM_DATA_VALUE, "Hello, World!".getBytes());
 
         // when
-        ResultActions perform =
-                mockMvc.perform(
-                        multipart("/member/mentor")
-                                .file(file)
-                                .param("mentorRegisterRequest", toRequestBody(request)));
+
         // then
         perform.andExpect(status().isOk());
 
         // docs
         perform.andDo(print())
-                .andDo(document("register mentor",
+                .andDo(document("register program",
                         getDocumentRequest(),
                         getDocumentResponse()));
     }

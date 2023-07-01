@@ -8,13 +8,11 @@ import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 import org.springframework.web.multipart.MultipartFile;
 import server.stutino.auth.utils.CustomAuthorityUtils;
+import server.stutino.domain.member.dto.request.MenteeRegisterRequest;
+import server.stutino.domain.member.dto.request.MentorRegisterRequest;
 import server.stutino.domain.member.entity.Member;
 import server.stutino.domain.member.repository.MemberRepository;
-import server.stutino.domain.member.request.MenteeRegisterRequest;
-import server.stutino.domain.member.request.MentorRegisterRequest;
 import server.stutino.util.s3.manager.S3Manager;
-
-import java.io.IOException;
 
 @Service
 @RequiredArgsConstructor

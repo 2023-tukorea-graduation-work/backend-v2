@@ -5,6 +5,8 @@ build/
 !**/src/main/**/build/
 !**/src/test/**/build/
 *.env
+backup/
+backup_redis/
 
 ### STS ###
 .apt_generated

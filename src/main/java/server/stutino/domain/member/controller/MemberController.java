@@ -6,8 +6,8 @@ import lombok.experimental.FieldDefaults;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
 import org.springframework.web.multipart.MultipartFile;
-import server.stutino.domain.member.request.MenteeRegisterRequest;
-import server.stutino.domain.member.request.MentorRegisterRequest;
+import server.stutino.domain.member.dto.request.MenteeRegisterRequest;
+import server.stutino.domain.member.dto.request.MentorRegisterRequest;
 import server.stutino.domain.member.service.MemberService;
 
 @RestController

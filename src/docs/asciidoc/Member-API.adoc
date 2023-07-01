@@ -1,6 +1,10 @@
-[[Member-API]]
+:doctype: book
+:icons: font
+:source-highlighter: highlightjs
+:toc: left
+:toclevels: 4
+
 == Member API
 
-[[Member-멘토-등록]]
 === Member 멘토 등록
-operation::register-mentor[snippets='http-request,http-response']
+operation::register mentor[snippets='http-request,http-response']
