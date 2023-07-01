@@ -11,7 +11,9 @@ import server.stutino.domain.member.entity.Lesson;
 import server.stutino.domain.member.entity.Major;
 import server.stutino.domain.program.dto.request.ProgramRegisterRequest;
 import server.stutino.domain.program.dto.request.ProgramWeekRegisterRequest;
+import server.stutino.domain.program.dto.response.ProgramDetailResponse;
 import server.stutino.domain.program.dto.response.ProgramListResponse;
+import server.stutino.domain.program.dto.response.ProgramWeekDetailResponse;
 import server.stutino.domain.program.service.ProgramService;
 import server.stutino.support.docs.RestDocumentTest;
 
@@ -135,6 +137,59 @@ class ProgramControllerTest extends RestDocumentTest {
         // docs
         perform.andDo(print())
                 .andDo(document("find all program",
+                        getDocumentRequest(),
+                        getDocumentResponse()));
+    }
+
+    @Test
+    @DisplayName("프로그램 상세 정보를 성공적으로 조회하는가?")
+    void successGetProgramDetail() throws Exception {
+        // given
+        when(programService.getProgramDetail(any()))
+                .thenReturn(
+                        new ProgramDetailResponse(
+                                1L,
+                                "정민창",
+                                "한국공학대학교",
+                                4,
+                                Major.IT_MANAGEMENT,
+                                Lesson.OFFLINE,
+                                "잘부탁드립니다.",
+                                1L,
+                                "프로그램 테스트 제목1",
+                                "프로그램 테스트 상세내용1",
+                                LocalDate.now(),
+                                LocalDate.now(),
+                                LocalDate.now(),
+                                LocalDate.now(),
+                                10,
+                                "서울특별시 강남구 ABC 빌딩",
+                                List.of(
+                                        new ProgramWeekDetailResponse(
+                                                1l,
+                                                "프로그램 주차 내용1",
+                                                LocalDate.now()
+                                        ),
+                                        new ProgramWeekDetailResponse(
+                                                1l,
+                                                "프로그램 주차 내용2",
+                                                LocalDate.now()
+                                        )
+                                )
+                        )
+                );
+
+        // when
+        ResultActions perform =
+                mockMvc.perform(
+                        get("/program/{programId}", 1L));
+
+        // then
+        perform.andExpect(status().isOk());
+
+        // docs
+        perform.andDo(print())
+                .andDo(document("find program detail",
                         getDocumentRequest(),
                         getDocumentResponse()));
     }

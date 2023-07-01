@@ -1,15 +1,14 @@
 package server.stutino.domain.program.dto.response;
 
+import lombok.AllArgsConstructor;
 import lombok.Data;
-import lombok.RequiredArgsConstructor;
 
 import java.time.LocalDate;
 
 @Data
-@RequiredArgsConstructor
+@AllArgsConstructor
 public class ProgramWeekDetailResponse {
     private Long id;
     private String content;
-    private LocalDate programWeekStartDate;
-    private LocalDate programWeekFinishDate;
+    private LocalDate registerDate;
 }

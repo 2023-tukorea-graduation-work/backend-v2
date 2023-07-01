@@ -1,6 +1,7 @@
 package server.stutino.domain.program.dto.response;
 
 import com.querydsl.core.annotations.QueryProjection;
+import lombok.AllArgsConstructor;
 import lombok.Data;
 import server.stutino.domain.member.entity.Lesson;
 import server.stutino.domain.member.entity.Major;
@@ -9,10 +10,11 @@ import java.time.LocalDate;
 import java.util.List;
 
 @Data
+@AllArgsConstructor
 public class ProgramDetailResponse {
     private Long mentorId;
     private String mentorName;
-    private String college;
+    private String institution;
     private Integer grade;
     private Major major;
     private Lesson lesson;
@@ -29,13 +31,13 @@ public class ProgramDetailResponse {
     private List<ProgramWeekDetailResponse> programWeeks;
 
     @QueryProjection
-    public ProgramDetailResponse(Long mentorId, String mentorName, String college, Integer grade,
+    public ProgramDetailResponse(Long mentorId, String mentorName, String institution, Integer grade,
                                  Major major, Lesson lesson, String introduce, Long programId, String subject, String detail,
                                  LocalDate programStartDate, LocalDate programFinishDate, LocalDate recruitStartDate, LocalDate recruitFinishDate,
                                  Integer capacity, String programPlace) {
         this.mentorId = mentorId;
         this.mentorName = mentorName;
-        this.college = college;
+        this.institution = institution;
         this.grade = grade;
         this.major = major;
         this.lesson = lesson;

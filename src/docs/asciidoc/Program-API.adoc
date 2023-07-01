@@ -11,3 +11,6 @@ operation::register program[snippets='http-request,http-response']
 
 === Program 전체 조회
 operation::find all program[snippets='http-request,http-response']
+
+=== Program 상세 조회
+operation::find program detail[snippets='http-request,http-response']
