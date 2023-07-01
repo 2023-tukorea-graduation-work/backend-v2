@@ -7,15 +7,22 @@ import org.springframework.boot.test.mock.mockito.MockBean;
 import org.springframework.http.MediaType;
 import org.springframework.security.test.context.support.WithMockUser;
 import org.springframework.test.web.servlet.ResultActions;
+import server.stutino.domain.member.entity.Lesson;
+import server.stutino.domain.member.entity.Major;
 import server.stutino.domain.program.dto.request.ProgramRegisterRequest;
 import server.stutino.domain.program.dto.request.ProgramWeekRegisterRequest;
+import server.stutino.domain.program.dto.response.ProgramListResponse;
 import server.stutino.domain.program.service.ProgramService;
 import server.stutino.support.docs.RestDocumentTest;
 
+import java.time.LocalDate;
 import java.util.ArrayList;
 import java.util.List;
 
+import static org.mockito.ArgumentMatchers.any;
+import static org.mockito.Mockito.*;
 import static org.springframework.restdocs.mockmvc.MockMvcRestDocumentation.document;
+import static org.springframework.restdocs.mockmvc.RestDocumentationRequestBuilders.get;
 import static org.springframework.restdocs.mockmvc.RestDocumentationRequestBuilders.post;
 import static org.springframework.test.web.servlet.result.MockMvcResultHandlers.print;
 import static org.springframework.test.web.servlet.result.MockMvcResultMatchers.status;
@@ -45,8 +52,8 @@ class ProgramControllerTest extends RestDocumentTest {
 
         ProgramRegisterRequest request
                 = new ProgramRegisterRequest(
-                        1L,
-                        "프로그램 테스트 제목1",
+                1L,
+                "프로그램 테스트 제목1",
                 "프로그램 테스트 상세내용1",
                 "2023-06-30",
                 "2023-97-12",
@@ -57,7 +64,10 @@ class ProgramControllerTest extends RestDocumentTest {
                 programWeeks
         );
 
-//        when(programService.registerProgram(any()))
+        doNothing()
+                .when(programService)
+                    .registerProgram(any());
+
 
         // when
         ResultActions perform =
@@ -73,6 +83,58 @@ class ProgramControllerTest extends RestDocumentTest {
         // docs
         perform.andDo(print())
                 .andDo(document("register program",
+                        getDocumentRequest(),
+                        getDocumentResponse()));
+    }
+
+    @Test
+    @DisplayName("전체 프로그램을 성공적으로 조회하는가?")
+    void successGetAll() throws Exception {
+        // given
+        when(programService.getProgramList(any()))
+                .thenReturn(List.of(
+                        new ProgramListResponse(
+                                "정민창",
+                                "한국공학대학교",
+                                Major.IT_MANAGEMENT,
+                                Lesson.OFFLINE,
+                                1L,
+                                "프로그램 테스트 제목1",
+                                "프로그램 테스트 상세내용1",
+                                LocalDate.now(),
+                                LocalDate.now(),
+                                10,
+                                "서울특별시 강남구 ABC 빌딩",
+                                0L
+                        ),
+                        new ProgramListResponse(
+                                "유제빈",
+                                "한국공학대학교",
+                                Major.IT_MANAGEMENT,
+                                Lesson.OFFLINE,
+                                1L,
+                                "프로그램 테스트 제목2",
+                                "프로그램 테스트 상세내용2",
+                                LocalDate.now(),
+                                LocalDate.now(),
+                                10,
+                                "서울특별시 강남구 ABC 빌딩",
+                                0L
+                        )
+                ));
+
+        // when
+        ResultActions perform =
+                mockMvc.perform(
+                        get("/program")
+                                .param("keyword", ""));
+
+        // then
+        perform.andExpect(status().isOk());
+
+        // docs
+        perform.andDo(print())
+                .andDo(document("find all program",
                         getDocumentRequest(),
                         getDocumentResponse()));
     }
