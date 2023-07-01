@@ -14,3 +14,6 @@ operation::find all program[snippets='http-request,http-response']
 
 === Program 상세 조회
 operation::find program detail[snippets='http-request,http-response']
+
+=== Program 참여자 정보 등록
+operation::register participants[snippets='http-request,http-response']

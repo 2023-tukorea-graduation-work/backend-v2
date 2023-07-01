@@ -51,7 +51,7 @@ public class ProgramController {
     /*
     * 멘토링 프로그램 참여 정보 등록
     * */
-    @PostMapping("/participation")
+    @PostMapping("/participate")
     public ResponseEntity<Void> registerParticipation(@RequestBody ProgramParticipateRequest programParticipateRequest) {
         programService.registerParticipation(programParticipateRequest);
         return ResponseEntity.ok().build();

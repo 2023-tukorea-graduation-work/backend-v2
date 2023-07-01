@@ -9,6 +9,7 @@ import org.springframework.security.test.context.support.WithMockUser;
 import org.springframework.test.web.servlet.ResultActions;
 import server.stutino.domain.member.entity.Lesson;
 import server.stutino.domain.member.entity.Major;
+import server.stutino.domain.program.dto.request.ProgramParticipateRequest;
 import server.stutino.domain.program.dto.request.ProgramRegisterRequest;
 import server.stutino.domain.program.dto.request.ProgramWeekRegisterRequest;
 import server.stutino.domain.program.dto.response.ProgramDetailResponse;
@@ -190,6 +191,36 @@ class ProgramControllerTest extends RestDocumentTest {
         // docs
         perform.andDo(print())
                 .andDo(document("find program detail",
+                        getDocumentRequest(),
+                        getDocumentResponse()));
+    }
+
+    @Test
+    @DisplayName("프로그램 참여자 정보를 성공적으로 등록하는가?")
+    void successRegisterParticipants() throws Exception {
+        // given
+        ProgramParticipateRequest request =
+                new ProgramParticipateRequest(
+                        1L,
+                        1L
+                );
+        doNothing()
+                .when(programService)
+                    .registerParticipation(any());
+
+        // when
+        ResultActions perform =
+                mockMvc.perform(
+                        post("/program/participate")
+                                .contentType(MediaType.APPLICATION_JSON)
+                                .content(toRequestBody(request)));
+
+        // then
+        perform.andExpect(status().isOk());
+
+        // docs
+        perform.andDo(print())
+                .andDo(document("register participants",
                         getDocumentRequest(),
                         getDocumentResponse()));
     }
