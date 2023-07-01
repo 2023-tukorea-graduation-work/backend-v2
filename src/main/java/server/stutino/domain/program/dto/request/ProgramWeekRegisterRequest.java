@@ -1,12 +1,14 @@
 package server.stutino.domain.program.dto.request;
 
-import lombok.Data;
-import lombok.RequiredArgsConstructor;
+import lombok.AccessLevel;
+import lombok.AllArgsConstructor;
+import lombok.Getter;
+import lombok.NoArgsConstructor;
 
-@Data
-@RequiredArgsConstructor
+@Getter
+@NoArgsConstructor(access = AccessLevel.PROTECTED)
+@AllArgsConstructor
 public class ProgramWeekRegisterRequest {
     private String content;
-    private String programWeekStartDate;
-    private String programWeekFinishDate;
+    private String registerDate;
 }

@@ -1,10 +1,10 @@
 package server.stutino.domain.program.dto.request;
 
-import lombok.Data;
-import lombok.RequiredArgsConstructor;
+import lombok.*;
 
-@Data
-@RequiredArgsConstructor
+@Getter
+@NoArgsConstructor(access = AccessLevel.PROTECTED)
+@AllArgsConstructor
 public class ProgramParticipateRequest {
     private Long menteeId;
     private Long programId;

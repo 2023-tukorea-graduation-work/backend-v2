@@ -22,6 +22,5 @@ public class ProgramWeek {
     @JoinColumn(name = "program_id")
     private Program program;
     private String content;
-    private LocalDate programWeekStartDate;
-    private LocalDate programWeekFinishDate;
+    private LocalDate registerDate;
 }

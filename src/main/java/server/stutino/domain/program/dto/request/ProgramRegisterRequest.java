@@ -1,12 +1,12 @@
 package server.stutino.domain.program.dto.request;
 
-import lombok.Data;
-import lombok.RequiredArgsConstructor;
+import lombok.*;
 
 import java.util.List;
 
-@Data
-@RequiredArgsConstructor
+@Getter
+@NoArgsConstructor(access = AccessLevel.PROTECTED)
+@AllArgsConstructor
 public class ProgramRegisterRequest {
     private Long memberId;
     private String subject;

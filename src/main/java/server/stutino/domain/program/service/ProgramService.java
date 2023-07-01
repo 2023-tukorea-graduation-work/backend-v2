@@ -86,8 +86,7 @@ public class ProgramService {
         List<ProgramWeek> programWeeks = request.getProgramWeeks().stream().map(programWeek -> ProgramWeek.builder()
                 .program(program)
                 .content(programWeek.getContent())
-                .programWeekStartDate(customDateUtil.convertStringToLocalDate(programWeek.getProgramWeekStartDate()))
-                .programWeekFinishDate(customDateUtil.convertStringToLocalDate(programWeek.getProgramWeekFinishDate()))
+                .registerDate(customDateUtil.convertStringToLocalDate(programWeek.getRegisterDate()))
                 .build()).collect(Collectors.toList());
 
         // [1-3] Program & ProgramWeeks 기본 정보 등록
