@@ -1,0 +1,14 @@
+
+:doctype: book
+:icons: font
+:source-highlighter: highlightjs
+:toc: left
+:toclevels: 4
+
+== Schedule API
+
+=== Schedule 등록
+operation::register schedule[snippets='http-request,http-response']
+
+=== Schedule 조회
+operation::find all schedule[snippets='http-request,http-response']
