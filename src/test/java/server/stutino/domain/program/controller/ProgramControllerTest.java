@@ -130,7 +130,7 @@ class ProgramControllerTest extends RestDocumentTest {
         ResultActions perform =
                 mockMvc.perform(
                         get("/program")
-                                .param("keyword", ""));
+                            .param("keyword", ""));
 
         // then
         perform.andExpect(status().isOk());

@@ -1,0 +1,13 @@
+:doctype: book
+:icons: font
+:source-highlighter: highlightjs
+:toc: left
+:toclevels: 4
+
+== Notice API
+
+=== Notice 등록
+operation::register notice[snippets='http-request,http-response']
+
+=== Notice 조회
+operation::find all notice by program[snippets='http-request,http-response']

@@ -10,3 +10,4 @@
 include::Member-API.adoc[]
 include::Program-API.adoc[]
 include::Material-API.adoc[]
+include::Notice-API.adoc[]

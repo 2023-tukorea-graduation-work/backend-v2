@@ -50,4 +50,40 @@ class MaterialControllerTest extends RestDocumentTest {
                         getDocumentRequest(),
                         getDocumentResponse()));
     }
+
+//    @Test
+//    @DisplayName("등록된 자료를 성공적으로 다운로드 하는가?")
+//    void successDownloadMaterial() throws Exception {
+//        // Mock data
+//        Long materialId = 1L;
+//        String fileUrl = "~~.png";
+//        byte[] fileBytes = "Dummy file content".getBytes();
+//
+//        // Mock materialService.getFilePath()
+//        when(materialService.getFilePath(anyLong()))
+//                .thenReturn(fileUrl);
+//
+//        // Mock URL.openStream()
+//        InputStream inputStream = new ByteArrayInputStream(fileBytes);
+//        URL url = new URL(fileUrl);
+//        when(url.openStream())
+//                .thenReturn(inputStream);
+//
+//        // Call the controller method
+//        ResultActions perform = mockMvc.perform(
+//                get("/material/download/{materialId}", materialId));
+//
+//        // Verify the response
+//        perform.andExpect(status().isOk())
+//                .andExpect((ResultMatcher) content().contentType(MediaType.APPLICATION_PDF))
+//                .andExpect(header().string(HttpHeaders.CONTENT_DISPOSITION, "attachment; filename=\"filename.pdf\""))
+//                .andExpect((ResultMatcher) content().bytes(fileBytes))
+//                .andExpect(status().isOk());
+//
+//        // docs
+//        perform.andDo(print())
+//                .andDo(document("register material",
+//                        getDocumentRequest(),
+//                        getDocumentResponse()));
+//    }
 }
