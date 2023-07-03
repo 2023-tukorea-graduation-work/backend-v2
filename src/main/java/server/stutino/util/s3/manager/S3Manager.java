@@ -13,7 +13,6 @@ import org.springframework.beans.factory.annotation.Value;
 import org.springframework.stereotype.Component;
 import org.springframework.web.multipart.MultipartFile;
 
-import javax.servlet.http.HttpServletRequest;
 import java.io.File;
 import java.io.FileOutputStream;
 import java.io.IOException;
@@ -33,23 +32,6 @@ public class S3Manager {
     @Value("${cloud.aws.s3.bucket}")
     @Getter
     private String bucket;  // S3 버킷 이름
-
-    public String getDirName(HttpServletRequest request) {
-        String uri = request.getRequestURI();
-
-        if(uri.contains("mentor") || uri.contains("mentee")) {
-            return profileDirName;
-        }
-        else if(uri.contains("material")) {
-            return materialDirName;
-        }
-        else if(uri.contains("program")) {
-            return programDirName;
-        }
-        else {
-            return "/";
-        }
-    }
 
     public String upload(MultipartFile multipartFile, String dirName) throws IOException {
         File uploadFile = convert(multipartFile)  // 파일 변환할 수 없으면 에러
