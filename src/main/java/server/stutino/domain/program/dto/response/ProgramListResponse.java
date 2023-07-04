@@ -7,8 +7,6 @@ import server.stutino.domain.member.entity.Major;
 
 import java.time.LocalDate;
 
-;
-
 @Data
 public class ProgramListResponse {
     private String memberName;

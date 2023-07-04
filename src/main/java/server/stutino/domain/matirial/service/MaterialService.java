@@ -5,7 +5,7 @@ import lombok.RequiredArgsConstructor;
 import lombok.experimental.FieldDefaults;
 import org.springframework.stereotype.Service;
 import org.springframework.web.multipart.MultipartFile;
-import server.stutino.domain.matirial.entity.ProgramMaterial;
+import server.stutino.domain.matirial.entity.Material;
 import server.stutino.domain.matirial.repository.MaterialRepository;
 import server.stutino.domain.program.repository.ProgramRepository;
 import server.stutino.util.s3.manager.S3Manager;
@@ -28,7 +28,7 @@ public class MaterialService {
     public void registerMaterial(Long programId, MultipartFile file) throws IOException {
         String filePath = s3Manager.upload(file, "/material");
 
-        materialRepository.save(ProgramMaterial.builder()
+        materialRepository.save(Material.builder()
                 .program(programRepository.findById(programId).orElseThrow(EntityNotFoundException::new))
                 .fileName(file.getOriginalFilename())
                 .filePath(filePath)
@@ -39,7 +39,7 @@ public class MaterialService {
     * 자료 다운로드
     * */
     public String getFilePath(Long materialId) {
-        ProgramMaterial material = materialRepository.findById(materialId).orElseThrow(EntityNotFoundException::new);
+        Material material = materialRepository.findById(materialId).orElseThrow(EntityNotFoundException::new);
         return material.getFilePath();
     }
 }

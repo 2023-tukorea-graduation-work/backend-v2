@@ -1,10 +1,7 @@
 package server.stutino.domain.matirial.entity;
 
 
-import lombok.AllArgsConstructor;
-import lombok.Builder;
-import lombok.Data;
-import lombok.NoArgsConstructor;
+import lombok.*;
 import server.stutino.domain.program.entity.Program;
 
 import javax.persistence.*;
@@ -12,9 +9,9 @@ import javax.persistence.*;
 @Data
 @Entity
 @Builder
-@NoArgsConstructor
+@NoArgsConstructor(access = AccessLevel.PROTECTED)
 @AllArgsConstructor
-public class ProgramMaterial {
+public class Material {
 
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)

@@ -1,4 +1,4 @@
-package server.stutino.domain.notice.controller;
+package server.stutino.domain.question.controller;
 
 import org.junit.jupiter.api.DisplayName;
 import org.junit.jupiter.api.Test;
@@ -6,11 +6,12 @@ import org.springframework.boot.test.autoconfigure.web.servlet.WebMvcTest;
 import org.springframework.boot.test.mock.mockito.MockBean;
 import org.springframework.http.MediaType;
 import org.springframework.test.web.servlet.ResultActions;
-import server.stutino.domain.notice.dto.request.NoticeRegisterRequest;
-import server.stutino.domain.notice.dto.response.NoticeListResponse;
-import server.stutino.domain.notice.service.NoticeService;
+import server.stutino.domain.question.dto.request.QuestionRegisterRequest;
+import server.stutino.domain.question.dto.response.QuestionListResponse;
+import server.stutino.domain.question.service.QuestionService;
 import server.stutino.support.docs.RestDocumentTest;
 
+import java.time.LocalDateTime;
 import java.util.List;
 
 import static org.mockito.ArgumentMatchers.any;
@@ -24,30 +25,30 @@ import static org.springframework.test.web.servlet.result.MockMvcResultMatchers.
 import static server.stutino.support.docs.ApiDocumentUtils.getDocumentRequest;
 import static server.stutino.support.docs.ApiDocumentUtils.getDocumentResponse;
 
-@WebMvcTest(NoticeController.class)
-@DisplayName("NoticeController 에서")
-class NoticeControllerTest extends RestDocumentTest {
-    @MockBean private NoticeService noticeService;
+@WebMvcTest(QuestionController.class)
+@DisplayName("QuestionController 에서")
+class QuestionControllerTest extends RestDocumentTest {
+    @MockBean private QuestionService questionService;
 
     @Test
-    @DisplayName("공지를 성공적으로 등록하는가?")
-    void successRegisterNotice() throws Exception {
+    @DisplayName("질문을 성공적으로 등록하는가?")
+    void successRegisterQuestion() throws Exception {
         // give
-        NoticeRegisterRequest request =
-                new NoticeRegisterRequest(
+        QuestionRegisterRequest request =
+                new QuestionRegisterRequest(
                         1L,
-                        "공지사항 제목1",
-                        "공지사항 내용1"
+                        1L,
+                        "질문 내용1"
                 );
 
         doNothing()
-                .when(noticeService)
-                .registerNotice(any());
+                .when(questionService)
+                .registerQuestion(any());
 
         // when
         ResultActions perform =
                 mockMvc.perform(
-                        post("/notice")
+                        post("/question")
                             .contentType(MediaType.APPLICATION_JSON)
                             .content(toRequestBody(request)));
 
@@ -56,38 +57,44 @@ class NoticeControllerTest extends RestDocumentTest {
 
         // docs
         perform.andDo(print())
-                .andDo(document("register notice",
+                .andDo(document("register question",
                         getDocumentRequest(),
                         getDocumentResponse()));
     }
 
     @Test
-    @DisplayName("프로그램 별 공지사항 목록을 성공적으로 조회하는가?")
+    @DisplayName("질문 목록을 성공적으로 조회하는가?")
     void successGetAllByProgram() throws Exception {
         // given
-        when(noticeService.getNoticeList(any()))
+        when(questionService.getQuestionList(any()))
                 .thenReturn(List.of(
-                        new NoticeListResponse(
-                                "공지사항 제목1",
-                                "공지사항 내용1"
+                        new QuestionListResponse(
+                                1L,
+                                "질문 내용1",
+                                "답변 내용1",
+                                LocalDateTime.now(),
+                                LocalDateTime.now()
                         ),
-                        new NoticeListResponse(
-                                "공지사항 제목1",
-                                "공지사항 내용1"
+                        new QuestionListResponse(
+                                1L,
+                                "질문 내용2",
+                                "답변 내용2",
+                                LocalDateTime.now(),
+                                LocalDateTime.now()
                         )
                 ));
 
         // when
         ResultActions perform =
                 mockMvc.perform(
-                    get("/notice/{programId}", 1L));
+                    get("/question/{programId}", 1L));
 
         // then
         perform.andExpect(status().isOk());
 
         // docs
         perform.andDo(print())
-                .andDo(document("find all notice by program",
+                .andDo(document("find all question",
                         getDocumentRequest(),
                         getDocumentResponse()));
     }
