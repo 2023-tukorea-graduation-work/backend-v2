@@ -25,8 +25,9 @@ public class MemberController {
     @PostMapping("/mentor")
     public ResponseEntity<SuccessResponse> registerMentor(
             @RequestPart(value = "data", required = true) MentorRegisterRequest mentorRegisterRequest,
-            @RequestPart(value = "file", required = false) MultipartFile image) {
-        memberService.registerMentor(mentorRegisterRequest, image);
+            @RequestPart(value = "image", required = false) MultipartFile image,
+            @RequestPart(value = "certification", required = false) MultipartFile certification) {
+        memberService.registerMentor(mentorRegisterRequest, image, certification);
         return ResponseEntity.ok(SuccessResponse.of(HttpStatus.OK, "success register mentor"));
     }
 

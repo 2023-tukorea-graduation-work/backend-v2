@@ -42,8 +42,11 @@ class MemberControllerTest extends RestDocumentTest {
                 4,
                 "잘부탁드립니다.");
 
-        MockMultipartFile file = new MockMultipartFile("file", "test.txt",
-                MediaType.MULTIPART_FORM_DATA_VALUE, "Hello, World!".getBytes());
+        MockMultipartFile image = new MockMultipartFile("image", "image.txt",
+                MediaType.MULTIPART_FORM_DATA_VALUE, "test image!".getBytes());
+
+        MockMultipartFile certification = new MockMultipartFile("certification", "certificate.txt",
+                MediaType.MULTIPART_FORM_DATA_VALUE, "mentor certificate certificate".getBytes());
 
         MockPart mockJsonPart = new MockPart("data", toRequestBody(request).getBytes());
         mockJsonPart.getHeaders().setContentType(MediaType.APPLICATION_JSON);
@@ -52,7 +55,8 @@ class MemberControllerTest extends RestDocumentTest {
         ResultActions perform =
                 mockMvc.perform(
                         multipart("/member/mentor")
-                                .file(file)
+                                .file(image)
+                                .file(certification)
                                 .part(mockJsonPart));
 
         // then

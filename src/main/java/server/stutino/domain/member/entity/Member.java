@@ -41,7 +41,9 @@ public class Member {
     @URL
     @Column(nullable = false)
     private String imgUrl;
-
+    @URL
+    @Column(nullable = true)
+    private String certificateUrl;
     @ElementCollection(fetch = FetchType.EAGER)
     private List<String> roles = new ArrayList<>();
 }

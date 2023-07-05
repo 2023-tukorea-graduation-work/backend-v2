@@ -27,12 +27,13 @@ public class MemberService {
      *  멘토 등록
      * */
     @Transactional
-    public void registerMentor(MentorRegisterRequest request, MultipartFile image) {
+    public void registerMentor(MentorRegisterRequest request, MultipartFile image, MultipartFile certification) {
         // [1] Mentor 기본 정보 저장
         // [1-1] GCP Storage profile image url
-        String imgUrl = "";
+        String imgUrl = "", certificateUrl = "";
         try {
             imgUrl = s3Manager.upload(image, "/profile-image");
+            certificateUrl = s3Manager.upload(image, "/mentor-certification");
         }
         catch (Exception e) {
             System.out.print(e.getMessage());
@@ -57,6 +58,7 @@ public class MemberService {
                 .lesson(request.getLesson())
                 .introduce(request.getIntroduce())
                 .imgUrl(imgUrl)
+                .certificateUrl(certificateUrl)
                 .build();
 
         // [1-3] 멘토 정보 저장
