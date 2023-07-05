@@ -6,7 +6,9 @@ import org.springframework.boot.test.autoconfigure.web.servlet.WebMvcTest;
 import org.springframework.boot.test.mock.mockito.MockBean;
 import org.springframework.http.MediaType;
 import org.springframework.mock.web.MockMultipartFile;
+import org.springframework.mock.web.MockPart;
 import org.springframework.test.web.servlet.ResultActions;
+import server.stutino.domain.member.dto.request.MenteeRegisterRequest;
 import server.stutino.domain.member.dto.request.MentorRegisterRequest;
 import server.stutino.domain.member.entity.Lesson;
 import server.stutino.domain.member.entity.Major;
@@ -43,12 +45,16 @@ class MemberControllerTest extends RestDocumentTest {
         MockMultipartFile file = new MockMultipartFile("file", "test.txt",
                 MediaType.MULTIPART_FORM_DATA_VALUE, "Hello, World!".getBytes());
 
+        MockPart mockJsonPart = new MockPart("data", toRequestBody(request).getBytes());
+        mockJsonPart.getHeaders().setContentType(MediaType.APPLICATION_JSON);
+
         // when
         ResultActions perform =
                 mockMvc.perform(
                         multipart("/member/mentor")
                                 .file(file)
-                                .param("mentorRegisterRequest", toRequestBody(request)));
+                                .part(mockJsonPart));
+
         // then
         perform.andExpect(status().isOk());
 
@@ -58,4 +64,41 @@ class MemberControllerTest extends RestDocumentTest {
                         getDocumentRequest(),
                         getDocumentResponse()));
     }
+
+    @Test
+    @DisplayName("멘티를 성공적으로 등록하는가?")
+    void successRegisterMentee() throws Exception {
+        // given
+        MenteeRegisterRequest request
+                = new MenteeRegisterRequest(
+                "test@naver.com",
+                "홍길동",
+                "0000",
+                15,
+                "시흥중학교",
+                2,
+                "잘부탁드립니다.");
+
+        MockMultipartFile file = new MockMultipartFile("file", "test.txt",
+                MediaType.MULTIPART_FORM_DATA_VALUE, "Hello, World!".getBytes());
+
+        MockPart mockJsonPart = new MockPart("data", toRequestBody(request).getBytes());
+        mockJsonPart.getHeaders().setContentType(MediaType.APPLICATION_JSON);
+
+        // when
+        ResultActions perform =
+                mockMvc.perform(
+                        multipart("/member/mentee")
+                                .file(file)
+                                .part(mockJsonPart));
+        // then
+        perform.andExpect(status().isOk());
+
+        // docs
+        perform.andDo(print())
+                .andDo(document("register mentee",
+                        getDocumentRequest(),
+                        getDocumentResponse()));
+    }
+
 }

@@ -9,3 +9,6 @@
 === Member 멘토 등록
 operation::register mentor[snippets='http-request,http-response']
 
+=== Member 멘티 등록
+operation::register mentee[snippets='http-request,http-response']
+
