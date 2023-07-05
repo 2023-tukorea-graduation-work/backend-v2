@@ -18,4 +18,5 @@ public class ProgramRegisterRequest {
     private Integer capacity;
     private String programPlace;
     private List<ProgramWeekRegisterRequest> programWeeks;
+    private List<ProgramCategoryRgisterRequest> programCategories;
 }

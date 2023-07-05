@@ -26,9 +26,11 @@ import server.stutino.domain.program.dto.response.ProgramDetailResponse;
 import server.stutino.domain.program.dto.response.ProgramListResponse;
 import server.stutino.domain.program.entity.Participants;
 import server.stutino.domain.program.entity.Program;
+import server.stutino.domain.program.entity.ProgramCategory;
 import server.stutino.domain.program.entity.ProgramWeek;
 import server.stutino.domain.program.mapper.ProgramMapper;
 import server.stutino.domain.program.repository.ParticipantsRepository;
+import server.stutino.domain.program.repository.ProgramCategoryRepository;
 import server.stutino.domain.program.repository.ProgramRepository;
 import server.stutino.domain.program.repository.ProgramWeekRepository;
 import server.stutino.util.CustomDateUtil;
@@ -36,7 +38,6 @@ import server.stutino.util.CustomDateUtil;
 import javax.persistence.EntityNotFoundException;
 import java.io.IOException;
 import java.util.List;
-import java.util.stream.Collectors;
 
 
 @Service
@@ -46,6 +47,7 @@ public class ProgramService {
 
      ProgramRepository programRepository;
      ProgramWeekRepository programWeekRepository;
+     ProgramCategoryRepository programCategoryRepository;
      ParticipantsRepository programParticipationRepository;
      MemberRepository memberRepository;
      ProgramMapper programMapper;
@@ -68,6 +70,7 @@ public class ProgramService {
          * 해결1 : select -> insert문제는 해결 못함
          * 해결2 : program_week 테이블의 program_id(fk)도 insert되지 않는 문제는 saveAll로 해결
          * */
+        // [1-1] 프로그램 등록
         Program program = programRepository.save(
                 Program.builder()
                     .member(mentor)
@@ -87,11 +90,19 @@ public class ProgramService {
                 .program(program)
                 .content(programWeek.getContent())
                 .registerDate(customDateUtil.convertStringToLocalDate(programWeek.getRegisterDate()))
-                .build()).collect(Collectors.toList());
+                .build()).toList();
 
-        // [1-3] Program & ProgramWeeks 기본 정보 등록
+        // [1-3] ProgramWeeks 기본 정보 등록
         programWeekRepository.saveAll(programWeeks);
 
+        // [1-4] ProgramCategory 기본 정보 등록
+        List<ProgramCategory> categories = request.getProgramCategories().stream().map(category ->
+                ProgramCategory.builder()
+                        .parent(category.getParent())
+                        .child(category.getChild())
+                        .build()).toList();
+
+        programCategoryRepository.saveAll(categories);
     }
 
     /*

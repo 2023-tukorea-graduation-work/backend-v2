@@ -12,7 +12,6 @@ import server.stutino.domain.member.dto.request.MenteeRegisterRequest;
 import server.stutino.domain.member.dto.request.MentorRegisterRequest;
 import server.stutino.domain.member.entity.Member;
 import server.stutino.domain.member.repository.MemberRepository;
-import server.stutino.util.CustomStringUtil;
 import server.stutino.util.s3.manager.S3Manager;
 
 @Service
@@ -71,8 +70,6 @@ public class MemberService {
      *  멘토 등록
      * */
     public void registerMentee(MenteeRegisterRequest request, MultipartFile image) {
-        System.out.println(CustomStringUtil.toString(request));
-
         // [1] Mentor 기본 정보 저장
         // [1-1] GCP Storage profile image url
         String imgUrl = "";

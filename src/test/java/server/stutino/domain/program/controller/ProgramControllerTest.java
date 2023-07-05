@@ -9,6 +9,7 @@ import org.springframework.security.test.context.support.WithMockUser;
 import org.springframework.test.web.servlet.ResultActions;
 import server.stutino.domain.member.entity.Lesson;
 import server.stutino.domain.member.entity.Major;
+import server.stutino.domain.program.dto.request.ProgramCategoryRgisterRequest;
 import server.stutino.domain.program.dto.request.ProgramParticipateRequest;
 import server.stutino.domain.program.dto.request.ProgramRegisterRequest;
 import server.stutino.domain.program.dto.request.ProgramWeekRegisterRequest;
@@ -53,6 +54,22 @@ class ProgramControllerTest extends RestDocumentTest {
                 "2023-07-07"
         ));
 
+        List<ProgramCategoryRgisterRequest> categories
+                = new ArrayList<ProgramCategoryRgisterRequest>();
+
+        categories.add(new ProgramCategoryRgisterRequest(
+                "study",
+                "영어"
+        ));
+        categories.add(new ProgramCategoryRgisterRequest(
+                "hobby",
+                "축구"
+        ));
+        categories.add(new ProgramCategoryRgisterRequest(
+                "major",
+                "경영"
+        ));
+
         ProgramRegisterRequest request
                 = new ProgramRegisterRequest(
                 1L,
@@ -64,7 +81,8 @@ class ProgramControllerTest extends RestDocumentTest {
                 "2023-06-21",
                 10,
                 "한국공학대학교",
-                programWeeks
+                programWeeks,
+                categories
         );
 
         doNothing()

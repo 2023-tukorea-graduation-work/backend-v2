@@ -40,4 +40,5 @@ public class MemberController {
         memberService.registerMentee(menteeRegisterRequest, image);
         return ResponseEntity.ok(SuccessResponse.of(HttpStatus.OK, "success register mentee"));
     }
+
 }
