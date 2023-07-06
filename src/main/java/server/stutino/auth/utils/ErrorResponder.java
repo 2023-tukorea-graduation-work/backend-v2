@@ -10,12 +10,12 @@ import java.io.IOException;
 
 public class ErrorResponder {
     public static void sendErrorResponse(HttpServletResponse response, HttpStatus httpStatus, String message) throws IOException {
-        ErrorResponse errorResponse = ErrorResponse.of(httpStatus, message);
+        ErrorResponse errorResponse = new ErrorResponse(httpStatus, message);
         sendError(response, httpStatus, errorResponse);
     }
 
     public static void sendErrorResponse(HttpServletResponse response, HttpStatus httpStatus) throws IOException {
-        ErrorResponse errorResponse = ErrorResponse.of(httpStatus);
+        ErrorResponse errorResponse = new ErrorResponse(httpStatus);
         sendError(response, httpStatus, errorResponse);
     }
 
