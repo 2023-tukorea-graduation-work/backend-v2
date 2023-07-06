@@ -60,7 +60,7 @@ class MemberControllerTest extends RestDocumentTest {
                                 .part(mockJsonPart));
 
         // then
-        perform.andExpect(status().isOk());
+        perform.andExpect(status().isNoContent());
 
         // docs
         perform.andDo(print())
@@ -96,7 +96,7 @@ class MemberControllerTest extends RestDocumentTest {
                                 .file(file)
                                 .part(mockJsonPart));
         // then
-        perform.andExpect(status().isOk());
+        perform.andExpect(status().isNoContent());
 
         // docs
         perform.andDo(print())

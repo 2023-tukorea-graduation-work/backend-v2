@@ -99,7 +99,7 @@ class ProgramControllerTest extends RestDocumentTest {
                 );
 
         // then
-        perform.andExpect(status().isOk());
+        perform.andExpect(status().isNoContent());
 
         // docs
         perform.andDo(print())
@@ -234,7 +234,7 @@ class ProgramControllerTest extends RestDocumentTest {
                                 .content(toRequestBody(request)));
 
         // then
-        perform.andExpect(status().isOk());
+        perform.andExpect(status().isNoContent());
 
         // docs
         perform.andDo(print())
