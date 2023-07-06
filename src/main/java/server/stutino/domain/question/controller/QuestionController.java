@@ -24,7 +24,7 @@ public class QuestionController {
     @PostMapping
     public ResponseEntity<Void> registerQuestion(@RequestBody QuestionRegisterRequest request) {
         questionService.registerQuestion(request);
-        return ResponseEntity.ok().build();
+        return ResponseEntity.noContent().build();
     }
     
     /*

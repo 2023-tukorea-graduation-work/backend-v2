@@ -33,7 +33,7 @@ public class MaterialController {
     public ResponseEntity<Void> registerMaterial(@PathVariable("programId") Long programId,
                                                  @RequestPart(value = "file", required = false) MultipartFile material) throws IOException {
         materialService.registerMaterial(programId, material);
-        return ResponseEntity.ok().build();
+        return ResponseEntity.noContent().build();
     }
 
     /*

@@ -14,6 +14,8 @@ import server.stutino.domain.member.entity.Member;
 import server.stutino.domain.member.repository.MemberRepository;
 import server.stutino.util.s3.manager.S3Manager;
 
+import java.io.IOException;
+
 @Service
 @RequiredArgsConstructor
 @FieldDefaults(level = AccessLevel.PRIVATE, makeFinal = true)
@@ -34,13 +36,8 @@ public class MemberService {
         try {
             imgUrl = s3Manager.upload(image, "/profile-image");
             certificateUrl = s3Manager.upload(image, "/mentor-certification");
-        }
-        catch (Exception e) {
-            System.out.print(e.getMessage());
-            /*
-             * todo: JPA의 등록을 하면서 처리중 문제가 생기면 등록 자체를 안하는 문제가 있는듯
-             * */
-            // throw new IOException("Failed to upload image: " + e.getMessage());
+        } catch (IOException e) {
+            throw new RuntimeException(e);
         }
 
         String encodePassword = passwordEncoder.encode(request.getPassword());
@@ -77,13 +74,8 @@ public class MemberService {
         String imgUrl = "";
         try {
             imgUrl = s3Manager.upload(image, "/profile-image");
-        }
-        catch (Exception e) {
-            System.out.print(e.getMessage());
-            /*
-             * todo: JPA의 등록을 하면서 처리중 문제가 생기면 등록 자체를 안하는 문제가 있는듯
-             * */
-            // throw new IOException("Failed to upload image: " + e.getMessage());
+        } catch (IOException e) {
+            throw new RuntimeException(e);
         }
 
         String encodePassword = passwordEncoder.encode(request.getPassword());

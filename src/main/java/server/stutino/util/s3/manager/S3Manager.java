@@ -73,6 +73,9 @@ public class S3Manager {
             try (FileOutputStream fos = new FileOutputStream(convertFile)) { // FileOutputStream 데이터를 파일에 바이트 스트림으로 저장하기 위함
                 fos.write(file.getBytes());
             }
+            catch (IOException e) {
+                throw new IOException();
+            }
         }
         return  Optional.ofNullable(convertFile);
     }

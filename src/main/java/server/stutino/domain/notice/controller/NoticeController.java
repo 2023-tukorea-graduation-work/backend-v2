@@ -26,7 +26,7 @@ public class NoticeController {
     @PostMapping
     public ResponseEntity<Void> registerNotice(@RequestBody NoticeRegisterRequest noticeRegisterRequest) {
         noticeService.registerNotice(noticeRegisterRequest);
-        return ResponseEntity.ok().build();
+        return ResponseEntity.noContent().build();
     }
     
     /*

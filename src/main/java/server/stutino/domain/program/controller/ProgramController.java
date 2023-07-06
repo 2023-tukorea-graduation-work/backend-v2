@@ -27,7 +27,7 @@ public class ProgramController {
     @PostMapping
     public ResponseEntity<Void> registerProgram(@RequestBody ProgramRegisterRequest programRegisterRequest) {
         programService.registerProgram(programRegisterRequest);
-        return ResponseEntity.ok().build();
+        return ResponseEntity.noContent().build();
     }
 
     /*
@@ -54,7 +54,7 @@ public class ProgramController {
     @PostMapping("/participate")
     public ResponseEntity<Void> registerParticipation(@RequestBody ProgramParticipateRequest programParticipateRequest) {
         programService.registerParticipation(programParticipateRequest);
-        return ResponseEntity.ok().build();
+        return ResponseEntity.noContent().build();
     }
 
     /*
@@ -63,6 +63,6 @@ public class ProgramController {
     @GetMapping("/download")
     public ResponseEntity<Void> downloadPdf(@Param("programId") Long programId) {
         programService.downloadPdf(programId);
-        return ResponseEntity.ok().build();
+        return ResponseEntity.noContent().build();
     }
 }
