@@ -9,6 +9,7 @@ import server.stutino.domain.schedule.dto.request.ScheduleRegisterRequest;
 import server.stutino.domain.schedule.dto.response.ScheduleListResponse;
 import server.stutino.domain.schedule.service.ScheduleService;
 
+import javax.validation.Valid;
 import java.util.List;
 
 @RestController
@@ -22,7 +23,7 @@ public class ScheduleController {
     * 일정 등록
     * */
     @PostMapping
-    public ResponseEntity<Void> registerSchedule(@RequestBody ScheduleRegisterRequest scheduleRegisterRequest) {
+    public ResponseEntity<Void> registerSchedule(@Valid @RequestBody ScheduleRegisterRequest scheduleRegisterRequest) {
         scheduleService.registerSchedule(scheduleRegisterRequest);
         return ResponseEntity.noContent().build();
     }

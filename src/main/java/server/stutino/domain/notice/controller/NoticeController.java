@@ -9,6 +9,7 @@ import server.stutino.domain.notice.dto.request.NoticeRegisterRequest;
 import server.stutino.domain.notice.dto.response.NoticeListResponse;
 import server.stutino.domain.notice.service.NoticeService;
 
+import javax.validation.Valid;
 import java.util.List;
 
 
@@ -24,7 +25,7 @@ public class NoticeController {
     * 프로그램 별 공지사항 등록
     * */
     @PostMapping
-    public ResponseEntity<Void> registerNotice(@RequestBody NoticeRegisterRequest noticeRegisterRequest) {
+    public ResponseEntity<Void> registerNotice(@Valid @RequestBody NoticeRegisterRequest noticeRegisterRequest) {
         noticeService.registerNotice(noticeRegisterRequest);
         return ResponseEntity.noContent().build();
     }

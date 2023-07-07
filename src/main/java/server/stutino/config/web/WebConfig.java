@@ -12,11 +12,5 @@ public class WebConfig implements WebMvcConfigurer {
         registry.addResourceHandler("/**")
                 .addResourceLocations("classpath:/static/docs/");
     }
-
-//    @Override
-//    public void addInterceptors(InterceptorRegistry registry) {
-//        registry.addInterceptor(new NullCheckInterceptor())
-//                .addPathPatterns("/**"); // 인터셉터를 적용할 컨트롤러의 경로를 지정합니다.
-//    }
 }
 

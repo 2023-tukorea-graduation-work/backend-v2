@@ -9,6 +9,7 @@ import server.stutino.domain.question.dto.request.QuestionRegisterRequest;
 import server.stutino.domain.question.dto.response.QuestionListResponse;
 import server.stutino.domain.question.service.QuestionService;
 
+import javax.validation.Valid;
 import java.util.List;
 
 @RestController
@@ -22,7 +23,7 @@ public class QuestionController {
     * Q&A 등록
     * */
     @PostMapping
-    public ResponseEntity<Void> registerQuestion(@RequestBody QuestionRegisterRequest request) {
+    public ResponseEntity<Void> registerQuestion(@Valid @RequestBody QuestionRegisterRequest request) {
         questionService.registerQuestion(request);
         return ResponseEntity.noContent().build();
     }

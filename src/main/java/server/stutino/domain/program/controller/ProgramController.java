@@ -12,6 +12,7 @@ import server.stutino.domain.program.dto.response.ProgramDetailResponse;
 import server.stutino.domain.program.dto.response.ProgramListResponse;
 import server.stutino.domain.program.service.ProgramService;
 
+import javax.validation.Valid;
 import java.util.List;
 
 @RestController
@@ -25,7 +26,7 @@ public class ProgramController {
     * 멘토링 프로그램 등록
     * */
     @PostMapping
-    public ResponseEntity<Void> registerProgram(@RequestBody ProgramRegisterRequest programRegisterRequest) {
+    public ResponseEntity<Void> registerProgram(@Valid  @RequestBody ProgramRegisterRequest programRegisterRequest) {
         programService.registerProgram(programRegisterRequest);
         return ResponseEntity.noContent().build();
     }
@@ -52,7 +53,7 @@ public class ProgramController {
     * 멘토링 프로그램 참여 정보 등록
     * */
     @PostMapping("/participate")
-    public ResponseEntity<Void> registerParticipation(@RequestBody ProgramParticipateRequest programParticipateRequest) {
+    public ResponseEntity<Void> registerParticipation(@Valid @RequestBody ProgramParticipateRequest programParticipateRequest) {
         programService.registerParticipation(programParticipateRequest);
         return ResponseEntity.noContent().build();
     }
