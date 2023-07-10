@@ -87,7 +87,7 @@ class QuestionControllerTest extends RestDocumentTest {
         // when
         ResultActions perform =
                 mockMvc.perform(
-                    get("/question/{programId}", 1L));
+                    get("/question/program/{programId}", 1L));
 
         // then
         perform.andExpect(status().isOk());

@@ -33,7 +33,7 @@ public class NoticeController {
     /*
     * 프로그램 별 공지사항 목록 조회
     * */
-    @GetMapping("/{programId}")
+    @GetMapping("/program/{programId}")
     public ResponseEntity<List<NoticeListResponse>> getNoticeList(@PathVariable("programId") Long programId) {
         List<NoticeListResponse> response = noticeService.getNoticeList(programId);
         return ResponseEntity.ok().body(response);

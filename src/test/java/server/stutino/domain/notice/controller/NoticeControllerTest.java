@@ -80,7 +80,7 @@ class NoticeControllerTest extends RestDocumentTest {
         // when
         ResultActions perform =
                 mockMvc.perform(
-                    get("/notice/{programId}", 1L));
+                    get("/notice/program/{programId}", 1L));
 
         // then
         perform.andExpect(status().isOk());

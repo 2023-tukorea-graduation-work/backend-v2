@@ -29,7 +29,7 @@ public class MaterialController {
     /*
     * 프로그램 별 학습 자료 등록
     * */
-    @PostMapping("/{programId}")
+    @PostMapping("/program/{programId}")
     public ResponseEntity<Void> registerMaterial(@PathVariable("programId") Long programId,
                                                  @RequestPart(value = "file", required = false) MultipartFile material) throws IOException {
         materialService.registerMaterial(programId, material);

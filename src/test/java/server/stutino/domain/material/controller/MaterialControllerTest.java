@@ -39,7 +39,7 @@ class MaterialControllerTest extends RestDocumentTest {
         // when
         ResultActions perform =
                 mockMvc.perform(
-                        multipart("/material/{programId}", 1L)
+                        multipart("/material/program/{programId}", 1L)
                                 .file(file));
         // then
         perform.andExpect(status().isNoContent());

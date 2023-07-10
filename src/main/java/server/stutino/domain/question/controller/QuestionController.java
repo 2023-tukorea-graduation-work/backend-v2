@@ -31,7 +31,7 @@ public class QuestionController {
     /*
     * Q&A 목록 조회
     * */
-    @GetMapping("/{programId}")
+    @GetMapping("/program/{programId}")
     public ResponseEntity<List<QuestionListResponse>> getQuestionList(@PathVariable("programId") Long programId) {
         List<QuestionListResponse> response = questionService.getQuestionList(programId);
         return ResponseEntity.ok().body(response);
