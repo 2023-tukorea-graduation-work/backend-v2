@@ -31,7 +31,7 @@ public class MemberController {
             @RequestPart(value = "image", required = false) MultipartFile image,
             @RequestPart(value = "certification", required = true) MultipartFile certification) {
         memberService.registerMentor(mentorRegisterRequest, image, certification);
-        return ResponseEntity.noContent().build();
+        return ResponseEntity.ok().build();
     }
 
     /*
@@ -42,6 +42,6 @@ public class MemberController {
             @RequestPart(value = "data", required = true) @Valid MenteeRegisterRequest menteeRegisterRequest,
             @RequestPart(value = "file", required = false) MultipartFile image) {
         memberService.registerMentee(menteeRegisterRequest, image);
-        return ResponseEntity.noContent().build();
+        return ResponseEntity.ok().build();
     }
 }

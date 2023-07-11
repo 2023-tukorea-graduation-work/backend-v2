@@ -8,6 +8,7 @@ import server.stutino.domain.member.entity.Lesson;
 import server.stutino.domain.member.entity.Major;
 
 import javax.validation.constraints.Email;
+import javax.validation.constraints.NotNull;
 
 @Getter
 @Setter
@@ -15,13 +16,21 @@ import javax.validation.constraints.Email;
 public class MentorRegisterRequest {
     @Email
     private String email;
+    @NotNull
     private String name;
+    @NotNull
     private String password;
+    @NotNull
     private Integer age;
+    @NotNull
     private String college;
+    @NotNull
     private Major major;
+    @NotNull
     private Lesson lesson;
+    @NotNull
     private Integer grade;
+    @NotNull
     private String introduce;
 
     @Builder

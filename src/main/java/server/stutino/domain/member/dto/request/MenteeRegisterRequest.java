@@ -6,6 +6,7 @@ import lombok.RequiredArgsConstructor;
 import lombok.Setter;
 
 import javax.validation.constraints.Email;
+import javax.validation.constraints.NotNull;
 
 @Getter
 @Setter
@@ -13,11 +14,17 @@ import javax.validation.constraints.Email;
 public class MenteeRegisterRequest {
     @Email
     private String email;
+    @NotNull
     private String name;
+    @NotNull
     private String password;
+    @NotNull
     private Integer age;
+    @NotNull
     private String school;
+    @NotNull
     private Integer grade;
+    @NotNull
     private String introduce;
 
     @Builder

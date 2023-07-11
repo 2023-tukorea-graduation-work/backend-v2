@@ -4,11 +4,10 @@ import lombok.AccessLevel;
 import lombok.RequiredArgsConstructor;
 import lombok.experimental.FieldDefaults;
 import org.springframework.http.ResponseEntity;
-import org.springframework.web.bind.annotation.*;
-import org.springframework.web.multipart.MultipartFile;
-import server.stutino.domain.matirial.service.MaterialService;
-
-import java.io.IOException;
+import org.springframework.web.bind.annotation.PostMapping;
+import org.springframework.web.bind.annotation.RequestMapping;
+import org.springframework.web.bind.annotation.RestController;
+import server.stutino.domain.exam.service.ExamService;
 
 @RestController
 @RequestMapping("/exam")
@@ -16,15 +15,13 @@ import java.io.IOException;
 @FieldDefaults(level = AccessLevel.PRIVATE, makeFinal = true)
 public class ExamController {
 
-    MaterialService materialService;
+    ExamService examService;
 
     /*
-    * 프로그램 별 학습 자료 등록
+    * 프로그램 별 시험 등록
     * */
-    @PostMapping("/program/{programId}")
-    public ResponseEntity<Void> registerMaterial(@PathVariable("programId") Long programId,
-                                                 @RequestPart(value = "file", required = false) MultipartFile material) throws IOException {
-        materialService.registerMaterial(programId, material);
-        return ResponseEntity.noContent().build();
+    @PostMapping
+    public ResponseEntity<Void> registerExam() {
+        return ResponseEntity.ok().build();
     }
 }

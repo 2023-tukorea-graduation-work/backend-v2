@@ -25,7 +25,7 @@ public class ScheduleController {
     @PostMapping
     public ResponseEntity<Void> registerSchedule(@Valid @RequestBody ScheduleRegisterRequest scheduleRegisterRequest) {
         scheduleService.registerSchedule(scheduleRegisterRequest);
-        return ResponseEntity.noContent().build();
+        return ResponseEntity.ok().build();
     }
 
     /*
