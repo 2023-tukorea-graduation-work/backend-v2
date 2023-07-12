@@ -133,6 +133,13 @@ public class ProgramService {
     }
 
     /*
+    * 프로그램 참여 정보 등록 여부 조회
+    * */
+    public Boolean isParticipated(ProgramParticipateRequest request) {
+        return programParticipationRepository.isParticipated(request.getProgramId(), request.getMenteeId()) > 0;
+    }
+
+    /*
     * pdf download
     * */
     @Transactional

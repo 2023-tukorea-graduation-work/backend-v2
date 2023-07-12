@@ -4,6 +4,7 @@ import lombok.AccessLevel;
 import lombok.RequiredArgsConstructor;
 import lombok.experimental.FieldDefaults;
 import org.springframework.data.repository.query.Param;
+import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
 import server.stutino.domain.program.dto.request.ProgramParticipateRequest;
@@ -11,6 +12,7 @@ import server.stutino.domain.program.dto.request.ProgramRegisterRequest;
 import server.stutino.domain.program.dto.response.ProgramDetailResponse;
 import server.stutino.domain.program.dto.response.ProgramListResponse;
 import server.stutino.domain.program.service.ProgramService;
+import server.stutino.util.ErrorResponse;
 
 import javax.validation.Valid;
 import java.util.List;
@@ -53,9 +55,14 @@ public class ProgramController {
     * 멘토링 프로그램 참여 정보 등록
     * */
     @PostMapping("/participate")
-    public ResponseEntity<Void> registerParticipation(@Valid @RequestBody ProgramParticipateRequest programParticipateRequest) {
-        programService.registerParticipation(programParticipateRequest);
-        return ResponseEntity.ok().build();
+    public ResponseEntity<ErrorResponse> registerParticipation(@Valid @RequestBody ProgramParticipateRequest programParticipateRequest) {
+        if(!programService.isParticipated(programParticipateRequest)) {
+            programService.registerParticipation(programParticipateRequest);
+            return ResponseEntity.ok().build();
+        }
+        else {
+            return ResponseEntity.status(HttpStatus.BAD_REQUEST).body(new ErrorResponse(HttpStatus.BAD_REQUEST, "참여 내역이 존재 합니다."));
+        }
     }
 
     /*

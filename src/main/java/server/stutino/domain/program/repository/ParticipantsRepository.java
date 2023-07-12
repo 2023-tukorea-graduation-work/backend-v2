@@ -13,4 +13,7 @@ import java.util.List;
 public interface ParticipantsRepository extends JpaRepository<Participants, Long> {
     @Query("SELECT pp.member FROM Participants pp WHERE pp.program.id = :programId")
     List<Member> findParticipantByProgramId(@Param("programId") Long programId);
+
+    @Query("SELECT count(pp.id) FROM Participants pp WHERE pp.program.id = :programId and pp.member.id = :memberId")
+    Long isParticipated(@Param("programId") Long programId, @Param("memberId") Long memberId);
 }
