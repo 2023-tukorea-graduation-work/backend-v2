@@ -52,7 +52,7 @@ class NoticeControllerTest extends RestDocumentTest {
                             .content(toRequestBody(request)));
 
         // then
-        perform.andExpect(status().isNoContent());
+        perform.andExpect(status().isOk());
 
         // docs
         perform.andDo(print())

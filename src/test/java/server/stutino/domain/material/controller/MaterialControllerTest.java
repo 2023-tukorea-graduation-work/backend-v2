@@ -42,7 +42,7 @@ class MaterialControllerTest extends RestDocumentTest {
                         multipart("/material/program/{programId}", 1L)
                                 .file(file));
         // then
-        perform.andExpect(status().isNoContent());
+        perform.andExpect(status().isOk());
 
         // docs
         perform.andDo(print())
