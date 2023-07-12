@@ -11,8 +11,10 @@ import org.springframework.http.MediaType;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
 import org.springframework.web.multipart.MultipartFile;
+import server.stutino.domain.matirial.dto.request.MaterialRegisterRequest;
 import server.stutino.domain.matirial.service.MaterialService;
 
+import javax.validation.Valid;
 import java.io.ByteArrayInputStream;
 import java.io.IOException;
 import java.io.InputStream;
@@ -29,10 +31,11 @@ public class MaterialController {
     /*
     * 프로그램 별 학습 자료 등록
     * */
-    @PostMapping("/program/{programId}")
-    public ResponseEntity<Void> registerMaterial(@PathVariable("programId") Long programId,
-                                                 @RequestPart(value = "file", required = false) MultipartFile material) throws IOException {
-        materialService.registerMaterial(programId, material);
+    @PostMapping
+    public ResponseEntity<Void> registerMaterial(
+            @RequestPart(value = "data", required = true) @Valid MaterialRegisterRequest materialRegisterRequest,
+            @RequestPart(value = "file", required = true) MultipartFile file) throws IOException {
+        materialService.registerMaterial(materialRegisterRequest, file);
         return ResponseEntity.ok().build();
     }
 

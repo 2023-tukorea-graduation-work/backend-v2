@@ -19,6 +19,8 @@ public class Material {
     @ManyToOne(fetch = FetchType.LAZY)
     @JoinColumn(name = "program_id")
     private Program program;
+    private String title;
+    private String detail;
     private String fileName;
     private String filePath;
 }

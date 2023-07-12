@@ -6,8 +6,10 @@ import org.springframework.boot.test.autoconfigure.web.servlet.WebMvcTest;
 import org.springframework.boot.test.mock.mockito.MockBean;
 import org.springframework.http.MediaType;
 import org.springframework.mock.web.MockMultipartFile;
+import org.springframework.mock.web.MockPart;
 import org.springframework.test.web.servlet.ResultActions;
 import server.stutino.domain.matirial.controller.MaterialController;
+import server.stutino.domain.matirial.dto.request.MaterialRegisterRequest;
 import server.stutino.domain.matirial.service.MaterialService;
 import server.stutino.support.docs.RestDocumentTest;
 
@@ -28,6 +30,12 @@ class MaterialControllerTest extends RestDocumentTest {
     @Test
     @DisplayName("프로그램 자료를 성공적으로 등록하는가?")
     void successRegisterMaterial() throws Exception {
+        MaterialRegisterRequest request = new MaterialRegisterRequest(
+                1l,
+                "프로그램 자료 제목1",
+                "프로그램 자료 상세내용1"
+        );
+
         // give
         MockMultipartFile file = new MockMultipartFile("file", "test.txt",
                 MediaType.MULTIPART_FORM_DATA_VALUE, "Program Material Test.txt file".getBytes());
@@ -36,11 +44,16 @@ class MaterialControllerTest extends RestDocumentTest {
                 .when(materialService)
                 .registerMaterial(any(), any());
 
+        MockPart mockJsonPart = new MockPart("data", toRequestBody(request).getBytes());
+        mockJsonPart.getHeaders().setContentType(MediaType.APPLICATION_JSON);
+
         // when
         ResultActions perform =
                 mockMvc.perform(
-                        multipart("/material/program/{programId}", 1L)
-                                .file(file));
+                        multipart("/material")
+                                .file(file)
+                                .part(mockJsonPart));
+
         // then
         perform.andExpect(status().isOk());
 

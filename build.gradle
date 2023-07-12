@@ -125,7 +125,7 @@ asciidoctor { // asciidoctor 작업 구성
     inputs.dir snippetsDir // snippetsDir 를 입력으로 구성
 
     sources{
-        include("**/index.adoc","**/common/*.adoc")
+        include("**/index.adoc")
     }
     baseDirFollowsSourceFile()
 }
