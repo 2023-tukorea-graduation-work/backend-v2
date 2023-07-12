@@ -18,4 +18,8 @@ public class SubjectQuestion {
     private Exam exam;
     @Column(nullable = false)
     private Integer score;
+    @Column(nullable = false)
+    private String question;
+    @Column(nullable = false)
+    private String subjectAnswer;
 }

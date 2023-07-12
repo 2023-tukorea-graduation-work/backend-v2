@@ -18,4 +18,6 @@ public class MultipleChoiceOptions {
     private MultipleChoiceQuestion multipleChoiceQuestion;
     @Column(nullable = false)
     private String choices;
+    @Column(nullable = false)
+    private boolean isCorrect;
 }

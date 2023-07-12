@@ -69,12 +69,12 @@ class ScheduleControllerTest extends RestDocumentTest {
         when(scheduleService.getScheduleList(any()))
                 .thenReturn(List.of(
                         new ScheduleListResponse(
-                                "공지사항 제목1",
+                                "일정 1",
                                 "2023-06-05 00:00:00",
                                 "2023-06-05 00:00:01"
                         ),
                         new ScheduleListResponse(
-                                "공지사항 제목2",
+                                "일정 2",
                                 "2023-06-05 00:00:00",
                                 "2023-06-05 00:00:01"
                         )

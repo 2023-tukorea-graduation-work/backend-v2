@@ -5,7 +5,9 @@ import lombok.AllArgsConstructor;
 import lombok.Getter;
 import lombok.NoArgsConstructor;
 
+import javax.validation.constraints.NotBlank;
 import javax.validation.constraints.NotNull;
+import java.util.List;
 
 @Getter
 @NoArgsConstructor(access = AccessLevel.PROTECTED)
@@ -13,14 +15,14 @@ import javax.validation.constraints.NotNull;
 public class ExamRegisterRequest {
     @NotNull
     private Long programId;
-    @NotNull
+    @NotBlank
     private String examTitle;
     @NotNull
     private String examStartTime;
     @NotNull
     private String examFinishTime;
     @NotNull
-    private String isExamRegistered;
+    private Boolean isExamRegistered;
     @NotNull
-    private ExamQuestionRegisterRequest examQuestionRegisterRequest;
+    private List<ExamQuestionRegisterRequest> examQuestionRegisterRequest;
 }

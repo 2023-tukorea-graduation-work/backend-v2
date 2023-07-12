@@ -1,0 +1,12 @@
+
+:doctype: book
+:icons: font
+:source-highlighter: highlightjs
+:toc: left
+:toclevels: 4
+
+== Exam API
+
+=== Exam 등록
+operation::register exam[snippets='http-request,http-response']
+

@@ -546,6 +546,16 @@ body.book #toc,body.book #preamble,body.book h1.sect0,body.book .sect1>h2{page-b
 </li>
 </ul>
 </li>
+<li><a href="#_exam_api">Exam API</a>
+<ul class="sectlevel2">
+<li><a href="#_exam_등록">Exam 등록</a>
+<ul class="sectlevel3">
+<li><a href="#_exam_등록_http_request">HTTP request</a></li>
+<li><a href="#_exam_등록_http_response">HTTP response</a></li>
+</ul>
+</li>
+</ul>
+</li>
 </ul>
 </div>
 </div>
@@ -959,14 +969,14 @@ Host: localhost:8080</code></pre>
 <div class="content">
 <pre class="highlightjs highlight nowrap"><code class="language-http hljs" data-lang="http">HTTP/1.1 200 OK
 Content-Type: application/json
-Content-Length: 292
+Content-Length: 268
 
 [ {
-  "content" : "공지사항 제목1",
+  "content" : "일정 1",
   "scheduleStartDatetime" : "2023-06-05 00:00:00",
   "scheduleFinishDatetime" : "2023-06-05 00:00:01"
 }, {
-  "content" : "공지사항 제목2",
+  "content" : "일정 2",
   "scheduleStartDatetime" : "2023-06-05 00:00:00",
   "scheduleFinishDatetime" : "2023-06-05 00:00:01"
 } ]</code></pre>
@@ -1024,21 +1034,80 @@ Host: localhost:8080</code></pre>
 <div class="content">
 <pre class="highlightjs highlight nowrap"><code class="language-http hljs" data-lang="http">HTTP/1.1 200 OK
 Content-Type: application/json
-Content-Length: 386
+Content-Length: 384
 
 [ {
   "questionId" : 1,
   "question" : "질문 내용1",
   "answer" : "답변 내용1",
-  "answerCreatedAt" : "2023-07-12T17:26:38.329473",
-  "answerUpdatedAt" : "2023-07-12T17:26:38.329489"
+  "answerCreatedAt" : "2023-07-12T19:28:05.06236",
+  "answerUpdatedAt" : "2023-07-12T19:28:05.062372"
 }, {
   "questionId" : 1,
   "question" : "질문 내용2",
   "answer" : "답변 내용2",
-  "answerCreatedAt" : "2023-07-12T17:26:38.329496",
-  "answerUpdatedAt" : "2023-07-12T17:26:38.329498"
+  "answerCreatedAt" : "2023-07-12T19:28:05.06238",
+  "answerUpdatedAt" : "2023-07-12T19:28:05.062382"
 } ]</code></pre>
+</div>
+</div>
+</div>
+</div>
+</div>
+</div>
+<div class="sect1">
+<h2 id="_exam_api"><a class="link" href="#_exam_api">Exam API</a></h2>
+<div class="sectionbody">
+<div class="sect2">
+<h3 id="_exam_등록"><a class="link" href="#_exam_등록">Exam 등록</a></h3>
+<div class="sect3">
+<h4 id="_exam_등록_http_request"><a class="link" href="#_exam_등록_http_request">HTTP request</a></h4>
+<div class="listingblock">
+<div class="content">
+<pre class="highlightjs highlight nowrap"><code class="language-http hljs" data-lang="http">POST /exam HTTP/1.1
+Content-Type: application/json
+Content-Length: 844
+Host: localhost:8080
+
+{
+  "programId" : 1,
+  "examTitle" : "시험1",
+  "examStartTime" : "2023-07-12T19:28:03.438581",
+  "examFinishTime" : "2023-07-12T19:28:03.438620",
+  "isExamRegistered" : false,
+  "examQuestionRegisterRequest" : [ {
+    "questionType" : "MULTIPLE_CHOICE_QUESTION",
+    "question" : "객관식 질문 1",
+    "score" : 10,
+    "options" : [ {
+      "choices" : "객관식 문항 1",
+      "isCorrect" : false
+    }, {
+      "choices" : "객관식 문항 2",
+      "isCorrect" : true
+    }, {
+      "choices" : "객관식 문항 3",
+      "isCorrect" : false
+    } ],
+    "subjectAnswer" : null,
+    "multipleChoiceType" : true
+  }, {
+    "questionType" : "SUBJECT_QUESTION",
+    "question" : "주관식 질문 1",
+    "score" : 20,
+    "options" : null,
+    "subjectAnswer" : "주관식 모범답안 1",
+    "multipleChoiceType" : false
+  } ]
+}</code></pre>
+</div>
+</div>
+</div>
+<div class="sect3">
+<h4 id="_exam_등록_http_response"><a class="link" href="#_exam_등록_http_response">HTTP response</a></h4>
+<div class="listingblock">
+<div class="content">
+<pre class="highlightjs highlight nowrap"><code class="language-http hljs" data-lang="http">HTTP/1.1 200 OK</code></pre>
 </div>
 </div>
 </div>
@@ -1048,7 +1117,7 @@ Content-Length: 386
 </div>
 <div id="footer">
 <div id="footer-text">
-Last updated 2023-07-04 18:15:21 +0900
+Last updated 2023-07-12 19:25:51 +0900
 </div>
 </div>
 <script src="https://cdnjs.cloudflare.com/ajax/libs/highlight.js/9.18.3/highlight.min.js"></script>
