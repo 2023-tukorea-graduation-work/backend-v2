@@ -66,7 +66,7 @@ public class MemberService {
     }
 
     /*
-     *  멘토 등록
+     *  멘티 등록
      * */
     public void registerMentee(MenteeRegisterRequest request, MultipartFile image) {
         // [1] Mentor 기본 정보 저장
@@ -84,7 +84,7 @@ public class MemberService {
         Member mentee = Member.builder()
                 .email(request.getEmail())
                 .password(encodePassword)
-                .roles(customAuthorityUtils.createMentorRole())
+                .roles(customAuthorityUtils.createMenteeRole())
                 .name(request.getName())
                 .age(request.getAge())
                 .institution(request.getSchool())
