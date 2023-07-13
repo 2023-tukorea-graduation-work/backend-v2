@@ -47,4 +47,5 @@ public class Program {
     private Integer capacity;
     @Column(nullable = false)
     private String programPlace;
+
 }

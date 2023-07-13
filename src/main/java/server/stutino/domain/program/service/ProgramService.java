@@ -28,6 +28,7 @@ import server.stutino.domain.program.entity.Participants;
 import server.stutino.domain.program.entity.Program;
 import server.stutino.domain.program.entity.ProgramCategory;
 import server.stutino.domain.program.entity.ProgramWeek;
+import server.stutino.domain.program.exception.ParticipantsDuplicateException;
 import server.stutino.domain.program.mapper.ProgramMapper;
 import server.stutino.domain.program.repository.ParticipantsRepository;
 import server.stutino.domain.program.repository.ProgramCategoryRepository;
@@ -126,17 +127,15 @@ public class ProgramService {
     * 프로그램 참여 정보 등록
     * */
     public void registerParticipation(ProgramParticipateRequest request) {
-        programParticipationRepository.save(Participants.builder()
-                .program(programRepository.findById(request.getProgramId()).orElseThrow(EntityNotFoundException::new))
-                .member(memberRepository.findById(request.getMenteeId()).orElseThrow(EntityNotFoundException::new))
-                .build());
-    }
-
-    /*
-    * 프로그램 참여 정보 등록 여부 조회
-    * */
-    public Boolean isParticipated(ProgramParticipateRequest request) {
-        return programParticipationRepository.isParticipated(request.getProgramId(), request.getMenteeId()) > 0;
+        if(programParticipationRepository.isParticipated(request.getProgramId(), request.getMenteeId()) > 0) {
+            throw new ParticipantsDuplicateException();
+        }
+        else {
+            programParticipationRepository.save(Participants.builder()
+                    .program(programRepository.findById(request.getProgramId()).orElseThrow(EntityNotFoundException::new))
+                    .member(memberRepository.findById(request.getMenteeId()).orElseThrow(EntityNotFoundException::new))
+                    .build());
+        }
     }
 
     /*

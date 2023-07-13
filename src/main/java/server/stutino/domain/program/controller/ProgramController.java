@@ -4,7 +4,6 @@ import lombok.AccessLevel;
 import lombok.RequiredArgsConstructor;
 import lombok.experimental.FieldDefaults;
 import org.springframework.data.repository.query.Param;
-import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
 import server.stutino.domain.program.dto.request.ProgramParticipateRequest;
@@ -56,13 +55,8 @@ public class ProgramController {
     * */
     @PostMapping("/participate")
     public ResponseEntity<ErrorResponse> registerParticipation(@Valid @RequestBody ProgramParticipateRequest programParticipateRequest) {
-        if(!programService.isParticipated(programParticipateRequest)) {
-            programService.registerParticipation(programParticipateRequest);
-            return ResponseEntity.ok().build();
-        }
-        else {
-            return ResponseEntity.status(HttpStatus.BAD_REQUEST).body(new ErrorResponse(HttpStatus.BAD_REQUEST, "참여 내역이 존재 합니다."));
-        }
+        programService.registerParticipation(programParticipateRequest);
+        return ResponseEntity.ok().build();
     }
 
     /*

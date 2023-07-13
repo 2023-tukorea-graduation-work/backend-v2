@@ -25,7 +25,7 @@ public class ExamController {
     * 프로그램 별 시험 등록
     * */
     @PostMapping
-    public ResponseEntity<Void> registerExam(@Valid @RequestBody  ExamRegisterRequest examRegisterRequest) {
+    public ResponseEntity<Void> registerExam(@Valid @RequestBody ExamRegisterRequest examRegisterRequest) {
         examService.registerExam(examRegisterRequest);
         return ResponseEntity.ok().build();
     }

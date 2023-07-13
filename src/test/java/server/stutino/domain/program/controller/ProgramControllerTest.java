@@ -219,9 +219,10 @@ class ProgramControllerTest extends RestDocumentTest {
                         1L,
                         1L
                 );
+
         doNothing()
-                .when(programService)
-                    .registerParticipation(any());
+            .when(programService)
+                .registerParticipation(any());
 
         // when
         ResultActions perform =
