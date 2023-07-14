@@ -99,6 +99,7 @@ public class ProgramService {
         // [1-4] ProgramCategory 기본 정보 등록
         List<ProgramCategory> categories = request.getProgramCategories().stream().map(category ->
                 ProgramCategory.builder()
+                        .program(program)
                         .parent(category.getParent())
                         .child(category.getChild())
                         .build()).toList();
@@ -136,6 +137,13 @@ public class ProgramService {
                     .member(memberRepository.findById(request.getMenteeId()).orElseThrow(EntityNotFoundException::new))
                     .build());
         }
+    }
+
+    /*
+     * 프로그램 삭제
+     * */
+    public void deleteProgram(Long programId) {
+        programRepository.deleteById(programId);
     }
 
     /*

@@ -5,12 +5,13 @@ import lombok.RequiredArgsConstructor;
 import lombok.experimental.FieldDefaults;
 import org.springframework.security.crypto.password.PasswordEncoder;
 import org.springframework.stereotype.Service;
-import org.springframework.transaction.annotation.Transactional;
 import org.springframework.web.multipart.MultipartFile;
 import server.stutino.auth.utils.CustomAuthorityUtils;
 import server.stutino.domain.member.dto.request.MenteeRegisterRequest;
 import server.stutino.domain.member.dto.request.MentorRegisterRequest;
 import server.stutino.domain.member.entity.Member;
+import server.stutino.domain.member.exception.BusinessException;
+import server.stutino.domain.member.exception.EmailDuplicateException;
 import server.stutino.domain.member.repository.MemberRepository;
 import server.stutino.util.s3.manager.S3Manager;
 
@@ -28,16 +29,24 @@ public class MemberService {
     /*
      *  멘토 등록
      * */
-    @Transactional
+//    @Transactional
     public void registerMentor(MentorRegisterRequest request, MultipartFile image, MultipartFile certification) {
+        // email duplicate check
+        if(memberRepository.findByEmail(request.getEmail()).isPresent()) {
+            throw new EmailDuplicateException("email is duplicated");
+        }
+
         // [1] Mentor 기본 정보 저장
         // [1-1] GCP Storage profile image url
         String imgUrl = "", certificateUrl = "";
         try {
             imgUrl = s3Manager.upload(image, "/profile-image");
-            certificateUrl = s3Manager.upload(image, "/mentor-certification");
+            System.out.println(imgUrl);
+            certificateUrl = s3Manager.upload(certification, "/mentor-certification");
+            System.out.println(certificateUrl);
+
         } catch (IOException e) {
-            throw new RuntimeException(e);
+            throw new BusinessException(e.getMessage());
         }
 
         String encodePassword = passwordEncoder.encode(request.getPassword());

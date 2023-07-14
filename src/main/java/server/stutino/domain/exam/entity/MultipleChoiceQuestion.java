@@ -22,6 +22,6 @@ public class MultipleChoiceQuestion {
     private Integer score;
     @Column(nullable = false)
     private String question;
-    @OneToMany(mappedBy = "multipleChoiceQuestion", cascade = CascadeType.ALL, orphanRemoval = true)
+    @OneToMany(mappedBy = "multipleChoiceQuestion")
     private List<MultipleChoiceOptions> options;
 }

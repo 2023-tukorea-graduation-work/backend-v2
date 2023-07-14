@@ -3,7 +3,7 @@ package server.stutino.auth.utils;
 import com.fasterxml.jackson.databind.ObjectMapper;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.MediaType;
-import server.stutino.util.ErrorResponse;
+import server.stutino.advice.ErrorResponse;
 
 import javax.servlet.http.HttpServletResponse;
 import java.io.IOException;
@@ -11,11 +11,6 @@ import java.io.IOException;
 public class ErrorResponder {
     public static void sendErrorResponse(HttpServletResponse response, HttpStatus httpStatus, String message) throws IOException {
         ErrorResponse errorResponse = new ErrorResponse(httpStatus, message);
-        sendError(response, httpStatus, errorResponse);
-    }
-
-    public static void sendErrorResponse(HttpServletResponse response, HttpStatus httpStatus) throws IOException {
-        ErrorResponse errorResponse = new ErrorResponse(httpStatus);
         sendError(response, httpStatus, errorResponse);
     }
 

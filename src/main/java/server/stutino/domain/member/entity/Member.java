@@ -2,6 +2,7 @@ package server.stutino.domain.member.entity;
 
 import lombok.*;
 import org.hibernate.validator.constraints.URL;
+import server.stutino.domain.program.entity.Program;
 
 import javax.persistence.*;
 import java.util.ArrayList;
@@ -42,8 +43,11 @@ public class Member {
     @Column(nullable = false)
     private String imgUrl;
     @URL
-    @Column(nullable = true)
+    @Column(nullable = true, length = 400)
     private String certificateUrl;
-    @ElementCollection(fetch = FetchType.EAGER)
+    @ElementCollection
+    @CollectionTable(name = "roles", joinColumns = @JoinColumn(name = "member_id"))
     private List<String> roles = new ArrayList<>();
+    @OneToMany(mappedBy = "member", cascade = {CascadeType.ALL}, orphanRemoval = true)
+    private List<Program> programs;
 }

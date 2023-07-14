@@ -1,4 +1,4 @@
-package server.stutino.util;
+package server.stutino.advice;
 
 import lombok.Getter;
 import org.springframework.http.HttpStatus;
@@ -11,11 +11,5 @@ public class ErrorResponse {
     public ErrorResponse(HttpStatus httpStatus, String message) {
         this.httpStatus = httpStatus;
         this.message = message;
-    }
-    public ErrorResponse(String message) {
-        this.message = message;
-    }
-    public ErrorResponse(HttpStatus httpStatus) {
-        this.httpStatus = httpStatus;
     }
 }

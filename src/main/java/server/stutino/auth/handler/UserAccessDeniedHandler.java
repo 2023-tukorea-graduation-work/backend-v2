@@ -18,6 +18,6 @@ public class UserAccessDeniedHandler implements AccessDeniedHandler {
                        HttpServletResponse response,
                        AccessDeniedException accessDeniedException) throws IOException, ServletException {
         log.warn("Forbidden error happend: {}", accessDeniedException.getMessage());
-        ErrorResponder.sendErrorResponse(response, HttpStatus.FORBIDDEN);
+        ErrorResponder.sendErrorResponse(response, HttpStatus.FORBIDDEN, "Forbidden error happend");
     }
 }

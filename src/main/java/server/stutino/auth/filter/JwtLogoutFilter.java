@@ -78,7 +78,7 @@ public class JwtLogoutFilter extends OncePerRequestFilter {
         String bearerToken = request.getHeader(JwtTokenizer.ACCESS_TOKEN_HEADER);
         if (!StringUtils.hasText(bearerToken) || !bearerToken.startsWith(JwtTokenizer.TOKEN_PREFIX)) {
             log.info("Header hasn't contain access token, Authorization: {}", bearerToken);
-            ErrorResponder.sendErrorResponse(response, HttpStatus.BAD_REQUEST);
+            ErrorResponder.sendErrorResponse(response, HttpStatus.BAD_REQUEST, "Header hasn't contain access token");
         }
         return bearerToken.replace(JwtTokenizer.TOKEN_PREFIX, "");
     }
@@ -88,7 +88,7 @@ public class JwtLogoutFilter extends OncePerRequestFilter {
         String refreshToken = request.getHeader(JwtTokenizer.REFRESH_TOKEN_HEADER);
         if (!StringUtils.hasText(refreshToken)) {
             log.info("Header hasn't contain refresh token, Refresh: {}", refreshToken);
-            ErrorResponder.sendErrorResponse(response, HttpStatus.BAD_REQUEST);
+            ErrorResponder.sendErrorResponse(response, HttpStatus.BAD_REQUEST, "Header hasn't contain refresh token");
         }
         return refreshToken;
     }

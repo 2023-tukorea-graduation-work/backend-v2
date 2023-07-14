@@ -26,12 +26,12 @@ public class MemberController {
      * 멘토 등록
      * */
     @PostMapping("/mentor")
-    public ResponseEntity<Void> registerMentor(
+    public void registerMentor(
             @RequestPart(value = "data", required = true) @Valid MentorRegisterRequest mentorRegisterRequest,
             @RequestPart(value = "image", required = false) MultipartFile image,
             @RequestPart(value = "certification", required = true) MultipartFile certification) {
         memberService.registerMentor(mentorRegisterRequest, image, certification);
-        return ResponseEntity.ok().build();
+//        return ResponseEntity.ok().build();
     }
 
     /*
