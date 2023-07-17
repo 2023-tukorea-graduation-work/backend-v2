@@ -13,6 +13,7 @@ import server.stutino.domain.member.entity.Member;
 import server.stutino.domain.member.exception.BusinessException;
 import server.stutino.domain.member.exception.EmailDuplicateException;
 import server.stutino.domain.member.repository.MemberRepository;
+import server.stutino.util.CustomStringUtil;
 import server.stutino.util.s3.manager.S3Manager;
 
 import java.io.IOException;
@@ -39,14 +40,17 @@ public class MemberService {
         // [1] Mentor 기본 정보 저장
         // [1-1] GCP Storage profile image url
         String imgUrl = "", certificateUrl = "";
-        try {
-            imgUrl = s3Manager.upload(image, "/profile-image");
-            System.out.println(imgUrl);
-            certificateUrl = s3Manager.upload(certification, "/mentor-certification");
-            System.out.println(certificateUrl);
+        if(!image.isEmpty() && !certification.isEmpty()) {
 
-        } catch (IOException e) {
-            throw new BusinessException(e.getMessage());
+            try {
+                imgUrl = s3Manager.upload(image, "/profile-image");
+                System.out.println(imgUrl);
+                certificateUrl = s3Manager.upload(certification, "/mentor-certification");
+                System.out.println(certificateUrl);
+
+            } catch (IOException e) {
+                throw new BusinessException(e.getMessage());
+            }
         }
 
         String encodePassword = passwordEncoder.encode(request.getPassword());
@@ -81,13 +85,17 @@ public class MemberService {
         // [1] Mentor 기본 정보 저장
         // [1-1] GCP Storage profile image url
         String imgUrl = "";
-        try {
-            imgUrl = s3Manager.upload(image, "/profile-image");
-        } catch (IOException e) {
-            throw new RuntimeException(e);
+        if(!image.isEmpty()) {
+            try {
+                imgUrl = s3Manager.upload(image, "/profile-image");
+            } catch (IOException e) {
+                throw new RuntimeException(e);
+            }
         }
 
         String encodePassword = passwordEncoder.encode(request.getPassword());
+
+        System.out.println(CustomStringUtil.toString(request));
 
         // [1-2] 멘토 정보 매핑
         Member mentee = Member.builder()

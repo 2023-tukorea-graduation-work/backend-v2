@@ -10,12 +10,18 @@ import org.springframework.mock.web.MockPart;
 import org.springframework.test.web.servlet.ResultActions;
 import server.stutino.domain.matirial.controller.MaterialController;
 import server.stutino.domain.matirial.dto.request.MaterialRegisterRequest;
+import server.stutino.domain.matirial.dto.response.MaterialDetailResponse;
+import server.stutino.domain.matirial.dto.response.MaterialListResponse;
 import server.stutino.domain.matirial.service.MaterialService;
 import server.stutino.support.docs.RestDocumentTest;
 
+import java.util.List;
+
 import static org.mockito.ArgumentMatchers.any;
 import static org.mockito.Mockito.doNothing;
+import static org.mockito.Mockito.when;
 import static org.springframework.restdocs.mockmvc.MockMvcRestDocumentation.document;
+import static org.springframework.restdocs.mockmvc.RestDocumentationRequestBuilders.get;
 import static org.springframework.restdocs.mockmvc.RestDocumentationRequestBuilders.multipart;
 import static org.springframework.test.web.servlet.result.MockMvcResultHandlers.print;
 import static org.springframework.test.web.servlet.result.MockMvcResultMatchers.status;
@@ -60,6 +66,68 @@ class MaterialControllerTest extends RestDocumentTest {
         // docs
         perform.andDo(print())
                 .andDo(document("register material",
+                        getDocumentRequest(),
+                        getDocumentResponse()));
+    }
+
+    @Test
+    @DisplayName("프로그램 자료 목록을 성공적으로 조회하는가?")
+    void successGetAllMaterial() throws Exception {
+        // given
+        when(materialService.findAllMaterials(any()))
+                .thenReturn(List.of(
+                        new MaterialListResponse(
+                                1L,
+                                "자료 제목1",
+                                "상세 내용1",
+                                "fileName1"
+                        ),
+                        new MaterialListResponse(
+                                2L,
+                                "자료 제목2",
+                                "상세 내용2",
+                                "fileName2"
+                        )
+                ));
+
+        // when
+        ResultActions perform =
+                mockMvc.perform(
+                        get("/notice/program/{programId}", 1L));
+
+        // then
+        perform.andExpect(status().isOk());
+
+        // docs
+        perform.andDo(print())
+                .andDo(document("find all material by program",
+                        getDocumentRequest(),
+                        getDocumentResponse()));
+    }
+
+    @Test
+    @DisplayName("프로그램 자료 상세 정보를 성공적으로 조회하는가?")
+    void successGetMaterialById() throws Exception {
+        // given
+        when(materialService.findMaterialById(any()))
+                .thenReturn(new MaterialDetailResponse(
+                                2L,
+                                "자료 제목2",
+                                "상세 내용2",
+                                "fileName2"
+                        ));
+
+        // when
+        ResultActions perform =
+                mockMvc.perform(
+                        get("/notice/{materialId}", 1L));
+
+        // then
+        perform.andExpect(status().isOk());
+
+        // docs
+        perform.andDo(print())
+                .andDo(document("find material by materialId",
                         getDocumentRequest(),
                         getDocumentResponse()));
     }

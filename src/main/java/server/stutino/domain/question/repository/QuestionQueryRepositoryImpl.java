@@ -44,6 +44,7 @@ public class QuestionQueryRepositoryImpl implements QuestionQueryRepository {
         return queryFactory
                 .select(participants.id)
                 .from(participants)
+                .innerJoin(participants.program, program)
                 .where(participants.program.id.eq(programId))
                 .fetch();
     }

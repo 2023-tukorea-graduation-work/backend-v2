@@ -6,6 +6,8 @@ import lombok.experimental.FieldDefaults;
 import org.springframework.stereotype.Service;
 import org.springframework.web.multipart.MultipartFile;
 import server.stutino.domain.matirial.dto.request.MaterialRegisterRequest;
+import server.stutino.domain.matirial.dto.response.MaterialDetailResponse;
+import server.stutino.domain.matirial.dto.response.MaterialListResponse;
 import server.stutino.domain.matirial.entity.Material;
 import server.stutino.domain.matirial.repository.MaterialRepository;
 import server.stutino.domain.program.repository.ProgramRepository;
@@ -13,6 +15,8 @@ import server.stutino.util.s3.manager.S3Manager;
 
 import javax.persistence.EntityNotFoundException;
 import java.io.IOException;
+import java.util.List;
+
 
 @Service
 @RequiredArgsConstructor
@@ -36,6 +40,32 @@ public class MaterialService {
                 .fileName(file.getOriginalFilename())
                 .filePath(filePath)
                 .build());
+    }
+
+    /*
+     *  자료 목록 조회
+     * */
+    public List<MaterialListResponse> findAllMaterials(Long programId) {
+        return materialRepository.findAllByProgramId(programId).stream().map(material ->
+                new MaterialListResponse(
+                        material.getId(),
+                        material.getTitle(),
+                        material.getDetail(),
+                        material.getFileName()
+                )).toList();
+    }
+
+    /*
+     *  자료 상세 조회
+     * */
+    public MaterialDetailResponse findMaterialById(Long materialId) {
+        Material material = materialRepository.findAllByMaterialId(materialId);
+        return new MaterialDetailResponse(
+                materialId,
+                material.getTitle(),
+                material.getDetail(),
+                material.getFileName()
+        );
     }
 
     /*

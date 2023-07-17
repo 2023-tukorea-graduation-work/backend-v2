@@ -12,6 +12,8 @@ import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
 import org.springframework.web.multipart.MultipartFile;
 import server.stutino.domain.matirial.dto.request.MaterialRegisterRequest;
+import server.stutino.domain.matirial.dto.response.MaterialDetailResponse;
+import server.stutino.domain.matirial.dto.response.MaterialListResponse;
 import server.stutino.domain.matirial.service.MaterialService;
 
 import javax.validation.Valid;
@@ -19,6 +21,7 @@ import java.io.ByteArrayInputStream;
 import java.io.IOException;
 import java.io.InputStream;
 import java.net.URL;
+import java.util.List;
 
 @RestController
 @RequestMapping("/material")
@@ -37,6 +40,22 @@ public class MaterialController {
             @RequestPart(value = "file", required = true) MultipartFile file) throws IOException {
         materialService.registerMaterial(materialRegisterRequest, file);
         return ResponseEntity.ok().build();
+    }
+
+    /*
+     * 프로그램 별 학습 자료 목록 조회
+     * */
+    @GetMapping("/program/{programId}")
+    public ResponseEntity<List<MaterialListResponse>> findAllMaterials(@PathVariable("programId") Long programId) {
+        return ResponseEntity.ok(materialService.findAllMaterials(programId));
+    }
+
+    /*
+     * 프로그램 별 학습 자료 상세 조회
+     * */
+    @GetMapping("/{materialId}")
+    public ResponseEntity<MaterialDetailResponse> findMaterialById(@PathVariable("materialId") Long materialId) {
+        return ResponseEntity.ok(materialService.findMaterialById(materialId));
     }
 
     /*
