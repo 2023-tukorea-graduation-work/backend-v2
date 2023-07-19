@@ -52,5 +52,6 @@ public class Program {
     private Integer capacity;
     @Column(nullable = false)
     private String programPlace;
-
+    @Enumerated(EnumType.STRING)
+    private ProgramState programState;
 }

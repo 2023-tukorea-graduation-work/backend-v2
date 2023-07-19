@@ -7,18 +7,20 @@ import server.stutino.domain.program.dto.response.ProgramDetailResponse;
 import server.stutino.domain.program.dto.response.ProgramListResponse;
 import server.stutino.domain.program.dto.response.QProgramDetailResponse;
 import server.stutino.domain.program.dto.response.QProgramListResponse;
+import server.stutino.util.CustomDateUtil;
 
 import java.util.List;
 
-import static server.stutino.domain.program.entity.QProgram.program;
-import static server.stutino.domain.program.entity.QParticipants.participants;
 import static server.stutino.domain.member.entity.QMember.member;
+import static server.stutino.domain.program.entity.QParticipants.participants;
+import static server.stutino.domain.program.entity.QProgram.program;
 
 
 @Repository
 @RequiredArgsConstructor
 public class ProgramQueryRepositoryImpl implements ProgramQueryRepository {
     private final JPAQueryFactory queryFactory;
+    private final CustomDateUtil dateUtil;
 
     @Override
     public List<ProgramListResponse> getProgramList(String keyword) {
@@ -72,4 +74,24 @@ public class ProgramQueryRepositoryImpl implements ProgramQueryRepository {
                 .where(program.id.eq(programId))
                 .fetchOne();
     }
+
+//    @Override
+//    public List<MyProgramResponse> getMyProgram(Long memberId) {
+//        return queryFactory
+//                .select(new QMyProgramResponse(
+//                        member.name,
+//                        member.institution,
+//                        member.major,
+//                        program.subject,
+//                        program.programPlace,
+//                        program.capacity,
+//                        dateUtil.localDateToString(program.recruitStartDate) + "~" + dateUtil.localDateToString(program.recruitFinishDate),
+//                        dateUtil.localDateToString(program.recruitStartDate) + "~" + dateUtil.localDateToString(program.recruitFinishDate),
+//                        program.programState
+//                ))
+//                .from(program)
+//                .join(program.member, member)
+//                .where(program.member.id.eq(memberId))
+//                .fetch();
+//    }
 }

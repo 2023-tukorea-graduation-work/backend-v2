@@ -24,10 +24,7 @@ import server.stutino.domain.program.dto.request.ProgramParticipateRequest;
 import server.stutino.domain.program.dto.request.ProgramRegisterRequest;
 import server.stutino.domain.program.dto.response.ProgramDetailResponse;
 import server.stutino.domain.program.dto.response.ProgramListResponse;
-import server.stutino.domain.program.entity.Participants;
-import server.stutino.domain.program.entity.Program;
-import server.stutino.domain.program.entity.ProgramCategory;
-import server.stutino.domain.program.entity.ProgramWeek;
+import server.stutino.domain.program.entity.*;
 import server.stutino.domain.program.exception.ParticipantsDuplicateException;
 import server.stutino.domain.program.mapper.ProgramMapper;
 import server.stutino.domain.program.repository.ParticipantsRepository;
@@ -83,6 +80,7 @@ public class ProgramService {
                         .recruitFinishDate(customDateUtil.convertStringToLocalDate(request.getRecruitFinishDate()))
                         .capacity(request.getCapacity())
                         .programPlace(request.getProgramPlace())
+                        .programState(ProgramState.RECRUIT)
                     .build()
         );
 

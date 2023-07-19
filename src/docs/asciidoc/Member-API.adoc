@@ -12,3 +12,5 @@ operation::register mentor[snippets='http-request,http-response']
 === Member 멘티 등록
 operation::register mentee[snippets='http-request,http-response']
 
+=== Member 마이페이지 정보 조회
+operation::find my page[snippets='http-request,http-response']

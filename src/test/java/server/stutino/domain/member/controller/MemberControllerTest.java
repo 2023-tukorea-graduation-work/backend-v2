@@ -10,12 +10,20 @@ import org.springframework.mock.web.MockPart;
 import org.springframework.test.web.servlet.ResultActions;
 import server.stutino.domain.member.dto.request.MenteeRegisterRequest;
 import server.stutino.domain.member.dto.request.MentorRegisterRequest;
+import server.stutino.domain.member.dto.response.MyPageResponse;
+import server.stutino.domain.member.dto.response.MyProgramResponse;
 import server.stutino.domain.member.entity.Lesson;
 import server.stutino.domain.member.entity.Major;
 import server.stutino.domain.member.service.MemberService;
+import server.stutino.domain.program.entity.ProgramState;
 import server.stutino.support.docs.RestDocumentTest;
 
+import java.util.List;
+
+import static org.mockito.ArgumentMatchers.any;
+import static org.mockito.Mockito.when;
 import static org.springframework.restdocs.mockmvc.MockMvcRestDocumentation.document;
+import static org.springframework.restdocs.mockmvc.RestDocumentationRequestBuilders.get;
 import static org.springframework.restdocs.mockmvc.RestDocumentationRequestBuilders.multipart;
 import static org.springframework.test.web.servlet.result.MockMvcResultHandlers.print;
 import static org.springframework.test.web.servlet.result.MockMvcResultMatchers.status;
@@ -105,4 +113,66 @@ class MemberControllerTest extends RestDocumentTest {
                         getDocumentResponse()));
     }
 
+    @Test
+    @DisplayName("마이페이지 정보를 성공적으로 조회하는가?")
+    void successGetMyPageInfo() throws Exception {
+        // given
+        when(memberService.getMyPageInfo(any()))
+                .thenReturn(
+                        new MyPageResponse(
+                                "정민창",
+                                20,
+                                "wjdalsckd777@naver.com",
+                                "http://~",
+                                List.of(
+                                    new MyProgramResponse(
+                                            "정민창",
+                                            "대학교",
+                                            Major.COMPUTER,
+                                            "subject",
+                                            "programPlace",
+                                            10,
+                                            "시작 ~ 종료",
+                                            "시작 ~ 종료",
+                                            ProgramState.RECRUIT
+                                    ),
+                                    new MyProgramResponse(
+                                            "정민창",
+                                            "대학교",
+                                            Major.COMPUTER,
+                                            "subject",
+                                            "programPlace",
+                                            10,
+                                            "시작 ~ 종료",
+                                            "시작 ~ 종료",
+                                            ProgramState.OPEN
+                                    ),
+                                    new MyProgramResponse(
+                                            "정민창",
+                                            "대학교",
+                                            Major.COMPUTER,
+                                            "subject",
+                                            "programPlace",
+                                            10,
+                                            "시작 ~ 종료",
+                                            "시작 ~ 종료",
+                                            ProgramState.CLOSE
+                                    ))
+                        )
+                );
+
+        // when
+        ResultActions perform =
+                mockMvc.perform(
+                        get("/member/my-page/{memberId}", 1L));
+
+        // then
+        perform.andExpect(status().isOk());
+
+        // docs
+        perform.andDo(print())
+                .andDo(document("find my page",
+                        getDocumentRequest(),
+                        getDocumentResponse()));
+    }
 }

@@ -93,7 +93,7 @@ class MaterialControllerTest extends RestDocumentTest {
         // when
         ResultActions perform =
                 mockMvc.perform(
-                        get("/notice/program/{programId}", 1L));
+                        get("/material/program/{programId}", 1L));
 
         // then
         perform.andExpect(status().isOk());
@@ -120,7 +120,7 @@ class MaterialControllerTest extends RestDocumentTest {
         // when
         ResultActions perform =
                 mockMvc.perform(
-                        get("/notice/{materialId}", 1L));
+                        get("/material/{materialId}", 1L));
 
         // then
         perform.andExpect(status().isOk());

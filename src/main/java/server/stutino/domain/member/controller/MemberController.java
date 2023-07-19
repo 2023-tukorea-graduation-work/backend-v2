@@ -4,13 +4,11 @@ import lombok.AccessLevel;
 import lombok.RequiredArgsConstructor;
 import lombok.experimental.FieldDefaults;
 import org.springframework.http.ResponseEntity;
-import org.springframework.web.bind.annotation.PostMapping;
-import org.springframework.web.bind.annotation.RequestMapping;
-import org.springframework.web.bind.annotation.RequestPart;
-import org.springframework.web.bind.annotation.RestController;
+import org.springframework.web.bind.annotation.*;
 import org.springframework.web.multipart.MultipartFile;
 import server.stutino.domain.member.dto.request.MenteeRegisterRequest;
 import server.stutino.domain.member.dto.request.MentorRegisterRequest;
+import server.stutino.domain.member.dto.response.MyPageResponse;
 import server.stutino.domain.member.service.MemberService;
 
 import javax.validation.Valid;
@@ -45,4 +43,11 @@ public class MemberController {
         return ResponseEntity.ok().build();
     }
 
+    /*
+    * 마이페이지 정보 조회
+    * */
+    @GetMapping("/my-page/{memberId}")
+    public ResponseEntity<MyPageResponse> getMyPageInfo(@PathVariable("memberId") Long memberId) {
+        return ResponseEntity.ok(memberService.getMyPageInfo(memberId));
+    }
 }

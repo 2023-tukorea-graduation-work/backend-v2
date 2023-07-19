@@ -9,14 +9,20 @@ import org.springframework.web.multipart.MultipartFile;
 import server.stutino.auth.utils.CustomAuthorityUtils;
 import server.stutino.domain.member.dto.request.MenteeRegisterRequest;
 import server.stutino.domain.member.dto.request.MentorRegisterRequest;
+import server.stutino.domain.member.dto.response.MyPageResponse;
+import server.stutino.domain.member.dto.response.MyProgramResponse;
 import server.stutino.domain.member.entity.Member;
 import server.stutino.domain.member.exception.BusinessException;
 import server.stutino.domain.member.exception.EmailDuplicateException;
 import server.stutino.domain.member.repository.MemberRepository;
+import server.stutino.domain.program.repository.ProgramRepository;
+import server.stutino.util.CustomDateUtil;
 import server.stutino.util.CustomStringUtil;
 import server.stutino.util.s3.manager.S3Manager;
 
+import javax.persistence.EntityNotFoundException;
 import java.io.IOException;
+import java.util.List;
 
 @Service
 @RequiredArgsConstructor
@@ -25,7 +31,9 @@ public class MemberService {
     CustomAuthorityUtils customAuthorityUtils;
     PasswordEncoder passwordEncoder;
     MemberRepository memberRepository;
+    ProgramRepository programRepository;
     S3Manager s3Manager;
+    CustomDateUtil dateUtil;
 
     /*
      *  멘토 등록
@@ -112,6 +120,37 @@ public class MemberService {
 
         // [1-3] 멘토 정보 저장
         memberRepository.save(mentee);
+    }
 
+    /*
+    * 마이페이지 정보 조회
+    * */
+    public MyPageResponse getMyPageInfo(Long memberId) {
+        // [1] Member 객체 조회
+        Member member = memberRepository.findById(memberId).orElseThrow(EntityNotFoundException::new);
+
+        // [2] program 정보 조회
+        List<MyProgramResponse> programList = programRepository.findProgramByMemberId(memberId).stream().map(program ->
+                MyProgramResponse.builder()
+                        .mentorName(program.getMember().getName())
+                        .mentorInstitution(program.getMember().getInstitution())
+                        .mentorMajor(program.getMember().getMajor())
+                        .subject(program.getSubject())
+                        .programPlace(program.getProgramPlace())
+                        .capacity(program.getCapacity())
+                        .recruitPeriod(dateUtil.localDateToString(program.getRecruitStartDate()) + " ~ " +
+                            dateUtil.localDateToString(program.getRecruitFinishDate()))
+                        .programPeriod(dateUtil.localDateToString(program.getProgramStartDate()) + " ~ " +
+                                dateUtil.localDateToString(program.getProgramFinishDate()))
+                        .state(program.getProgramState())
+                        .build()).toList();
+        
+        // [3] dto mapping
+        return new MyPageResponse(
+                member.getName(),
+                member.getAge(),
+                member.getEmail(),
+                member.getImgUrl(),
+                programList);
     }
 }

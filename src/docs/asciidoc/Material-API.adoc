@@ -8,3 +8,6 @@
 
 === Material 등록
 operation::register material[snippets='http-request,http-response']
+
+=== Material 목록 조회
+operation::find all material by program[snippets='http-request,http-response']

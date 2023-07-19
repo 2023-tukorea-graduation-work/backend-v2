@@ -8,4 +8,5 @@ import java.util.List;
 public interface ProgramQueryRepository {
     List<ProgramListResponse> getProgramList(String keyword);
     ProgramDetailResponse getProgramDetail(Long programId);
+//    List<MyProgramResponse> getMyProgram(Long memberId);
 }
