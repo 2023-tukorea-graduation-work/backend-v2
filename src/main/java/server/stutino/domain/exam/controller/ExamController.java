@@ -4,14 +4,14 @@ import lombok.AccessLevel;
 import lombok.RequiredArgsConstructor;
 import lombok.experimental.FieldDefaults;
 import org.springframework.http.ResponseEntity;
-import org.springframework.web.bind.annotation.PostMapping;
-import org.springframework.web.bind.annotation.RequestBody;
-import org.springframework.web.bind.annotation.RequestMapping;
-import org.springframework.web.bind.annotation.RestController;
+import org.springframework.web.bind.annotation.*;
 import server.stutino.domain.exam.dto.request.ExamRegisterRequest;
+import server.stutino.domain.exam.dto.response.ExamDetailResponse;
+import server.stutino.domain.exam.dto.response.ExamListResponse;
 import server.stutino.domain.exam.service.ExamService;
 
 import javax.validation.Valid;
+import java.util.List;
 
 @RestController
 @RequestMapping("/exam")
@@ -31,6 +31,19 @@ public class ExamController {
     }
 
     /*
-    *
+    * 시험 목록 조회
     * */
+    @GetMapping("/program/{programId}")
+    public ResponseEntity<List<ExamListResponse>> findAllExam(@PathVariable("programId") Long programId) {
+        return ResponseEntity.ok(examService.findAllExam(programId));
+    }
+
+    /*
+     * 시험 상세 조회(mentor 접근)
+     * */
+    @GetMapping("/{examId}}")
+    public ResponseEntity<ExamDetailResponse> findExamById(@PathVariable("examId") Long examId) {
+        return ResponseEntity.ok(examService.findExamById(examId));
+    }
+
 }

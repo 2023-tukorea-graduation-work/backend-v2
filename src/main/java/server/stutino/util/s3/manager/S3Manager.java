@@ -23,10 +23,7 @@ import java.util.Random;
 @RequiredArgsConstructor
 @Component
 public class S3Manager {
-
-    private final String profileDirName = "profile-images";
-    private final String materialDirName = "material-files";
-    private final String programDirName = "program-pdf-files";
+    
     private final AmazonS3 amazonS3Client;
 
     @Value("${cloud.aws.s3.bucket}")

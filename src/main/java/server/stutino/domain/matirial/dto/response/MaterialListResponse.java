@@ -10,4 +10,5 @@ public class MaterialListResponse {
     private String title;
     private String detail;
     private String fileName;
+
 }

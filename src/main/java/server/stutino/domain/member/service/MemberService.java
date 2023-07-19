@@ -43,9 +43,9 @@ public class MemberService {
         if(!image.isEmpty() && !certification.isEmpty()) {
 
             try {
-                imgUrl = s3Manager.upload(image, "/profile-image");
+                imgUrl = s3Manager.upload(image, "profile-image");
                 System.out.println(imgUrl);
-                certificateUrl = s3Manager.upload(certification, "/mentor-certification");
+                certificateUrl = s3Manager.upload(certification, "mentor-certification");
                 System.out.println(certificateUrl);
 
             } catch (IOException e) {

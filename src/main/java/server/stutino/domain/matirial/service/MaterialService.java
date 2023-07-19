@@ -31,7 +31,7 @@ public class MaterialService {
     *  자료 등록
     * */
     public void registerMaterial(MaterialRegisterRequest request, MultipartFile file) throws IOException {
-        String filePath = s3Manager.upload(file, "/material");
+        String filePath = s3Manager.upload(file, "material");
 
         materialRepository.save(Material.builder()
                 .program(programRepository.findById(request.getProgramId()).orElseThrow(EntityNotFoundException::new))
