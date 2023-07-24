@@ -95,7 +95,7 @@ public class MemberService {
         String imgUrl = "";
         if(!image.isEmpty()) {
             try {
-                imgUrl = s3Manager.upload(image, "/profile-image");
+                imgUrl = s3Manager.upload(image, "profile-image");
             } catch (IOException e) {
                 throw new RuntimeException(e);
             }
