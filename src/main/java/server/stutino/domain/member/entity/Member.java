@@ -45,8 +45,7 @@ public class Member {
     @URL
     @Column(nullable = true, length = 400)
     private String certificateUrl;
-    @ElementCollection
-    @CollectionTable(name = "roles", joinColumns = @JoinColumn(name = "member_id"))
+    @ElementCollection(fetch = FetchType.EAGER)
     private List<String> roles = new ArrayList<>();
     @OneToMany(mappedBy = "member", cascade = {CascadeType.ALL}, orphanRemoval = true)
     private List<Program> programs;
