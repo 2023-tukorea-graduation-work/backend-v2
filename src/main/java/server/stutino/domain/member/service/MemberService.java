@@ -12,7 +12,6 @@ import server.stutino.domain.member.dto.request.MentorRegisterRequest;
 import server.stutino.domain.member.dto.response.MyPageResponse;
 import server.stutino.domain.member.dto.response.MyProgramResponse;
 import server.stutino.domain.member.entity.Member;
-import server.stutino.domain.member.exception.BusinessException;
 import server.stutino.domain.member.exception.EmailDuplicateException;
 import server.stutino.domain.member.repository.MemberRepository;
 import server.stutino.domain.program.repository.ProgramRepository;
@@ -41,15 +40,14 @@ public class MemberService {
 //    @Transactional
     public void registerMentor(MentorRegisterRequest request, MultipartFile image, MultipartFile certification) {
         // email duplicate check
-        if(memberRepository.findByEmail(request.getEmail()).isPresent()) {
-            throw new EmailDuplicateException("email is duplicated");
+        if(memberRepository.findByEmail(request.getEmail()) != null) {
+            System.out.println("email duplicated");
+            throw new EmailDuplicateException();
         }
-
-        // [1] Mentor 기본 정보 저장
-        // [1-1] GCP Storage profile image url
-        String imgUrl = "", certificateUrl = "";
-        if(!image.isEmpty() && !certification.isEmpty()) {
-
+        else {
+            // [1] Mentor 기본 정보 저장
+            // [1-1] GCP Storage profile image url
+            String imgUrl = "", certificateUrl = "";
             try {
                 imgUrl = s3Manager.upload(image, "profile-image");
                 System.out.println(imgUrl);
@@ -57,48 +55,49 @@ public class MemberService {
                 System.out.println(certificateUrl);
 
             } catch (IOException e) {
-                throw new BusinessException(e.getMessage());
+                throw new RuntimeException(e.getMessage());
             }
+
+            String encodePassword = passwordEncoder.encode(request.getPassword());
+
+            // [1-2] 멘토 정보 매핑
+            Member mentor = Member.builder()
+                    .email(request.getEmail())
+                    .password(encodePassword)
+                    .roles(customAuthorityUtils.createMentorRole())
+                    .name(request.getName())
+                    .age(request.getAge())
+                    .institution(request.getCollege())
+                    .grade(request.getGrade())
+                    .major(request.getMajor())
+                    .lesson(request.getLesson())
+                    .introduce(request.getIntroduce())
+                    .imgUrl(imgUrl)
+                    .certificateUrl(certificateUrl)
+                    .build();
+
+            // [1-3] 멘토 정보 저장
+            /*
+             mentor entity의 Email 필드에 @Email 어노테이션을 붙이면 오류가 save() 안됨.
+            * */
+            memberRepository.save(mentor);
         }
-
-        String encodePassword = passwordEncoder.encode(request.getPassword());
-
-        // [1-2] 멘토 정보 매핑
-        Member mentor = Member.builder()
-                .email(request.getEmail())
-                .password(encodePassword)
-                .roles(customAuthorityUtils.createMentorRole())
-                .name(request.getName())
-                .age(request.getAge())
-                .institution(request.getCollege())
-                .grade(request.getGrade())
-                .major(request.getMajor())
-                .lesson(request.getLesson())
-                .introduce(request.getIntroduce())
-                .imgUrl(imgUrl)
-                .certificateUrl(certificateUrl)
-                .build();
-
-        // [1-3] 멘토 정보 저장
-        /*
-         mentor entity의 Email 필드에 @Email 어노테이션을 붙이면 오류가 save() 안됨.
-        * */
-        memberRepository.save(mentor);
     }
 
     /*
      *  멘티 등록
      * */
     public void registerMentee(MenteeRegisterRequest request, MultipartFile image) {
+        if(memberRepository.findByEmail(request.getEmail()) != null) {
+            throw new EmailDuplicateException();
+        }
         // [1] Mentor 기본 정보 저장
         // [1-1] GCP Storage profile image url
         String imgUrl = "";
-        if(!image.isEmpty()) {
-            try {
-                imgUrl = s3Manager.upload(image, "profile-image");
-            } catch (IOException e) {
-                throw new RuntimeException(e);
-            }
+        try {
+            imgUrl = s3Manager.upload(image, "profile-image");
+        } catch (IOException e) {
+            throw new RuntimeException(e);
         }
 
         String encodePassword = passwordEncoder.encode(request.getPassword());

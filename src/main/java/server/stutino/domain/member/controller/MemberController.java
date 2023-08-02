@@ -26,8 +26,8 @@ public class MemberController {
     @PostMapping("/mentor")
     public ResponseEntity<Void> registerMentor(
             @RequestPart(value = "data", required = true) @Valid MentorRegisterRequest mentorRegisterRequest,
-            @RequestPart(value = "image", required = false) MultipartFile image,
-            @RequestPart(value = "certification", required = false) MultipartFile certification) {
+            @RequestPart(value = "image", required = false) @Valid MultipartFile image,
+            @RequestPart(value = "certification", required = false) @Valid MultipartFile certification) {
         memberService.registerMentor(mentorRegisterRequest, image, certification);
         return ResponseEntity.ok().build();
     }
@@ -38,7 +38,7 @@ public class MemberController {
     @PostMapping("/mentee")
     public ResponseEntity<Void> registerMentee(
             @RequestPart(value = "data", required = true) @Valid MenteeRegisterRequest menteeRegisterRequest,
-            @RequestPart(value = "image", required = false) MultipartFile image) {
+            @RequestPart(value = "image", required = false) @Valid MultipartFile image) {
         memberService.registerMentee(menteeRegisterRequest, image);
         return ResponseEntity.ok().build();
     }

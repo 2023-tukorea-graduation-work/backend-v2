@@ -1,31 +1,35 @@
 package server.stutino.advice;
 
+
 import lombok.extern.slf4j.Slf4j;
-import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
+import org.springframework.web.bind.MethodArgumentNotValidException;
 import org.springframework.web.bind.annotation.ExceptionHandler;
 import org.springframework.web.bind.annotation.RestControllerAdvice;
-import server.stutino.domain.member.exception.EmailDuplicateException;
 
-import javax.persistence.EntityNotFoundException;
+import static org.springframework.http.HttpStatus.BAD_REQUEST;
 
 @Slf4j
 @RestControllerAdvice
 public class GlobalExceptionHandler {
-    @ExceptionHandler(EntityNotFoundException.class)
-    public ResponseEntity<ErrorResponse> handleEntityNotFoundException(EntityNotFoundException ex){
-        ErrorResponse response = new ErrorResponse(HttpStatus.INTERNAL_SERVER_ERROR, ex.getMessage());
-        return new ResponseEntity<>(response, response.getHttpStatus());
-    }
-    @ExceptionHandler(EmailDuplicateException.class)
-    public ResponseEntity<ErrorResponse> handleEmailDuplicateException(EmailDuplicateException ex){
-        ErrorResponse response = new ErrorResponse(HttpStatus.INTERNAL_SERVER_ERROR, ex.getMessage());
-        return new ResponseEntity<>(response, response.getHttpStatus());
+
+    @ExceptionHandler
+    protected ResponseEntity<ErrorResponse> handleRuntimeException(BusinessException e) {
+        final ErrorCode errorCode = e.getErrorCode();
+        final ErrorResponse response =
+                ErrorResponse.builder()
+                        .httpStatus(errorCode.getStatus())
+                        .message(errorCode.getMessage())
+                        .build();
+        log.warn(e.getMessage());
+        return ResponseEntity.status(errorCode.getStatus()).body(response);
     }
 
-    @ExceptionHandler(RuntimeException.class)
-    public ResponseEntity<ErrorResponse> handleBusinessException(RuntimeException ex){
-        ErrorResponse response = new ErrorResponse(HttpStatus.INTERNAL_SERVER_ERROR, ex.getMessage());
-        return ResponseEntity.status(HttpStatus.INTERNAL_SERVER_ERROR).body(response);
+    @ExceptionHandler
+    protected ResponseEntity<ErrorResponse> handleMethodArgumentNotValidException(
+            MethodArgumentNotValidException e) {
+        final ErrorResponse response = new ErrorResponse(ErrorCode.INPUT_INVALID_ERROR);
+        log.warn(e.getMessage());
+        return new ResponseEntity<>(response, BAD_REQUEST);
     }
 }

@@ -1,13 +1,11 @@
 package server.stutino.domain.member.exception;
 
-import lombok.Getter;
+import server.stutino.advice.BusinessException;
+import server.stutino.advice.ErrorCode;
 
-@Getter
-public class EmailDuplicateException extends RuntimeException{
-    private String message;
+public class EmailDuplicateException extends BusinessException {
 
-    public EmailDuplicateException(String message) {
-        super(message);
-        this.message = message;
+    public EmailDuplicateException() {
+        super(ErrorCode.EMAIL_DUPLICATION_ERROR);
     }
 }

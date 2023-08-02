@@ -12,8 +12,6 @@ import server.stutino.auth.utils.CustomAuthorityUtils;
 import server.stutino.domain.member.entity.Member;
 import server.stutino.domain.member.repository.MemberRepository;
 
-import java.util.Optional;
-
 @Slf4j
 @Component
 @RequiredArgsConstructor
@@ -25,7 +23,7 @@ public class CustomUserDetailsService implements UserDetailsService {
     @Override
     public UserDetails loadUserByUsername(String email) throws UsernameNotFoundException {
         // [1] mentor로 로그인 했을 경우
-        Optional<Member> member = memberReposiotry.findByEmail(email);
-        return new CustomUserDetails(customAuthorityUtils, member.get());
+        Member member = memberReposiotry.findByEmail(email);
+        return new CustomUserDetails(customAuthorityUtils, member);
     }
 }

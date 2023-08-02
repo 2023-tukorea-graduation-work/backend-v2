@@ -13,6 +13,6 @@ public class ExamDetailResponse {
     private String examTitle;
     private LocalDateTime examStartTime;
     private LocalDateTime examFinishTime;
-    private List<ExamQuestionResponse> examQuestionRegisterRequest;
+    private List<ExamQuestionResponse> examQuestionRegisterResponse;
 
 }

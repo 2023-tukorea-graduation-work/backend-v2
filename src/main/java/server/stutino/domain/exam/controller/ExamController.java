@@ -41,7 +41,7 @@ public class ExamController {
     /*
      * 시험 상세 조회(mentor 접근)
      * */
-    @GetMapping("/{examId}}")
+    @GetMapping("/{examId}")
     public ResponseEntity<ExamDetailResponse> findExamById(@PathVariable("examId") Long examId) {
         return ResponseEntity.ok(examService.findExamById(examId));
     }

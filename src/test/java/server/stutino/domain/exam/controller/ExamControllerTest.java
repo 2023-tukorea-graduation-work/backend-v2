@@ -10,6 +10,10 @@ import org.springframework.test.web.servlet.ResultActions;
 import server.stutino.domain.exam.dto.request.ExamQuestionOptionsRegisterRequest;
 import server.stutino.domain.exam.dto.request.ExamQuestionRegisterRequest;
 import server.stutino.domain.exam.dto.request.ExamRegisterRequest;
+import server.stutino.domain.exam.dto.response.ExamDetailResponse;
+import server.stutino.domain.exam.dto.response.ExamListResponse;
+import server.stutino.domain.exam.dto.response.ExamQuestionOptionsResponse;
+import server.stutino.domain.exam.dto.response.ExamQuestionResponse;
 import server.stutino.domain.exam.entity.QuestionType;
 import server.stutino.domain.exam.service.ExamService;
 import server.stutino.support.docs.RestDocumentTest;
@@ -20,7 +24,9 @@ import java.util.List;
 
 import static org.mockito.ArgumentMatchers.any;
 import static org.mockito.Mockito.doNothing;
+import static org.mockito.Mockito.when;
 import static org.springframework.restdocs.mockmvc.MockMvcRestDocumentation.document;
+import static org.springframework.restdocs.mockmvc.RestDocumentationRequestBuilders.get;
 import static org.springframework.restdocs.mockmvc.RestDocumentationRequestBuilders.post;
 import static org.springframework.test.web.servlet.result.MockMvcResultHandlers.print;
 import static org.springframework.test.web.servlet.result.MockMvcResultMatchers.status;
@@ -94,6 +100,141 @@ class ExamControllerTest extends RestDocumentTest {
         // docs
         perform.andDo(print())
                 .andDo(document("register exam",
+                        getDocumentRequest(),
+                        getDocumentResponse()));
+    }
+
+    @Test
+    @DisplayName("시험 목록을 성공적으로 조회하는가?")
+    void successFindExam() throws Exception {
+        // give
+        when(examService.findAllExam(any()))
+                .thenReturn(List.of(
+                        new ExamListResponse(
+                                1L,
+                                "시험 제목1",
+                                LocalDateTime.now(),
+                                LocalDateTime.now()
+                        ),
+                        new ExamListResponse(
+                                1L,
+                                "시험 제목1",
+                                LocalDateTime.now(),
+                                LocalDateTime.now()
+                        ),
+                        new ExamListResponse(
+                                1L,
+                                "시험 제목1",
+                                LocalDateTime.now(),
+                                LocalDateTime.now()
+                        )
+                ));
+
+        // when
+        ResultActions perform =
+                mockMvc.perform(
+                        get("/exam/program/{programId}", 1L));
+
+        // then
+        perform.andExpect(status().isOk());
+
+        // docs
+        perform.andDo(print())
+                .andDo(document("find all exam",
+                        getDocumentRequest(),
+                        getDocumentResponse()));
+    }
+
+    @Test
+    @WithMockUser(username = "testMentor", authorities = {"ROLE_MENTOR"})
+    @DisplayName("시험 세부정보를 성공적으로 조회하는가?")
+    void successFindExamById() throws Exception {
+        // give
+        List<ExamQuestionOptionsResponse> options1 = List.of(
+                new ExamQuestionOptionsResponse(
+                        "선택지 1",
+                        true
+                ),
+                new ExamQuestionOptionsResponse(
+                        "선택지 2",
+                        true
+                ),
+                new ExamQuestionOptionsResponse(
+                        "선택지 3",
+                        false
+                ),
+                new ExamQuestionOptionsResponse(
+                        "선택지 4",
+                        true
+                )
+        );
+
+        List<ExamQuestionOptionsResponse> options2 = List.of(
+                new ExamQuestionOptionsResponse(
+                        "선택지 1",
+                        true
+                ),
+                new ExamQuestionOptionsResponse(
+                        "선택지 2",
+                        true
+                ),
+                new ExamQuestionOptionsResponse(
+                        "선택지 3",
+                        false
+                ),
+                new ExamQuestionOptionsResponse(
+                        "선택지 4",
+                        true
+                )
+        );
+
+        List<ExamQuestionResponse> examQuestionRegisterResponse = List.of(
+                new ExamQuestionResponse(
+                        QuestionType.SUBJECT_QUESTION,
+                        "주관식 시험 문제 1",
+                        10,
+                        "주관식 모범답안 1"
+                ),
+                new ExamQuestionResponse(
+                        QuestionType.SUBJECT_QUESTION,
+                        "주관식 시험 문제 2",
+                        10,
+                        "주관식 모범답안 2"
+                ),
+                new ExamQuestionResponse(
+                        QuestionType.MULTIPLE_CHOICE_QUESTION,
+                        "객관식 시험 문제 1",
+                        10,
+                        options1
+                ),
+                new ExamQuestionResponse(
+                        QuestionType.MULTIPLE_CHOICE_QUESTION,
+                        "객관식 시험 문제 2",
+                        10,
+                        options2
+                )
+        );
+
+        when(examService.findExamById(any()))
+                .thenReturn(new ExamDetailResponse(
+                        1L,
+                        "시험 제목1",
+                        LocalDateTime.now(),
+                        LocalDateTime.now(),
+                        examQuestionRegisterResponse
+                ));
+
+        // when
+        ResultActions perform =
+                mockMvc.perform(
+                        get("/exam/{examId}", 1L));
+
+        // then
+        perform.andExpect(status().isOk());
+
+        // docs
+        perform.andDo(print())
+                .andDo(document("find exam by id",
                         getDocumentRequest(),
                         getDocumentResponse()));
     }

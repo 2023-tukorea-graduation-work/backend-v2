@@ -10,3 +10,8 @@
 === Exam 등록
 operation::register exam[snippets='http-request,http-response']
 
+=== Exam 목록 조회
+operation::find all exam[snippets='http-request,http-response']
+
+=== Exam 상세 정보 조회
+operation::find exam by id[snippets='http-request,http-response']
