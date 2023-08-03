@@ -32,8 +32,8 @@ public class QuestionQueryRepositoryImpl implements QuestionQueryRepository {
                         question.answerCreatedAt,
                         question.answerUpdatedAt
                 ))
-                .from(program)
-                .where(question.id.in(findParticipantsIds(programId)))
+                .from(question)
+                .where(question.participants.id.in(findParticipantsIds(programId)))
                 .fetch();
     }
 

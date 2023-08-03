@@ -12,9 +12,8 @@ import server.stutino.domain.question.dto.response.QuestionListResponse;
 import server.stutino.domain.question.entity.Question;
 import server.stutino.domain.question.mapper.QuestionMapper;
 import server.stutino.domain.question.repository.QuestionRepository;
-import server.stutino.util.CustomStringUtil;
 
-import javax.persistence.EntityNotFoundException;
+import java.time.LocalDateTime;
 import java.util.List;
 
 @Service
@@ -32,16 +31,13 @@ public class QuestionService {
     @Transactional
     public void registerQuestion(QuestionRegisterRequest request) {
         // [1] Question 기본 정보 저장
-        System.out.println(CustomStringUtil.toString(request));
-
-        Participants mentee = participantsRepository.findById(request.getMenteeId())
-                .orElseThrow(EntityNotFoundException::new);
-
-        System.out.println(mentee);
+        Participants mentee = participantsRepository.findParticipantsByProgramAndMemberId(request.getProgramId(), request.getMenteeId());
 
         questionRepository.save(Question.builder()
                 .participants(mentee)
                 .questions(request.getQuestion())
+                .answerCreatedAt(LocalDateTime.now())
+                .answerUpdatedAt(LocalDateTime.now())
                 .build());
     }
 
