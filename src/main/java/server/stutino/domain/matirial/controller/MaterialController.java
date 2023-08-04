@@ -1,26 +1,21 @@
 package server.stutino.domain.matirial.controller;
 
-import com.amazonaws.util.IOUtils;
 import lombok.AccessLevel;
 import lombok.RequiredArgsConstructor;
 import lombok.experimental.FieldDefaults;
-import org.springframework.core.io.InputStreamResource;
-import org.springframework.http.ContentDisposition;
-import org.springframework.http.HttpHeaders;
-import org.springframework.http.MediaType;
+import org.springframework.core.io.ByteArrayResource;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
 import org.springframework.web.multipart.MultipartFile;
 import server.stutino.domain.matirial.dto.request.MaterialRegisterRequest;
 import server.stutino.domain.matirial.dto.response.MaterialDetailResponse;
+import server.stutino.domain.matirial.dto.response.MaterialDownloadResponse;
 import server.stutino.domain.matirial.dto.response.MaterialListResponse;
 import server.stutino.domain.matirial.service.MaterialService;
 
 import javax.validation.Valid;
-import java.io.ByteArrayInputStream;
 import java.io.IOException;
-import java.io.InputStream;
-import java.net.URL;
+import java.net.URLEncoder;
 import java.util.List;
 
 @RestController
@@ -37,7 +32,7 @@ public class MaterialController {
     @PostMapping
     public ResponseEntity<Void> registerMaterial(
             @RequestPart(value = "data", required = true) @Valid MaterialRegisterRequest materialRegisterRequest,
-            @RequestPart(value = "file", required = true) MultipartFile file) throws IOException {
+            @RequestPart(value = "file", required = true) @Valid MultipartFile file) {
         materialService.registerMaterial(materialRegisterRequest, file);
         return ResponseEntity.ok().build();
     }
@@ -62,22 +57,19 @@ public class MaterialController {
     * 학습 자료 다운로드 요청
     * */
     @GetMapping("/download")
-    public ResponseEntity<InputStreamResource> downloadFile(@RequestParam("materialId") Long materialId) throws IOException {
-        String fileUrl = materialService.getFilePath(materialId);
-        URL url = new URL(fileUrl);
-        InputStream inputStream = url.openStream();
-        byte[] fileBytes = IOUtils.toByteArray(inputStream);
-        InputStreamResource resource = new InputStreamResource(new ByteArrayInputStream(fileBytes));
+    public ResponseEntity<byte[]> downloadFile(@RequestParam("materialId") Long materialId) throws IOException {
 
-        HttpHeaders headers = new HttpHeaders();
-        headers.setContentDisposition(ContentDisposition.builder("attachment")
-                .filename("filename.pdf")
-                .build());
-        headers.setContentType(MediaType.APPLICATION_PDF);
-        headers.setContentLength(fileBytes.length);
-
-        return ResponseEntity.ok()
-                .headers(headers)
-                .body(resource);
+        try{
+            MaterialDownloadResponse response = materialService.downloadMaterial(materialId);
+            ByteArrayResource resource = new ByteArrayResource(response.getData());
+            return ResponseEntity
+                    .ok()
+                    .contentLength(response.getData().length)
+                    .header("Content-type", "application/octet-stream")
+                    .header("Content-disposition", "attachment; filename=\"" + URLEncoder.encode(response.getFilename(), "utf-8") + "\"")
+                    .body(resource.getByteArray());
+        }catch (IOException ex){
+            return ResponseEntity.badRequest().contentLength(0).body(null);
+        }
     }
 }

@@ -6,8 +6,8 @@ import javax.validation.constraints.NotBlank;
 import javax.validation.constraints.NotNull;
 
 @Getter
-@NoArgsConstructor(access = AccessLevel.PROTECTED)
-@AllArgsConstructor
+@Setter
+@RequiredArgsConstructor
 public class MaterialRegisterRequest {
     @NotNull
     private Long programId;
@@ -15,4 +15,11 @@ public class MaterialRegisterRequest {
     private String title;
     @NotBlank
     private String detail;
+
+    @Builder
+    public MaterialRegisterRequest(Long programId, String title, String detail) {
+        this.programId = programId;
+        this.title = title;
+        this.detail = detail;
+    }
 }

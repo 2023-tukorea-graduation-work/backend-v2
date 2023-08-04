@@ -16,7 +16,6 @@ import server.stutino.domain.member.exception.EmailDuplicateException;
 import server.stutino.domain.member.repository.MemberRepository;
 import server.stutino.domain.program.repository.ProgramRepository;
 import server.stutino.util.CustomDateUtil;
-import server.stutino.util.CustomStringUtil;
 import server.stutino.util.s3.manager.S3Manager;
 
 import javax.persistence.EntityNotFoundException;
@@ -101,8 +100,6 @@ public class MemberService {
         }
 
         String encodePassword = passwordEncoder.encode(request.getPassword());
-
-        System.out.println(CustomStringUtil.toString(request));
 
         // [1-2] 멘토 정보 매핑
         Member mentee = Member.builder()

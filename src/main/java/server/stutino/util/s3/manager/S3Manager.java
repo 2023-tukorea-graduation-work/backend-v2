@@ -1,14 +1,14 @@
 package server.stutino.util.s3.manager;
 
 import com.amazonaws.services.s3.AmazonS3;
-import com.amazonaws.services.s3.model.CannedAccessControlList;
-import com.amazonaws.services.s3.model.DeleteObjectRequest;
-import com.amazonaws.services.s3.model.PutObjectRequest;
+import com.amazonaws.services.s3.model.*;
+import com.amazonaws.util.IOUtils;
 import com.aventrix.jnanoid.jnanoid.NanoIdUtils;
 import com.google.common.io.Files;
 import lombok.Getter;
 import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
+import net.bytebuddy.utility.RandomString;
 import org.springframework.beans.factory.annotation.Value;
 import org.springframework.stereotype.Component;
 import org.springframework.web.multipart.MultipartFile;
@@ -23,7 +23,7 @@ import java.util.Random;
 @RequiredArgsConstructor
 @Component
 public class S3Manager {
-    
+
     private final AmazonS3 amazonS3Client;
 
     @Value("${cloud.aws.s3.bucket}")
@@ -39,7 +39,7 @@ public class S3Manager {
 
     // S3로 파일 업로드하기
     private String upload(File uploadFile, String dirName) {
-        char[] alphabet = "asdfghjkl".toCharArray();
+        char[] alphabet = RandomString.make().toCharArray();
         String fileName = dirName + "/" + NanoIdUtils.randomNanoId(new Random(), alphabet, 10) + "-" +uploadFile.getName();   // S3에 저장된 파일 이름
 
         String uploadImageUrl = putS3(uploadFile, fileName); // s3로 업로드
@@ -81,5 +81,12 @@ public class S3Manager {
     public void delete(String fileName){
         DeleteObjectRequest request = new DeleteObjectRequest(bucket, fileName);
         amazonS3Client.deleteObject(request);
+    }
+
+    public byte[] download(String filepath) throws IOException {
+        S3Object s3Object = amazonS3Client.getObject((new GetObjectRequest(bucket, filepath)));
+        S3ObjectInputStream objectInputStream = s3Object.getObjectContent() ;
+        byte[] bytes = IOUtils.toByteArray(objectInputStream);
+        return bytes;
     }
 }
