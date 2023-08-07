@@ -10,6 +10,7 @@ import server.stutino.domain.program.entity.ProgramState;
 @Builder
 @AllArgsConstructor
 public class MyProgramResponse {
+    private Long programId;
     private String mentorName;
     private String mentorInstitution;
     private Major mentorMajor;

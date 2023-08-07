@@ -137,6 +137,7 @@ public class MemberService {
 
         List<MyProgramResponse> myprogramList = programList.stream().map(program ->
                 MyProgramResponse.builder()
+                        .programId(program.getId())
                         .mentorName(program.getMember().getName())
                         .mentorInstitution(program.getMember().getInstitution())
                         .mentorMajor(program.getMember().getMajor())
