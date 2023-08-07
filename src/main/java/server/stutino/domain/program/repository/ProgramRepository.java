@@ -13,7 +13,7 @@ public interface ProgramRepository extends JpaRepository<Program, Long>, Program
     @Query("select p from Program p where p.member.id = :memberId")
     List<Program> findProgramForMentor(@Param("memberId") Long memberId);
 
-    @Query("select p from Program p where p.id =" +
+    @Query("select p from Program p where p.id in " +
             "(select pp.program.id from Participants pp where pp.member.id = :memberId)")
     List<Program> findProgramForMentee(@Param("memberId") Long memberId);
 }
