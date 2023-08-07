@@ -4,14 +4,14 @@ import lombok.AccessLevel;
 import lombok.RequiredArgsConstructor;
 import lombok.experimental.FieldDefaults;
 import org.springframework.http.ResponseEntity;
-import org.springframework.web.bind.annotation.PostMapping;
-import org.springframework.web.bind.annotation.RequestBody;
-import org.springframework.web.bind.annotation.RequestMapping;
-import org.springframework.web.bind.annotation.RestController;
+import org.springframework.web.bind.annotation.*;
+import org.springframework.web.multipart.MultipartFile;
 import server.stutino.domain.task.dto.request.TaskRegisterRequest;
+import server.stutino.domain.task.dto.response.TaskListResponse;
 import server.stutino.domain.task.service.TaskService;
 
 import javax.validation.Valid;
+import java.util.List;
 
 @RestController
 @RequestMapping("/task")
@@ -25,16 +25,18 @@ public class TaskController {
     * 과제 등록(멘토접근)
     * */
     @PostMapping
-    public ResponseEntity<Void> registerExam(@Valid @RequestBody TaskRegisterRequest taskRegisterRequest) {
-        taskService.registerTask(taskRegisterRequest);
+    public ResponseEntity<Void> registerTask(
+            @RequestPart(value = "data", required = true) @Valid TaskRegisterRequest taskRegisterRequest,
+            @RequestPart(value = "files", required = false) @Valid List<MultipartFile> files) {
+        taskService.registerTask(taskRegisterRequest, files);
         return ResponseEntity.ok().build();
     }
 
     /*
     * 과제 목록 조회
     * */
-//    @GetMapping("/program/{programId}")
-//    public ResponseEntity<List<ExamListResponse>> findAllExam(@PathVariable("programId") Long programId) {
-//        return ResponseEntity.ok(taskService.findAllTask(programId));
-//    }
+    @GetMapping("/program/{programId}")
+    public ResponseEntity<List<TaskListResponse>> findAllExam(@PathVariable("programId") Long programId) {
+        return ResponseEntity.ok(taskService.findAllTask(programId));
+    }
 }
