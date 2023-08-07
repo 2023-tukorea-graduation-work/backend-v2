@@ -82,5 +82,7 @@ public class MaterialService {
         return new MaterialDownloadResponse(
                 material.getFileName(),
                 s3Manager.download(material.getFilePath()));
+
+//        return s3Manager.download(material.getFilePath(), material.getFileName());
     }
 }

@@ -14,6 +14,7 @@ import server.stutino.domain.member.dto.response.MyProgramResponse;
 import server.stutino.domain.member.entity.Member;
 import server.stutino.domain.member.exception.EmailDuplicateException;
 import server.stutino.domain.member.repository.MemberRepository;
+import server.stutino.domain.program.entity.Program;
 import server.stutino.domain.program.repository.ProgramRepository;
 import server.stutino.util.CustomDateUtil;
 import server.stutino.util.s3.manager.S3Manager;
@@ -125,8 +126,16 @@ public class MemberService {
         // [1] Member 객체 조회
         Member member = memberRepository.findById(memberId).orElseThrow(EntityNotFoundException::new);
 
-        // [2] program 정보 조회
-        List<MyProgramResponse> programList = programRepository.findProgramByMemberId(memberId).stream().map(program ->
+        List<Program> programList;
+        // 멘토인 경우
+        if(member.getRoles().contains("MENTOR")) {
+            programList = programRepository.findProgramForMentor(memberId);
+        }
+        else {
+            programList = programRepository.findProgramForMentee(memberId);
+        }
+
+        List<MyProgramResponse> myprogramList = programList.stream().map(program ->
                 MyProgramResponse.builder()
                         .mentorName(program.getMember().getName())
                         .mentorInstitution(program.getMember().getInstitution())
@@ -135,18 +144,18 @@ public class MemberService {
                         .programPlace(program.getProgramPlace())
                         .capacity(program.getCapacity())
                         .recruitPeriod(dateUtil.localDateToString(program.getRecruitStartDate()) + " ~ " +
-                            dateUtil.localDateToString(program.getRecruitFinishDate()))
+                                dateUtil.localDateToString(program.getRecruitFinishDate()))
                         .programPeriod(dateUtil.localDateToString(program.getProgramStartDate()) + " ~ " +
                                 dateUtil.localDateToString(program.getProgramFinishDate()))
                         .state(program.getProgramState())
                         .build()).toList();
-        
+
         // [3] dto mapping
         return new MyPageResponse(
                 member.getName(),
                 member.getAge(),
                 member.getEmail(),
                 member.getImgUrl(),
-                programList);
+                myprogramList);
     }
 }

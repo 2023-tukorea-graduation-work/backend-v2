@@ -56,8 +56,8 @@ public class MaterialController {
     /*
     * 학습 자료 다운로드 요청
     * */
-    @GetMapping("/download")
-    public ResponseEntity<byte[]> downloadFile(@RequestParam("materialId") Long materialId) throws IOException {
+    @GetMapping("/download/{materialId}")
+    public ResponseEntity<byte[]> downloadFile(@PathVariable("materialId") Long materialId) throws IOException {
 
         try{
             MaterialDownloadResponse response = materialService.downloadMaterial(materialId);
@@ -72,4 +72,18 @@ public class MaterialController {
             return ResponseEntity.badRequest().contentLength(0).body(null);
         }
     }
+
+//    @GetMapping("download/{materialId}")
+//    @ResponseBody
+//    public HttpEntity<byte[]> download(@PathVariable("materialId") Long materialId, HttpServletResponse response) throws IOException {
+//        S3Object s3Object = materialService.downloadMaterial(materialId);
+//        String contentType = s3Object.getObjectMetadata().getContentType();
+//        var bytes = s3Object.getObjectContent().readAllBytes();
+//
+//        HttpHeaders header = new HttpHeaders();
+//        header.setContentType(MediaType.valueOf(contentType));
+//        header.setContentLength(bytes.length);
+//
+//        return new HttpEntity<byte[]>(bytes, header);
+//    }
 }

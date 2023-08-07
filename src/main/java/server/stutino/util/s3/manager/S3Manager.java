@@ -89,4 +89,8 @@ public class S3Manager {
         byte[] bytes = IOUtils.toByteArray(objectInputStream);
         return bytes;
     }
+
+//    public S3Object download(String path, String fileName) {
+//        return amazonS3Client.getObject(path, fileName);
+//    }
 }

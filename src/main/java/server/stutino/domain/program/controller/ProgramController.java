@@ -12,6 +12,7 @@ import server.stutino.domain.program.dto.response.ProgramDetailResponse;
 import server.stutino.domain.program.dto.response.ProgramListResponse;
 import server.stutino.domain.program.service.ProgramService;
 import server.stutino.advice.ErrorResponse;
+import server.stutino.util.CustomStringUtil;
 
 import javax.validation.Valid;
 import java.util.List;
@@ -28,7 +29,9 @@ public class ProgramController {
     * */
     @PostMapping
     public ResponseEntity<Void> registerProgram(@Valid @RequestBody ProgramRegisterRequest programRegisterRequest) {
-        programService.registerProgram(programRegisterRequest);
+        System.out.println(CustomStringUtil.toString(programRegisterRequest));
+
+//        programService.registerProgram(programRegisterRequest);
         return ResponseEntity.ok().build();
     }
 
