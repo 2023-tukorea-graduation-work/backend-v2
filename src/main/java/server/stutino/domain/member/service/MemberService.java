@@ -128,7 +128,7 @@ public class MemberService {
 
         List<Program> programList;
         // 멘토인 경우
-        if(member.getRoles().contains("MENTOR")) {
+        if(member.getRoles().contains("ROLE_MENTOR")) {
             programList = programRepository.findProgramForMentor(memberId);
         }
         else {
