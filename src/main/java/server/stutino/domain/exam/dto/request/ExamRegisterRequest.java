@@ -12,7 +12,7 @@ import java.util.List;
 @Getter
 @NoArgsConstructor(access = AccessLevel.PROTECTED)
 @AllArgsConstructor
-public class    ExamRegisterRequest {
+public class ExamRegisterRequest {
     @NotNull
     private Long programId;
     @NotBlank
@@ -23,6 +23,5 @@ public class    ExamRegisterRequest {
     private String examFinishTime;
     @NotNull
     private Boolean isExamRegistered;
-    @NotNull
     private List<ExamQuestionRegisterRequest> examQuestionRegisterRequest;
 }

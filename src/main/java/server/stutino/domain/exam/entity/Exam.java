@@ -6,8 +6,8 @@ import server.stutino.domain.program.entity.Program;
 import javax.persistence.*;
 import java.time.LocalDateTime;
 
+@Data
 @Entity
-@Getter
 @Builder
 @NoArgsConstructor(access = AccessLevel.PROTECTED)
 @AllArgsConstructor

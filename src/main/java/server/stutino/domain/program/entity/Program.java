@@ -2,11 +2,9 @@ package server.stutino.domain.program.entity;
 
 import lombok.*;
 import server.stutino.domain.member.entity.Member;
-import server.stutino.domain.notice.entity.Notice;
 
 import javax.persistence.*;
 import java.time.LocalDate;
-import java.util.List;
 
 @Entity
 @Getter
@@ -25,17 +23,6 @@ public class Program {
     @ManyToOne(fetch = FetchType.LAZY)
     @JoinColumn(name = "member_id")
     private Member member;
-
-    /*
-    * 프로그램:프로그램 주차 = N:1
-    * -> 프로그램 주차 정보
-    * */
-    @OneToMany(mappedBy = "program", cascade = {CascadeType.ALL}, orphanRemoval = true)
-    private List<ProgramWeek> programWeeks;
-    @OneToMany(mappedBy = "program", cascade = {CascadeType.ALL}, orphanRemoval = true)
-    private List<ProgramCategory> programCategories;
-    @OneToMany(mappedBy = "program", cascade = {CascadeType.ALL}, orphanRemoval = true)
-    private List<Notice> notices;
     @Column(nullable = false)
     private String subject;
     @Column(nullable = false)

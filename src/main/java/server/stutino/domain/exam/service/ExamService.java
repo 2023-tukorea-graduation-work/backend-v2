@@ -4,6 +4,7 @@ import lombok.AccessLevel;
 import lombok.RequiredArgsConstructor;
 import lombok.experimental.FieldDefaults;
 import org.springframework.stereotype.Service;
+import org.springframework.transaction.annotation.Transactional;
 import server.stutino.domain.exam.dto.request.ExamRegisterRequest;
 import server.stutino.domain.exam.dto.response.ExamDetailResponse;
 import server.stutino.domain.exam.dto.response.ExamListResponse;
@@ -18,6 +19,8 @@ import server.stutino.domain.program.repository.ProgramRepository;
 import server.stutino.util.CustomDateUtil;
 
 import javax.persistence.EntityNotFoundException;
+import java.time.LocalDateTime;
+import java.time.format.DateTimeFormatter;
 import java.util.ArrayList;
 import java.util.List;
 
@@ -33,59 +36,47 @@ public class ExamService {
     SubjectQuestionRepository subjectQuestionRepository;
     CustomDateUtil customDateUtil;
 
-
+    @Transactional
     public void registerExam(ExamRegisterRequest request) {
         // [1] Exam 객체 생성
-        Exam exam = Exam.builder()
+        Exam exam = examRepository.save(Exam.builder()
                 .program(programRepository.findById(request.getProgramId()).orElseThrow(EntityNotFoundException::new))
                 .title(request.getExamTitle())
-                .examStartTime(customDateUtil.convertStringToLocalDateTime(request.getExamStartTime()))
-                .examFinishTime(customDateUtil.convertStringToLocalDateTime(request.getExamFinishTime()))
+                .examStartTime(LocalDateTime.parse(request.getExamStartTime(), DateTimeFormatter.ofPattern("yyyy-MM-dd HH:mm:ss")))
+                .examFinishTime(LocalDateTime.parse(request.getExamFinishTime(), DateTimeFormatter.ofPattern("yyyy-MM-dd HH:mm:ss")))
                 .isExamRegistered(request.getIsExamRegistered())
-                .build();
+                .build());
 
         // [2] 객관식 문항 & 주관식 문항
-        List<MultipleChoiceQuestion> multipleChoices = new ArrayList<>();
-        List<SubjectQuestion> subjectQuestions = new ArrayList<>();
-
         request.getExamQuestionRegisterRequest().forEach(question -> {
             // 객관식
-            if(question.isMultipleChoiceType()) {
+            if(question.getQuestion() != null) {
                 MultipleChoiceQuestion multipleChoiceQuestion
-                        = MultipleChoiceQuestion.builder()
-                            .exam(exam)
-                            .question(question.getQuestion())
-                            .score(question.getScore())
-                            .build();
-
-                List<MultipleChoiceOptions> options = question.getOptions().stream().map(
-                        option -> MultipleChoiceOptions.builder()
-                                .multipleChoiceQuestion(multipleChoiceQuestion)
-                                .choices(option.getChoices())
-                                .isCorrect(option.getIsCorrect())
-                                .build()).toList();
-
-                multipleChoiceQuestion.setOptions(options);
-
-                multipleChoices.add(multipleChoiceQuestion);
-            }
-            // 주관식
-            else {
-                SubjectQuestion subjectQuestion
-                        = SubjectQuestion.builder()
+                        = multipleChoiceQuestionRepository.save(MultipleChoiceQuestion.builder()
                         .exam(exam)
                         .question(question.getQuestion())
                         .score(question.getScore())
-                        .subjectAnswer(question.getSubjectAnswer())
-                        .build();
+                        .build());
 
-                subjectQuestions.add(subjectQuestion);
+                question.getOptions().stream().map(
+                        option -> multipleChoiceOptionsRepository.save(MultipleChoiceOptions.builder()
+                                .multipleChoiceQuestion(multipleChoiceQuestion)
+                                .choices(option.getChoices())
+                                .isCorrect(option.getIsCorrect())
+                                .build()));
+            }
+            // 주관식
+            else {
+                subjectQuestionRepository.save(
+                        SubjectQuestion.builder()
+                                .exam(exam)
+                                .question(question.getQuestion())
+                                .score(question.getScore())
+                                .subjectAnswer(question.getSubjectAnswer())
+                                .build()
+                );
             }
         });
-
-        // [3] 객관식 & 주관식 & 시험 정보 저장
-        multipleChoiceQuestionRepository.saveAll(multipleChoices);
-        subjectQuestionRepository.saveAll(subjectQuestions);
     }
 
     /*

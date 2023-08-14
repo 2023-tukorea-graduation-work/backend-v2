@@ -26,14 +26,6 @@ public class ExamController {
     * */
     @PostMapping
     public ResponseEntity<Void> registerExam(@Valid @RequestBody ExamRegisterRequest examRegisterRequest) {
-//        System.out.println(CustomStringUtil.toString(examRegisterRequest));
-//        for(ExamQuestionRegisterRequest question: examRegisterRequest.getExamQuestionRegisterRequest()) {
-//            System.out.println(CustomStringUtil.toString(question));
-//            for(ExamQuestionOptionsRegisterRequest option : question.getOptions()) {
-//                System.out.println(CustomStringUtil.toString(option));
-//            }
-//        }
-
         examService.registerExam(examRegisterRequest);
         return ResponseEntity.ok().build();
     }

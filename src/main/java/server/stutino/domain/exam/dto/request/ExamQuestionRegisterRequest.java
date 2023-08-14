@@ -23,9 +23,6 @@ public class ExamQuestionRegisterRequest {
     private List<ExamQuestionOptionsRegisterRequest> options;
     private String subjectAnswer;
 
-    public boolean isMultipleChoiceType() {
-        return this.questionType.equals(QuestionType.MULTIPLE_CHOICE_QUESTION);
-    }
     public ExamQuestionRegisterRequest(QuestionType questionType, String question, Integer score, List<ExamQuestionOptionsRegisterRequest> options) {
         this.questionType = questionType;
         this.question = question;

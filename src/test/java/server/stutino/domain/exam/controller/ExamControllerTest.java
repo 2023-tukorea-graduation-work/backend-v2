@@ -18,6 +18,7 @@ import server.stutino.domain.exam.entity.QuestionType;
 import server.stutino.domain.exam.service.ExamService;
 import server.stutino.support.docs.RestDocumentTest;
 
+import java.time.LocalDate;
 import java.time.LocalDateTime;
 import java.util.ArrayList;
 import java.util.List;
@@ -59,7 +60,8 @@ class ExamControllerTest extends RestDocumentTest {
                                 "객관식 문항 3",
                                 false
                         )
-                )
+                ),
+                null
         );
 
         ExamQuestionRegisterRequest question2
@@ -67,6 +69,7 @@ class ExamControllerTest extends RestDocumentTest {
                         QuestionType.SUBJECT_QUESTION,
                 "주관식 질문 1",
                 20,
+                null,
                 "주관식 모범답안 1"
         );
 
@@ -77,8 +80,8 @@ class ExamControllerTest extends RestDocumentTest {
                 new ExamRegisterRequest(
                         1L,
                         "시험1",
-                        String.valueOf(LocalDateTime.now()),
-                        String.valueOf(LocalDateTime.now()),
+                        String.valueOf(LocalDate.now()),
+                        String.valueOf(LocalDate.now()),
                         false,
                         questions
                 );
