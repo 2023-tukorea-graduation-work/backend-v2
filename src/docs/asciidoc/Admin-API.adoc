@@ -1,0 +1,14 @@
+
+:doctype: book
+:icons: font
+:source-highlighter: highlights
+:toc: left
+:toclevels: 4
+
+== Admin API
+
+=== Admin 페이시 멘토 목록 조회
+operation::find all member for admin[snippets='http-request,http-response']
+
+=== 멘토 등록 승인/거절
+operation::register isPassed mentor[snippets='http-request,http-response']

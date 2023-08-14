@@ -69,20 +69,20 @@ public class ProgramService {
          * 해결2 : program_week 테이블의 program_id(fk)도 insert되지 않는 문제는 saveAll로 해결
          * */
         // [1-1] 프로그램 등록
-        Program program = programRepository.save(
-                Program.builder()
-                    .member(mentor)
-                    .subject(request.getSubject())
-                        .detail(request.getDetail())
-                        .programStartDate(customDateUtil.convertStringToLocalDate(request.getProgramStartDate()))
-                        .programFinishDate(customDateUtil.convertStringToLocalDate(request.getProgramFinishDate()))
-                        .recruitStartDate(customDateUtil.convertStringToLocalDate(request.getRecruitStartDate()))
-                        .recruitFinishDate(customDateUtil.convertStringToLocalDate(request.getRecruitFinishDate()))
-                        .capacity(request.getCapacity())
-                        .programPlace(request.getProgramPlace())
-                        .programState(ProgramState.RECRUIT)
-                    .build()
-        );
+        Program program = Program.builder()
+                .member(mentor)
+                .subject(request.getSubject())
+                .detail(request.getDetail())
+                .programStartDate(customDateUtil.convertStringToLocalDate(request.getProgramStartDate()))
+                .programFinishDate(customDateUtil.convertStringToLocalDate(request.getProgramFinishDate()))
+                .recruitStartDate(customDateUtil.convertStringToLocalDate(request.getRecruitStartDate()))
+                .recruitFinishDate(customDateUtil.convertStringToLocalDate(request.getRecruitFinishDate()))
+                .capacity(request.getCapacity())
+                .programPlace(request.getProgramPlace())
+                .programState(ProgramState.RECRUIT)
+                .build();
+
+        programRepository.save(program);
 
         // [1-2] Program Entity map
         List<ProgramWeek> programWeeks = request.getProgramWeeks().stream().map(programWeek -> ProgramWeek.builder()

@@ -34,7 +34,7 @@ import static server.stutino.support.docs.ApiDocumentUtils.getDocumentRequest;
 import static server.stutino.support.docs.ApiDocumentUtils.getDocumentResponse;
 
 @WebMvcTest(ExamController.class)
-@DisplayName("TaskController 에서")
+@DisplayName("ExamController 에서")
 class ExamControllerTest extends RestDocumentTest {
     @MockBean private ExamService examService;
 

@@ -80,13 +80,15 @@ class MaterialControllerTest extends RestDocumentTest {
                                 1L,
                                 "자료 제목1",
                                 "상세 내용1",
-                                "fileName1"
+                                "fileName1",
+                                "filepath"
                         ),
                         new MaterialListResponse(
                                 2L,
                                 "자료 제목2",
                                 "상세 내용2",
-                                "fileName2"
+                                "fileName2",
+                                "filepath"
                         )
                 ));
 

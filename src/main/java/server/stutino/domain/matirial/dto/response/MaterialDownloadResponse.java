@@ -7,5 +7,6 @@ import lombok.Data;
 @AllArgsConstructor
 public class MaterialDownloadResponse {
     private String filename;
+    private String filepath;
     private byte [] data;
 }

@@ -31,7 +31,7 @@ import static server.stutino.support.docs.ApiDocumentUtils.getDocumentRequest;
 import static server.stutino.support.docs.ApiDocumentUtils.getDocumentResponse;
 
 @WebMvcTest(MemberController.class)
-@DisplayName("MemberController 에서")
+@DisplayName("AdminController 에서")
 class MemberControllerTest extends RestDocumentTest {
     @MockBean private MemberService memberService;
     @Test
@@ -126,6 +126,7 @@ class MemberControllerTest extends RestDocumentTest {
                                 "http://~",
                                 List.of(
                                     new MyProgramResponse(
+                                            1L,
                                             "정민창",
                                             "대학교",
                                             Major.COMPUTER,
@@ -137,6 +138,7 @@ class MemberControllerTest extends RestDocumentTest {
                                             ProgramState.RECRUIT
                                     ),
                                     new MyProgramResponse(
+                                            2L,
                                             "정민창",
                                             "대학교",
                                             Major.COMPUTER,
@@ -148,6 +150,7 @@ class MemberControllerTest extends RestDocumentTest {
                                             ProgramState.OPEN
                                     ),
                                     new MyProgramResponse(
+                                            3L,
                                             "정민창",
                                             "대학교",
                                             Major.COMPUTER,

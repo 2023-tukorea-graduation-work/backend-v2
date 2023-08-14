@@ -11,8 +11,6 @@ import java.util.stream.Collectors;
 public class CustomAuthorityUtils {
     private final List<String> ROLE_MENTOR = List.of("ROLE_MENTOR");
     private final List<String> ROLE_MENTEE = List.of("ROLE_MENTEE");
-    private final List<String> ROLE_ADMIN = List.of("ROLE_ADMIN");
-
     /*
      * 멘토 role 생성
      */
@@ -27,12 +25,6 @@ public class CustomAuthorityUtils {
         return this.ROLE_MENTEE;
     }
 
-    /*
-     * 관리자 role 생성
-     */
-    public List<String> createAdminRole() {
-        return this.ROLE_ADMIN;
-    }
 
     /* 회원 권한 생성*/
     public List<GrantedAuthority> createAuthorities(List<String> roles) {

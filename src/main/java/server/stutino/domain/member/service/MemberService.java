@@ -113,6 +113,7 @@ public class MemberService {
                 .grade(request.getGrade())
                 .introduce(request.getIntroduce())
                 .imgUrl(imgUrl)
+                .isPassed(true)
                 .build();
 
         // [1-3] 멘토 정보 저장

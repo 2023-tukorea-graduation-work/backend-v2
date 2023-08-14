@@ -3,8 +3,7 @@ package server.stutino.domain.member.entity;
 public enum Role {
 
     MENTOR("멘토"),
-    MENTEE("멘티"),
-    ADMIN("관리자");
+    MENTEE("멘티");
 
     private final String role;
 

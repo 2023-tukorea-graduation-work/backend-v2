@@ -3,7 +3,6 @@ package server.stutino.domain.matirial.controller;
 import lombok.AccessLevel;
 import lombok.RequiredArgsConstructor;
 import lombok.experimental.FieldDefaults;
-import org.springframework.core.io.ByteArrayResource;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
 import org.springframework.web.multipart.MultipartFile;
@@ -15,7 +14,6 @@ import server.stutino.domain.matirial.service.MaterialService;
 
 import javax.validation.Valid;
 import java.io.IOException;
-import java.net.URLEncoder;
 import java.util.List;
 
 @RestController
@@ -57,20 +55,21 @@ public class MaterialController {
     * 학습 자료 다운로드 요청
     * */
     @GetMapping("/download/{materialId}")
-    public ResponseEntity<byte[]> downloadFile(@PathVariable("materialId") Long materialId) throws IOException {
-
-        try{
-            MaterialDownloadResponse response = materialService.downloadMaterial(materialId);
-            ByteArrayResource resource = new ByteArrayResource(response.getData());
-            return ResponseEntity
-                    .ok()
-                    .contentLength(response.getData().length)
-                    .header("Content-type", "application/octet-stream")
-                    .header("Content-disposition", "attachment; filename=\"" + URLEncoder.encode(response.getFilename(), "utf-8") + "\"")
-                    .body(resource.getByteArray());
-        }catch (IOException ex){
-            return ResponseEntity.badRequest().contentLength(0).body(null);
-        }
+    public ResponseEntity<MaterialDownloadResponse> downloadFile(@PathVariable("materialId") Long materialId) throws IOException {
+        MaterialDownloadResponse response = materialService.downloadMaterial(materialId);
+        return ResponseEntity.ok().body(response);
+//        try{
+//            MaterialDownloadResponse response = materialService.downloadMaterial(materialId);
+//            ByteArrayResource resource = new ByteArrayResource(response.getData());
+//            return ResponseEntity
+//                    .ok()
+//                    .contentLength(response.getData().length)
+//                    .header("Content-type", "application/octet-stream")
+//                    .header("Content-disposition", "attachment; filename=\"" + URLEncoder.encode(response.getFilename(), "utf-8") + "\"")
+//                    .body(resource.getByteArray());
+//        }catch (IOException ex){
+//            return ResponseEntity.badRequest().contentLength(0).body(null);
+//        }
     }
 
 //    @GetMapping("download/{materialId}")

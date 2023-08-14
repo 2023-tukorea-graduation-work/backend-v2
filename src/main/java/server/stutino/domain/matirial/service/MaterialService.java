@@ -57,7 +57,8 @@ public class MaterialService {
                         material.getId(),
                         material.getTitle(),
                         material.getDetail(),
-                        material.getFileName()
+                        material.getFileName(),
+                        material.getFilePath()
                 )).toList();
     }
 
@@ -79,8 +80,10 @@ public class MaterialService {
     * */
     public MaterialDownloadResponse downloadMaterial(Long materialId) throws IOException {
         Material material = materialRepository.findById(materialId).orElseThrow(EntityNotFoundException::new);
+        System.out.println(material);
         return new MaterialDownloadResponse(
                 material.getFileName(),
+                material.getFilePath(),
                 s3Manager.download(material.getFilePath()));
 
 //        return s3Manager.download(material.getFilePath(), material.getFileName());

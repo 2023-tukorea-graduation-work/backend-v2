@@ -1,12 +1,13 @@
 :doctype: book
 :icons: font
-:source-highlighter: highlightjs
+:source-highlighter: highlights
 :toc: left
 :toclevels: 4
 :sectlinks:
 
 = STUTINO API
 
+include::Admin-API.adoc[]
 include::Member-API.adoc[]
 include::Program-API.adoc[]
 include::Material-API.adoc[]
