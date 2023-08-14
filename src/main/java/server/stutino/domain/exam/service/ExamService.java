@@ -5,6 +5,8 @@ import lombok.RequiredArgsConstructor;
 import lombok.experimental.FieldDefaults;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
+import server.stutino.domain.exam.dto.request.ExamQuestionOptionsRegisterRequest;
+import server.stutino.domain.exam.dto.request.ExamQuestionRegisterRequest;
 import server.stutino.domain.exam.dto.request.ExamRegisterRequest;
 import server.stutino.domain.exam.dto.response.ExamDetailResponse;
 import server.stutino.domain.exam.dto.response.ExamListResponse;
@@ -15,8 +17,8 @@ import server.stutino.domain.exam.repository.ExamRepository;
 import server.stutino.domain.exam.repository.MultipleChoiceOptionsRepository;
 import server.stutino.domain.exam.repository.MultipleChoiceQuestionRepository;
 import server.stutino.domain.exam.repository.SubjectQuestionRepository;
+import server.stutino.domain.program.entity.Program;
 import server.stutino.domain.program.repository.ProgramRepository;
-import server.stutino.util.CustomDateUtil;
 
 import javax.persistence.EntityNotFoundException;
 import java.time.LocalDateTime;
@@ -34,49 +36,55 @@ public class ExamService {
     MultipleChoiceQuestionRepository multipleChoiceQuestionRepository;
     MultipleChoiceOptionsRepository multipleChoiceOptionsRepository;
     SubjectQuestionRepository subjectQuestionRepository;
-    CustomDateUtil customDateUtil;
 
     @Transactional
     public void registerExam(ExamRegisterRequest request) {
-        // [1] Exam 객체 생성
-        Exam exam = examRepository.save(Exam.builder()
-                .program(programRepository.findById(request.getProgramId()).orElseThrow(EntityNotFoundException::new))
+
+        Program program = programRepository.findById(request.getProgramId())
+                .orElseThrow(EntityNotFoundException::new);
+
+        Exam exam = Exam.builder()
                 .title(request.getExamTitle())
+                .program(program)
                 .examStartTime(LocalDateTime.parse(request.getExamStartTime(), DateTimeFormatter.ofPattern("yyyy-MM-dd HH:mm:ss")))
                 .examFinishTime(LocalDateTime.parse(request.getExamFinishTime(), DateTimeFormatter.ofPattern("yyyy-MM-dd HH:mm:ss")))
                 .isExamRegistered(request.getIsExamRegistered())
-                .build());
+                .build();
 
-        // [2] 객관식 문항 & 주관식 문항
-        request.getExamQuestionRegisterRequest().forEach(question -> {
-            // 객관식
-            if(question.getQuestion() != null) {
-                MultipleChoiceQuestion multipleChoiceQuestion
-                        = multipleChoiceQuestionRepository.save(MultipleChoiceQuestion.builder()
+        examRepository.save(exam);
+
+        List<SubjectQuestion> subjectQuestions = new ArrayList<>();
+        List<MultipleChoiceQuestion> multipleChoiceQuestions = new ArrayList<>();
+
+        for(ExamQuestionRegisterRequest question : request.getExamQuestionRegisterRequest()) {
+            if(question.getQuestionType().equals(QuestionType.SUBJECT_QUESTION)) {
+                subjectQuestions.add(SubjectQuestion.builder()
                         .exam(exam)
                         .question(question.getQuestion())
                         .score(question.getScore())
+                        .subjectAnswer(question.getSubjectAnswer())
                         .build());
-
-                question.getOptions().stream().map(
-                        option -> multipleChoiceOptionsRepository.save(MultipleChoiceOptions.builder()
-                                .multipleChoiceQuestion(multipleChoiceQuestion)
-                                .choices(option.getChoices())
-                                .isCorrect(option.getIsCorrect())
-                                .build()));
             }
-            // 주관식
             else {
-                subjectQuestionRepository.save(
-                        SubjectQuestion.builder()
-                                .exam(exam)
-                                .question(question.getQuestion())
-                                .score(question.getScore())
-                                .subjectAnswer(question.getSubjectAnswer())
-                                .build()
-                );
+                List<MultipleChoiceOptions> options = new ArrayList<>();
+                for(ExamQuestionOptionsRegisterRequest option : question.getOptions()) {
+                    options.add(MultipleChoiceOptions.builder()
+                            .choices(option.getChoices())
+                            .isCorrect(option.getIsCorrect())
+                            .build());
+                }
+
+                multipleChoiceQuestions.add(MultipleChoiceQuestion.builder()
+                        .exam(exam)
+                        .question(question.getQuestion())
+                        .score(question.getScore())
+                        .multipleChoiceOptions(options)
+                        .build());
             }
-        });
+        }
+
+        subjectQuestionRepository.saveAll(subjectQuestions);
+        multipleChoiceQuestionRepository.saveAll(multipleChoiceQuestions);
     }
 
     /*

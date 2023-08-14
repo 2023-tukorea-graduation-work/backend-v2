@@ -5,9 +5,8 @@ import lombok.*;
 import javax.persistence.*;
 import java.util.List;
 
+@Data
 @Entity
-@Getter
-@Setter
 @Builder
 @NoArgsConstructor(access = AccessLevel.PROTECTED)
 @AllArgsConstructor
@@ -22,6 +21,6 @@ public class MultipleChoiceQuestion {
     private Integer score;
     @Column(nullable = false)
     private String question;
-    @OneToMany(mappedBy = "multipleChoiceQuestion")
-    private List<MultipleChoiceOptions> options;
+    @OneToMany(mappedBy = "multipleChoiceQuestion", cascade = CascadeType.ALL, orphanRemoval = true)
+    private List<MultipleChoiceOptions> multipleChoiceOptions;
 }

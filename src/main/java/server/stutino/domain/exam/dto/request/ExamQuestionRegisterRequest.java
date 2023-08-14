@@ -20,6 +20,7 @@ public class ExamQuestionRegisterRequest {
     private String question;
     @NotNull
     private Integer score;
+
     private List<ExamQuestionOptionsRegisterRequest> options;
     private String subjectAnswer;
 

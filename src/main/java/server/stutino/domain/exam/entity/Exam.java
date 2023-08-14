@@ -26,4 +26,5 @@ public class Exam {
     private LocalDateTime examFinishTime;
     @Column(nullable = false)
     private Boolean isExamRegistered;
+
 }

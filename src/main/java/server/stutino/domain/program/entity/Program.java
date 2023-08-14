@@ -23,6 +23,12 @@ public class Program {
     @ManyToOne(fetch = FetchType.LAZY)
     @JoinColumn(name = "member_id")
     private Member member;
+//    @OneToMany(mappedBy = "program", cascade = {CascadeType.ALL}, orphanRemoval = true)
+//    private List<ProgramWeek> programWeeks;
+//    @OneToMany(mappedBy = "program", cascade = {CascadeType.ALL}, orphanRemoval = true)
+//    private List<ProgramCategory> programCategories;
+//    @OneToMany(mappedBy = "program", cascade = {CascadeType.ALL}, orphanRemoval = true)
+//    private List<Notice> notices;
     @Column(nullable = false)
     private String subject;
     @Column(nullable = false)
