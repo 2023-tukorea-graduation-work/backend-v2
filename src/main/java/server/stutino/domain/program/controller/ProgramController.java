@@ -6,13 +6,12 @@ import lombok.experimental.FieldDefaults;
 import org.springframework.data.repository.query.Param;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
+import server.stutino.advice.ErrorResponse;
 import server.stutino.domain.program.dto.request.ProgramParticipateRequest;
 import server.stutino.domain.program.dto.request.ProgramRegisterRequest;
 import server.stutino.domain.program.dto.response.ProgramDetailResponse;
 import server.stutino.domain.program.dto.response.ProgramListResponse;
 import server.stutino.domain.program.service.ProgramService;
-import server.stutino.advice.ErrorResponse;
-import server.stutino.util.CustomStringUtil;
 
 import javax.validation.Valid;
 import java.util.List;
@@ -29,9 +28,7 @@ public class ProgramController {
     * */
     @PostMapping
     public ResponseEntity<Void> registerProgram(@Valid @RequestBody ProgramRegisterRequest programRegisterRequest) {
-        System.out.println(CustomStringUtil.toString(programRegisterRequest));
-
-//        programService.registerProgram(programRegisterRequest);
+        programService.registerProgram(programRegisterRequest);
         return ResponseEntity.ok().build();
     }
 

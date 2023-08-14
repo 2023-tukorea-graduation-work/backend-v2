@@ -20,8 +20,10 @@ import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 import server.stutino.domain.member.entity.Member;
 import server.stutino.domain.member.repository.MemberRepository;
+import server.stutino.domain.program.dto.request.ProgramCategoryRgisterRequest;
 import server.stutino.domain.program.dto.request.ProgramParticipateRequest;
 import server.stutino.domain.program.dto.request.ProgramRegisterRequest;
+import server.stutino.domain.program.dto.request.ProgramWeekRegisterRequest;
 import server.stutino.domain.program.dto.response.ProgramDetailResponse;
 import server.stutino.domain.program.dto.response.ProgramListResponse;
 import server.stutino.domain.program.entity.*;
@@ -35,6 +37,7 @@ import server.stutino.util.CustomDateUtil;
 
 import javax.persistence.EntityNotFoundException;
 import java.io.IOException;
+import java.util.ArrayList;
 import java.util.List;
 
 
@@ -60,14 +63,6 @@ public class ProgramService {
         Member mentor = memberRepository.findById(request.getMemberId())
                  .orElseThrow(RuntimeException::new);
 
-        /*
-         * 문제1. programMapper.toEntity(request, mentor, programWeeks)를 하면 program.id 가 null이 아님.
-         * programRepository.save(program); 시 insert전에 select를 먼저 함. 이때 일치하는 program 정보가 있는 탓인지 insert를 안하는 문제가 있음.
-         * 문제2. program_week 테이블의 program_id(fk)도 insert되지 않는 문제가 있다.
-         *
-         * 해결1 : select -> insert문제는 해결 못함
-         * 해결2 : program_week 테이블의 program_id(fk)도 insert되지 않는 문제는 saveAll로 해결
-         * */
         // [1-1] 프로그램 등록
         Program program = Program.builder()
                 .member(mentor)
@@ -85,23 +80,26 @@ public class ProgramService {
         programRepository.save(program);
 
         // [1-2] Program Entity map
-        List<ProgramWeek> programWeeks = request.getProgramWeeks().stream().map(programWeek -> ProgramWeek.builder()
-                .program(program)
-                .content(programWeek.getContent())
-                .registerDate(customDateUtil.convertStringToLocalDate(programWeek.getRegisterDate()))
-                .build()).toList();
+        List<ProgramWeek> programWeeks = new ArrayList<>();
+        for(ProgramWeekRegisterRequest week: request.getProgramWeeks()) {
+            programWeeks.add(ProgramWeek.builder()
+                    .program(program)
+                    .content(week.getContent())
+                    .registerDate(customDateUtil.convertStringToLocalDate(week.getRegisterDate()))
+                    .build());
+        }
 
-        // [1-3] ProgramWeeks 기본 정보 등록
+        // [1-3] ProgramCategory 기본 정보 등록
+        List<ProgramCategory> categories = new ArrayList<>();
+        for(ProgramCategoryRgisterRequest category: request.getProgramCategories()) {
+            categories.add(ProgramCategory.builder()
+                    .program(program)
+                    .parent(category.getParent())
+                    .child(category.getChild())
+                    .build());
+        }
+
         programWeekRepository.saveAll(programWeeks);
-
-        // [1-4] ProgramCategory 기본 정보 등록
-        List<ProgramCategory> categories = request.getProgramCategories().stream().map(category ->
-                ProgramCategory.builder()
-                        .program(program)
-                        .parent(category.getParent())
-                        .child(category.getChild())
-                        .build()).toList();
-
         programCategoryRepository.saveAll(categories);
     }
 
