@@ -21,6 +21,7 @@ import server.stutino.util.s3.manager.S3Manager;
 
 import javax.persistence.EntityNotFoundException;
 import java.io.IOException;
+import java.time.LocalDateTime;
 import java.util.List;
 
 @Service
@@ -74,6 +75,7 @@ public class MemberService {
                     .introduce(request.getIntroduce())
                     .imgUrl(imgUrl)
                     .certificateUrl(certificateUrl)
+                    .createdAt(LocalDateTime.now())
                     .build();
 
             // [1-3] 멘토 정보 저장
@@ -114,6 +116,7 @@ public class MemberService {
                 .introduce(request.getIntroduce())
                 .imgUrl(imgUrl)
                 .isPassed(true)
+                .createdAt(LocalDateTime.now())
                 .build();
 
         // [1-3] 멘토 정보 저장

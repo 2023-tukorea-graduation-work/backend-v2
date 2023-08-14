@@ -46,7 +46,7 @@ public class Member {
     @Column(nullable = false)
     private String imgUrl;
     @CreatedDate
-    @Column(updatable = false, nullable = false)
+    @Column(updatable = false)
     private LocalDateTime createdAt;
     @URL
     @Column(nullable = true, length = 400)
