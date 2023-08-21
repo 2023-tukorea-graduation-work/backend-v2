@@ -10,6 +10,6 @@ import java.time.LocalDate;
 public class ExamListResponse {
     private Long examId;
     private String examTitle;
-    private LocalDate examStartTime;
-    private LocalDate examFinishTime;
+    private LocalDate examStartDate;
+    private LocalDate examFinishDate;
 }
