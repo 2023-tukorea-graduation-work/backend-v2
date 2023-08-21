@@ -24,10 +24,9 @@ public class MultipleChoiceQuestion {
     private List<MultipleChoiceOptions> multipleChoiceOptions;
 
     @Builder
-    public MultipleChoiceQuestion(Exam exam, Integer score, String question, List<MultipleChoiceOptions> multipleChoiceOptions) {
+    public MultipleChoiceQuestion(Exam exam, Integer score, String question) {
         this.exam = exam;
         this.score = score;
         this.question = question;
-        this.multipleChoiceOptions = multipleChoiceOptions;
     }
 }

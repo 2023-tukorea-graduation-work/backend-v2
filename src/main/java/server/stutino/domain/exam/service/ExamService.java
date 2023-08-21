@@ -5,7 +5,6 @@ import lombok.RequiredArgsConstructor;
 import lombok.experimental.FieldDefaults;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
-import server.stutino.domain.exam.dto.request.ExamQuestionOptionsRegisterRequest;
 import server.stutino.domain.exam.dto.request.ExamRegisterRequest;
 import server.stutino.domain.exam.dto.response.ExamDetailResponse;
 import server.stutino.domain.exam.dto.response.ExamListResponse;
@@ -54,30 +53,32 @@ public class ExamService {
         List<MultipleChoiceQuestion> multipleChoiceQuestions = new ArrayList<>();
 
         if(request.getExamQuestionRegisterRequest().size() > 0) {
-            request.getExamQuestionRegisterRequest().forEach(question -> {
-                if(question.getQuestionType().equals(QuestionType.SUBJECT_QUESTION)) {
+            request.getExamQuestionRegisterRequest().forEach(questionDto -> {
+                if(questionDto.getQuestionType().equals(QuestionType.SUBJECT_QUESTION)) {
                     subjectQuestions.add(SubjectQuestion.builder()
                             .exam(exam)
-                            .question(question.getQuestion())
-                            .score(question.getScore())
-                            .subjectAnswer(question.getSubjectAnswer())
+                            .question(questionDto.getQuestion())
+                            .score(questionDto.getScore())
+                            .subjectAnswer(questionDto.getSubjectAnswer())
                             .build());
                 }
                 else {
                     List<MultipleChoiceOptions> options = new ArrayList<>();
-                    for(ExamQuestionOptionsRegisterRequest option : question.getOptions()) {
-                        options.add(MultipleChoiceOptions.builder()
-                                .choices(option.getChoices())
-                                .isCorrect(option.getIsCorrect())
-                                .build());
-                    }
-
-                    multipleChoiceQuestions.add(MultipleChoiceQuestion.builder()
+                    MultipleChoiceQuestion question = MultipleChoiceQuestion.builder()
                             .exam(exam)
-                            .question(question.getQuestion())
-                            .score(question.getScore())
-                            .multipleChoiceOptions(options)
-                            .build());
+                            .question(questionDto.getQuestion())
+                            .score(questionDto.getScore())
+                            .build();
+
+                    questionDto.getOptions().forEach(optionDto -> {
+                        options.add(MultipleChoiceOptions.builder()
+                                .multipleChoiceQuestion(question)
+                                .choices(optionDto.getChoices())
+                                .isCorrect(optionDto.getIsCorrect())
+                                .build());
+                    });
+                    question.setMultipleChoiceOptions(options);
+                    multipleChoiceQuestions.add(question);
                 }
             });
         }
