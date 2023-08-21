@@ -80,7 +80,6 @@ public class MaterialService {
     * */
     public MaterialDownloadResponse downloadMaterial(Long materialId) throws IOException {
         Material material = materialRepository.findById(materialId).orElseThrow(EntityNotFoundException::new);
-        System.out.println(material);
         return new MaterialDownloadResponse(
                 material.getFileName(),
                 material.getFilePath(),

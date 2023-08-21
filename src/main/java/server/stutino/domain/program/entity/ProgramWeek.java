@@ -1,13 +1,15 @@
 package server.stutino.domain.program.entity;
 
-import lombok.*;
+import lombok.AccessLevel;
+import lombok.AllArgsConstructor;
+import lombok.Getter;
+import lombok.NoArgsConstructor;
 
 import javax.persistence.*;
 import java.time.LocalDate;
 
 @Entity
 @Getter
-@Builder
 @NoArgsConstructor(access = AccessLevel.PROTECTED)
 @AllArgsConstructor
 public class ProgramWeek {
@@ -23,4 +25,11 @@ public class ProgramWeek {
     private Program program;
     private String content;
     private LocalDate registerDate;
+
+
+    public ProgramWeek(Program program, String content, LocalDate registerDate) {
+        this.program = program;
+        this.content = content;
+        this.registerDate = registerDate;
+    }
 }

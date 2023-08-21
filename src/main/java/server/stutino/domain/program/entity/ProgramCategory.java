@@ -6,7 +6,6 @@ import javax.persistence.*;
 
 @Entity
 @Getter
-@Builder
 @NoArgsConstructor(access = AccessLevel.PROTECTED)
 @AllArgsConstructor
 public class ProgramCategory {
@@ -21,4 +20,10 @@ public class ProgramCategory {
     @Column(nullable = false)
     private String child;
 
+    @Builder
+    public ProgramCategory(Program program, String parent, String child) {
+        this.program = program;
+        this.parent = parent;
+        this.child = child;
+    }
 }

@@ -42,7 +42,6 @@ public class MemberService {
     public void registerMentor(MentorRegisterRequest request, MultipartFile image, MultipartFile certification) {
         // email duplicate check
         if(memberRepository.findByEmail(request.getEmail()) != null) {
-            System.out.println("email duplicated");
             throw new EmailDuplicateException();
         }
         else {
@@ -51,10 +50,7 @@ public class MemberService {
             String imgUrl = "", certificateUrl = "";
             try {
                 imgUrl = s3Manager.upload(image, "profile-image");
-                System.out.println(imgUrl);
                 certificateUrl = s3Manager.upload(certification, "mentor-certification");
-                System.out.println(certificateUrl);
-
             } catch (IOException e) {
                 throw new RuntimeException(e.getMessage());
             }

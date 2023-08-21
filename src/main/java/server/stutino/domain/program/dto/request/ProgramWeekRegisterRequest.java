@@ -6,6 +6,7 @@ import lombok.Getter;
 import lombok.NoArgsConstructor;
 
 import javax.validation.constraints.NotNull;
+import java.time.LocalDate;
 
 @Getter
 @NoArgsConstructor(access = AccessLevel.PROTECTED)
@@ -14,5 +15,5 @@ public class ProgramWeekRegisterRequest {
     @NotNull
     private String content;
     @NotNull
-    private String registerDate;
+    private LocalDate registerDate;
 }

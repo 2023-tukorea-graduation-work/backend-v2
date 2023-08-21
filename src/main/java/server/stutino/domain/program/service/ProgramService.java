@@ -20,10 +20,8 @@ import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 import server.stutino.domain.member.entity.Member;
 import server.stutino.domain.member.repository.MemberRepository;
-import server.stutino.domain.program.dto.request.ProgramCategoryRgisterRequest;
 import server.stutino.domain.program.dto.request.ProgramParticipateRequest;
 import server.stutino.domain.program.dto.request.ProgramRegisterRequest;
-import server.stutino.domain.program.dto.request.ProgramWeekRegisterRequest;
 import server.stutino.domain.program.dto.response.ProgramDetailResponse;
 import server.stutino.domain.program.dto.response.ProgramListResponse;
 import server.stutino.domain.program.entity.*;
@@ -79,28 +77,29 @@ public class ProgramService {
 
         programRepository.save(program);
 
-        // [1-2] Program Entity map
-        List<ProgramWeek> programWeeks = new ArrayList<>();
-        for(ProgramWeekRegisterRequest week: request.getProgramWeeks()) {
-            programWeeks.add(ProgramWeek.builder()
-                    .program(program)
-                    .content(week.getContent())
-                    .registerDate(customDateUtil.convertStringToLocalDate(week.getRegisterDate()))
-                    .build());
+        if(request.getProgramWeeks().size() > 0) {
+            List<ProgramWeek> programWeeks = new ArrayList<>();
+            request.getProgramWeeks().forEach(dto -> {
+                programWeeks.add(new ProgramWeek(
+                        program,
+                        dto.getContent(),
+                        dto.getRegisterDate()
+                ));
+            });
+            programWeekRepository.saveAll(programWeeks);
         }
 
-        // [1-3] ProgramCategory 기본 정보 등록
-        List<ProgramCategory> categories = new ArrayList<>();
-        for(ProgramCategoryRgisterRequest category: request.getProgramCategories()) {
-            categories.add(ProgramCategory.builder()
-                    .program(program)
-                    .parent(category.getParent())
-                    .child(category.getChild())
-                    .build());
+        if(request.getProgramCategories().size() > 0) {
+            List<ProgramCategory> programCategories = new ArrayList<>();
+            request.getProgramCategories().forEach(dto -> {
+                programCategories.add(new ProgramCategory(
+                        program,
+                        dto.getParent(),
+                        dto.getChild()
+                ));
+            });
+            programCategoryRepository.saveAll(programCategories);
         }
-
-        programWeekRepository.saveAll(programWeeks);
-        programCategoryRepository.saveAll(categories);
     }
 
     /*
