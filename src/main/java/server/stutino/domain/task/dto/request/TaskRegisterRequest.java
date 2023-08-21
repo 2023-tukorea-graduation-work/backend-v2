@@ -6,6 +6,7 @@ import lombok.Getter;
 import lombok.NoArgsConstructor;
 
 import javax.validation.constraints.NotNull;
+import java.time.LocalDate;
 
 @Getter
 @NoArgsConstructor(access = AccessLevel.PROTECTED)
@@ -18,7 +19,7 @@ public class TaskRegisterRequest {
     @NotNull
     private String content;
     @NotNull
-    private String startTaskDateTime;
+    private LocalDate startTaskDate;
     @NotNull
-    private String endTaskDateTime;
+    private LocalDate endTaskDate;
 }

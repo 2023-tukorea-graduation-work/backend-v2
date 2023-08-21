@@ -4,11 +4,10 @@ import lombok.*;
 import server.stutino.domain.program.entity.Program;
 
 import javax.persistence.*;
-import java.time.LocalDateTime;
+import java.time.LocalDate;
 
+@Data
 @Entity
-@Getter
-@Builder
 @NoArgsConstructor(access = AccessLevel.PROTECTED)
 @AllArgsConstructor
 public class Task {
@@ -23,7 +22,16 @@ public class Task {
     @Column(nullable = false)
     private String content;
     @Column(nullable = false)
-    private LocalDateTime startTaskDateTime;
+    private LocalDate startTaskDate;
     @Column(nullable = false)
-    private LocalDateTime endTaskDateTime;
+    private LocalDate endTaskDate;
+
+    @Builder
+    public Task(Program program, String title, String content, LocalDate startTaskDate, LocalDate endTaskDate) {
+        this.program = program;
+        this.title = title;
+        this.content = content;
+        this.startTaskDate = startTaskDate;
+        this.endTaskDate = endTaskDate;
+    }
 }

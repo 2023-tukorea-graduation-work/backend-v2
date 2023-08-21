@@ -41,30 +41,31 @@ public class TaskService {
                 .program(programRepository.findById(request.getProgramId()).orElseThrow(EntityNotFoundException::new))
                 .title(request.getTitle())
                 .content(request.getContent())
-                .startTaskDateTime(customDateUtil.convertStringToLocalDateTime(request.getStartTaskDateTime()))
-                .endTaskDateTime(customDateUtil.convertStringToLocalDateTime(request.getEndTaskDateTime()))
+                .startTaskDate(request.getStartTaskDate())
+                .endTaskDate(request.getEndTaskDate())
                 .build();
         taskRepository.save(task);
 
         // [2] 과제 내 파일 등록
-        List<TaskFile> taskFiles = new ArrayList<>();
+        if(files != null && files.size() > 0) {
+            List<TaskFile> taskFiles = new ArrayList<>();
 
-        for(MultipartFile file : files) {
-            try {
-                String filePath = s3Manager.upload(file, "material");
+            for(MultipartFile file : files) {
+                try {
+                    String filePath = s3Manager.upload(file, "material");
 
-                taskFiles.add(TaskFile.builder()
-                        .task(task)
-                        .fileName(file.getOriginalFilename())
-                        .filePath(filePath)
-                        .build());
+                    taskFiles.add(TaskFile.builder()
+                            .task(task)
+                            .fileName(file.getOriginalFilename())
+                            .filePath(filePath)
+                            .build());
 
-            } catch (IOException e) {
-                throw new RuntimeException(e);
+                } catch (IOException e) {
+                    throw new RuntimeException(e);
+                }
             }
+            taskFileRepository.saveAll(taskFiles);
         }
-        taskFileRepository.saveAll(taskFiles);
-
     }
 
     /*
@@ -76,8 +77,8 @@ public class TaskService {
                         task.getId(),
                         task.getTitle(),
                         task.getContent(),
-                        task.getStartTaskDateTime(),
-                        task.getEndTaskDateTime())
-                ).toList();
+                        task.getStartTaskDate(),
+                        task.getEndTaskDate()
+                )).toList();
     }
 }
