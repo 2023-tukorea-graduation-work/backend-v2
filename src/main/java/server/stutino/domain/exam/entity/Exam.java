@@ -4,11 +4,10 @@ import lombok.*;
 import server.stutino.domain.program.entity.Program;
 
 import javax.persistence.*;
-import java.time.LocalDateTime;
+import java.time.LocalDate;
 
 @Data
 @Entity
-@Builder
 @NoArgsConstructor(access = AccessLevel.PROTECTED)
 @AllArgsConstructor
 public class Exam {
@@ -21,10 +20,18 @@ public class Exam {
     @Column(nullable = false)
     private String title;
     @Column(nullable = false)
-    private LocalDateTime examStartTime;
+    private LocalDate examStartDate;
     @Column(nullable = false)
-    private LocalDateTime examFinishTime;
+    private LocalDate examFinishDate;
     @Column(nullable = false)
     private Boolean isExamRegistered;
 
+    @Builder
+    public Exam(Program program, String title, LocalDate examStartDate, LocalDate examFinishDate, Boolean isExamRegistered) {
+        this.program = program;
+        this.title = title;
+        this.examStartDate = examStartDate;
+        this.examFinishDate = examFinishDate;
+        this.isExamRegistered = isExamRegistered;
+    }
 }

@@ -6,7 +6,6 @@ import lombok.experimental.FieldDefaults;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 import server.stutino.domain.exam.dto.request.ExamQuestionOptionsRegisterRequest;
-import server.stutino.domain.exam.dto.request.ExamQuestionRegisterRequest;
 import server.stutino.domain.exam.dto.request.ExamRegisterRequest;
 import server.stutino.domain.exam.dto.response.ExamDetailResponse;
 import server.stutino.domain.exam.dto.response.ExamListResponse;
@@ -21,8 +20,6 @@ import server.stutino.domain.program.entity.Program;
 import server.stutino.domain.program.repository.ProgramRepository;
 
 import javax.persistence.EntityNotFoundException;
-import java.time.LocalDateTime;
-import java.time.format.DateTimeFormatter;
 import java.util.ArrayList;
 import java.util.List;
 
@@ -46,8 +43,8 @@ public class ExamService {
         Exam exam = Exam.builder()
                 .title(request.getExamTitle())
                 .program(program)
-                .examStartTime(LocalDateTime.parse(request.getExamStartTime(), DateTimeFormatter.ofPattern("yyyy-MM-dd HH:mm:ss")))
-                .examFinishTime(LocalDateTime.parse(request.getExamFinishTime(), DateTimeFormatter.ofPattern("yyyy-MM-dd HH:mm:ss")))
+                .examStartDate(request.getExamStartDate())
+                .examFinishDate(request.getExamFinishDate())
                 .isExamRegistered(request.getIsExamRegistered())
                 .build();
 
@@ -56,33 +53,34 @@ public class ExamService {
         List<SubjectQuestion> subjectQuestions = new ArrayList<>();
         List<MultipleChoiceQuestion> multipleChoiceQuestions = new ArrayList<>();
 
-        for(ExamQuestionRegisterRequest question : request.getExamQuestionRegisterRequest()) {
-            if(question.getQuestionType().equals(QuestionType.SUBJECT_QUESTION)) {
-                subjectQuestions.add(SubjectQuestion.builder()
-                        .exam(exam)
-                        .question(question.getQuestion())
-                        .score(question.getScore())
-                        .subjectAnswer(question.getSubjectAnswer())
-                        .build());
-            }
-            else {
-                List<MultipleChoiceOptions> options = new ArrayList<>();
-                for(ExamQuestionOptionsRegisterRequest option : question.getOptions()) {
-                    options.add(MultipleChoiceOptions.builder()
-                            .choices(option.getChoices())
-                            .isCorrect(option.getIsCorrect())
+        if(request.getExamQuestionRegisterRequest().size() > 0) {
+            request.getExamQuestionRegisterRequest().forEach(question -> {
+                if(question.getQuestionType().equals(QuestionType.SUBJECT_QUESTION)) {
+                    subjectQuestions.add(SubjectQuestion.builder()
+                            .exam(exam)
+                            .question(question.getQuestion())
+                            .score(question.getScore())
+                            .subjectAnswer(question.getSubjectAnswer())
                             .build());
                 }
+                else {
+                    List<MultipleChoiceOptions> options = new ArrayList<>();
+                    for(ExamQuestionOptionsRegisterRequest option : question.getOptions()) {
+                        options.add(MultipleChoiceOptions.builder()
+                                .choices(option.getChoices())
+                                .isCorrect(option.getIsCorrect())
+                                .build());
+                    }
 
-                multipleChoiceQuestions.add(MultipleChoiceQuestion.builder()
-                        .exam(exam)
-                        .question(question.getQuestion())
-                        .score(question.getScore())
-                        .multipleChoiceOptions(options)
-                        .build());
-            }
+                    multipleChoiceQuestions.add(MultipleChoiceQuestion.builder()
+                            .exam(exam)
+                            .question(question.getQuestion())
+                            .score(question.getScore())
+                            .multipleChoiceOptions(options)
+                            .build());
+                }
+            });
         }
-
         subjectQuestionRepository.saveAll(subjectQuestions);
         multipleChoiceQuestionRepository.saveAll(multipleChoiceQuestions);
     }
@@ -95,8 +93,8 @@ public class ExamService {
                 new ExamListResponse(
                         exam.getId(),
                         exam.getTitle(),
-                        exam.getExamStartTime(),
-                        exam.getExamFinishTime()
+                        exam.getExamStartDate(),
+                        exam.getExamFinishDate()
                 )).toList();
     }
 
@@ -133,8 +131,8 @@ public class ExamService {
         return new ExamDetailResponse(
                 examId,
                 exam.getTitle(),
-                exam.getExamStartTime(),
-                exam.getExamFinishTime(),
+                exam.getExamStartDate(),
+                exam.getExamFinishDate(),
                 questions
         );
     }

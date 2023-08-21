@@ -6,7 +6,6 @@ import javax.persistence.*;
 
 @Data
 @Entity
-@Builder
 @NoArgsConstructor(access = AccessLevel.PROTECTED)
 @AllArgsConstructor
 public class MultipleChoiceOptions {
@@ -20,4 +19,11 @@ public class MultipleChoiceOptions {
     private String choices;
     @Column(nullable = false)
     private boolean isCorrect;
+
+    @Builder
+    public MultipleChoiceOptions(MultipleChoiceQuestion multipleChoiceQuestion, String choices, boolean isCorrect) {
+        this.multipleChoiceQuestion = multipleChoiceQuestion;
+        this.choices = choices;
+        this.isCorrect = isCorrect;
+    }
 }

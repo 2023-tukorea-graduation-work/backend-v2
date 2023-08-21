@@ -5,6 +5,7 @@ import lombok.AllArgsConstructor;
 import lombok.Getter;
 import lombok.NoArgsConstructor;
 
+import java.time.LocalDate;
 import java.util.List;
 
 @Getter
@@ -13,8 +14,8 @@ import java.util.List;
 public class ExamRegisterRequest {
     private Long programId;
     private String examTitle;
-    private String examStartTime;
-    private String examFinishTime;
+    private LocalDate examStartDate;
+    private LocalDate examFinishDate;
     private Boolean isExamRegistered;
     private List<ExamQuestionRegisterRequest> examQuestionRegisterRequest;
 }

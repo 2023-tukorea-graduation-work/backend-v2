@@ -7,7 +7,6 @@ import java.util.List;
 
 @Data
 @Entity
-@Builder
 @NoArgsConstructor(access = AccessLevel.PROTECTED)
 @AllArgsConstructor
 public class MultipleChoiceQuestion {
@@ -23,4 +22,12 @@ public class MultipleChoiceQuestion {
     private String question;
     @OneToMany(mappedBy = "multipleChoiceQuestion", cascade = CascadeType.ALL, orphanRemoval = true)
     private List<MultipleChoiceOptions> multipleChoiceOptions;
+
+    @Builder
+    public MultipleChoiceQuestion(Exam exam, Integer score, String question, List<MultipleChoiceOptions> multipleChoiceOptions) {
+        this.exam = exam;
+        this.score = score;
+        this.question = question;
+        this.multipleChoiceOptions = multipleChoiceOptions;
+    }
 }
