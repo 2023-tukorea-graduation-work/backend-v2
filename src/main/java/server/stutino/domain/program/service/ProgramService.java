@@ -22,6 +22,7 @@ import server.stutino.domain.member.entity.Member;
 import server.stutino.domain.member.repository.MemberRepository;
 import server.stutino.domain.program.dto.request.ProgramParticipateRequest;
 import server.stutino.domain.program.dto.request.ProgramRegisterRequest;
+import server.stutino.domain.program.dto.response.ProgramCategoryResponse;
 import server.stutino.domain.program.dto.response.ProgramDetailResponse;
 import server.stutino.domain.program.dto.response.ProgramListResponse;
 import server.stutino.domain.program.entity.*;
@@ -106,7 +107,20 @@ public class ProgramService {
      * 프로그램 목록 조회
      * */
     public List<ProgramListResponse> getProgramList(String keyword) {
-        return programRepository.getProgramList(keyword);
+        List<ProgramListResponse> response = programRepository.getProgramList(keyword);
+        response.forEach(program -> {
+            List<ProgramCategory> categories = programCategoryRepository.getProgramCategoriesByProgramId(program.getProgramId());
+            List<ProgramCategoryResponse> categoryResponses = new ArrayList<>();
+            categories.forEach(category -> {
+                categoryResponses.add(new ProgramCategoryResponse(
+                        category.getParent(),
+                        category.getChild()
+                ));
+            });
+
+            program.setCategories(categoryResponses);
+        });
+        return response;
     }
 
     /*

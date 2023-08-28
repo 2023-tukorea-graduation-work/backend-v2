@@ -19,7 +19,6 @@ import server.stutino.domain.exam.service.ExamService;
 import server.stutino.support.docs.RestDocumentTest;
 
 import java.time.LocalDate;
-import java.time.LocalDateTime;
 import java.util.ArrayList;
 import java.util.List;
 
@@ -80,8 +79,8 @@ class ExamControllerTest extends RestDocumentTest {
                 new ExamRegisterRequest(
                         1L,
                         "시험1",
-                        String.valueOf(LocalDate.now()),
-                        String.valueOf(LocalDate.now()),
+                        LocalDate.now(),
+                        LocalDate.now(),
                         false,
                         questions
                 );
@@ -116,20 +115,20 @@ class ExamControllerTest extends RestDocumentTest {
                         new ExamListResponse(
                                 1L,
                                 "시험 제목1",
-                                LocalDateTime.now(),
-                                LocalDateTime.now()
+                                LocalDate.now(),
+                                LocalDate.now()
                         ),
                         new ExamListResponse(
                                 1L,
                                 "시험 제목1",
-                                LocalDateTime.now(),
-                                LocalDateTime.now()
+                                LocalDate.now(),
+                                LocalDate.now()
                         ),
                         new ExamListResponse(
                                 1L,
                                 "시험 제목1",
-                                LocalDateTime.now(),
-                                LocalDateTime.now()
+                                LocalDate.now(),
+                                LocalDate.now()
                         )
                 ));
 
@@ -222,8 +221,8 @@ class ExamControllerTest extends RestDocumentTest {
                 .thenReturn(new ExamDetailResponse(
                         1L,
                         "시험 제목1",
-                        LocalDateTime.now(),
-                        LocalDateTime.now(),
+                        LocalDate.now(),
+                        LocalDate.now(),
                         examQuestionRegisterResponse
                 ));
 

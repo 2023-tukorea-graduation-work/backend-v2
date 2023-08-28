@@ -44,11 +44,11 @@ class ProgramControllerTest extends RestDocumentTest {
 
         programWeeks.add(new ProgramWeekRegisterRequest(
                 "프로그램 주차 정보1",
-                "2023-07-01"
+                LocalDate.now()
         ));
         programWeeks.add(new ProgramWeekRegisterRequest(
                 "프로그램 주차 정보2",
-                "2023-07-07"
+                LocalDate.now()
         ));
 
         List<ProgramCategoryRgisterRequest> categories

@@ -15,7 +15,7 @@ import server.stutino.domain.task.dto.response.TaskListResponse;
 import server.stutino.domain.task.service.TaskService;
 import server.stutino.support.docs.RestDocumentTest;
 
-import java.time.LocalDateTime;
+import java.time.LocalDate;
 import java.util.List;
 
 import static org.mockito.ArgumentMatchers.any;
@@ -42,8 +42,8 @@ class TaskControllerTest extends RestDocumentTest {
                 1L,
                 "과제 제목1",
                 "<div><input type='file'/><input type='text' /></div>",
-                "2023-09-01 00:00:00",
-                "2023-09-01 00:00:00"
+                LocalDate.now(),
+                LocalDate.now()
         );
 
         List<MultipartFile> files =
@@ -95,15 +95,15 @@ class TaskControllerTest extends RestDocumentTest {
                                 1L,
                                 "과제 제목1",
                                 "<div></div>",
-                                LocalDateTime.now(),
-                                LocalDateTime.now()
+                                LocalDate.now(),
+                                LocalDate.now()
                         ),
                         new TaskListResponse(
                                 1L,
                                 "과제 제목2",
                                 "<div></div>",
-                                LocalDateTime.now(),
-                                LocalDateTime.now()
+                                LocalDate.now(),
+                                LocalDate.now()
                         )
                 ));
 
