@@ -1,5 +1,3 @@
-# backend-v3
-
 
 
 # 한국공학대학교 - 멘토멘티 매칭&관리 사이트
@@ -51,14 +49,34 @@
 ✓ 관리자모드 - 멘토정보에 대한 신뢰성을 관리하여 사이트내에 멘토로써의 자격을 관리하는 기능이다.
 
 
-
+---
 ### 시연영상
 
+🔻 회원가입 
 <img src="https://github.com/2023-tukorea-graduation-work/frontend-v2/assets/76784522/f9e3de52-8581-4096-8f30-041951881a2e">
+🔻 관리자페이지
 <img src="https://github.com/2023-tukorea-graduation-work/frontend-v2/assets/76784522/eec91246-99e1-4b48-ad52-2fdcefa12efa">
+🔻 멘티 -멘티모집글작성페이지
 <img src="https://github.com/2023-tukorea-graduation-work/frontend-v2/assets/76784522/26b1cbca-6c75-4c80-96f5-51ef0ab7b534">
+🔻 멘토 - 멘토링 신청하기
 <img src="https://github.com/2023-tukorea-graduation-work/frontend-v2/assets/76784522/3489d160-2d0e-46e3-85b8-452eafe22452">
+🔻 멘토 - 공지글 올리기
 <img src="https://github.com/2023-tukorea-graduation-work/frontend-v2/assets/76784522/a1675500-95b6-465f-8704-02b41fe4f52e">
+🔻 멘토 - 자료 올리기
+<img src="https://github.com/2023-tukorea-graduation-work/frontend-v2/assets/76784522/6776144a-b335-4979-9536-4dce112827fc">
 
+---
+### 사이트 사진
 
+🔻 멘티 - 프로젝트관리 ( 전체 / 출석 / 질문 / 질문올리기 )
+<img width="1189" alt="image" src="https://github.com/2023-tukorea-graduation-work/frontend-v2/assets/76784522/c39cc54d-15d7-493e-bc97-101dc04c65af">
+🔻 멘티 - 프로젝트관리 ( 일정 / 활동일지올리기 / 온라인강의 / 실시간회의 )
+<img width="1189" alt="image" src="https://github.com/2023-tukorea-graduation-work/frontend-v2/assets/76784522/2d439851-6f71-4533-b568-088ff25c5916">
+🔻 멘티 - 프로젝트관리 ( 시험보기 )
+<img width="596" alt="image" src="https://github.com/2023-tukorea-graduation-work/frontend-v2/assets/76784522/2d2c3423-3f8f-44bd-b6eb-f5503a6afcbf">
+
+🔻 멘토 - 프로젝트관리 ( 전체 / 공지올리기 / 출석 / 일정 )
+<img width="1183" alt="image" src="https://github.com/2023-tukorea-graduation-work/frontend-v2/assets/76784522/bd63bdfe-cb6d-4d57-89d2-0ee6863fe96b">
+🔻 멘토 - 프로젝트관리 ( 질문 / 화상통화방생성 / 자료올리기 / 녹화강의올리기 )
+<img width="1183" alt="image" src="https://github.com/2023-tukorea-graduation-work/frontend-v2/assets/76784522/f0a672ee-4b22-414b-9fae-92838b5e6b37">
 
