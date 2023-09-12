@@ -80,3 +80,6 @@
 🔻 멘토 - 프로젝트관리 ( 질문 / 화상통화방생성 / 자료올리기 / 녹화강의올리기 )
 <img width="1183" alt="image" src="https://github.com/2023-tukorea-graduation-work/frontend-v2/assets/76784522/f0a672ee-4b22-414b-9fae-92838b5e6b37">
 
+### ERD
+
+![image](https://user-images.githubusercontent.com/65451455/233301881-5048b3be-f1eb-43b9-ae59-25e31e8d8f95.png)
